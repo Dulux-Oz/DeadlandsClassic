@@ -1,0 +1,86 @@
+<section>
+    <div class="core">
+        <div class="flexbox">
+            <div style="width:70%">
+            <h1 class="h1">Core:</h1>
+            <table>
+                <tr>
+                    <th class="perc25 center">{{localize "dc.player.core.pace"}}</th>
+                    <th class="perc25 center">{{localize "dc.player.core.size"}}</th>
+                    <th class="perc25 center">{{localize "dc.player.core.wind"}}</th>
+                    <th class="perc25 center">{{localize "dc.player.core.grit"}}</th>
+                </tr>
+                <tr>
+                    <td class="perc25 center"><input type="number" name="data.pace" value="{{data.data.pace}}"/></td>
+                    <td class="perc25 center"><input type="number" name="data.size" value="{{data.data.size}}"/></td>
+                    <td class="perc25 center"><input style="width: 45%;" type="number" name="data.wind.value" value="{{data.data.wind.value}}"/>/<input style="width: 45%;" type="number" name="data.wind.max" value="{{data.data.wind.max}}"/></td>
+                    <td class="perc25 center"><input type="number" name="data.grit" value="{{data.data.grit}}"/></td>
+                </tr>
+                <tr>
+                    <th class="perc25 center">{{localize "dc.player.core.money"}}</th>
+                    <th class="perc25 center">{{localize "dc.player.core.bounty"}}</th>
+                    <th class="perc25 center">{{localize "dc.player.core.off_hand"}}</th>
+                    <th class="perc25 center">{{localize "dc.player.core.wound_modifier"}}</th>
+                </tr>
+                <tr>
+                    <td class="perc25 center"><input type="number" name="data.cash" value="{{data.data.cash}}"/></td>
+                    <td class="perc25 center"><input style="width: 45%" type="number" name="data.bounty.value" value="{{data.data.bounty.value}}"/>/<input style="width: 45%" type="number" name="data.bounty.max" value="{{data.data.bounty.max}}"/></td>
+                    <td class="perc25 center"><input type="number" name="data.off_hand_modifier" value="{{data.data.off_hand_modifier}}"/></td>
+                    <td class="perc25 center"><input type="number" name="data.wound_modifier" value="{{data.data.wound_modifier}}"/></td>
+                </tr>
+            </table>
+            </div>
+            <div>
+                <h1 style="text-align: center;">
+                    <div data-edit="name" contenteditable="">{{actor.name}}</div>
+                </h1>
+                <div style="display: flex; flex-direction:row">
+                    <img class="portrait" src="{{actor.img}}" data-edit="img"/>
+                    <div style="display: flex; flex-direction:column">
+                        <a style="text-align: center;"><p class="draw-fate">Draw Fate Chip</p></a>
+                        <a style="text-align: center;"><p class="roll-quickness">Roll Quickness!</p></a>
+                        <a style="text-align: center;"><p class="refresh">Refresh</p></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h2 class="h1">Wounds:</h2>
+        <table>
+            <tr>
+                <th>Type</th>
+                <th>{{localize "dc.player.core.wounds.noggin"}}</th>
+                <th>{{localize "dc.player.core.wounds.guts"}}</th>
+                <th>{{localize "dc.player.core.wounds.arm_left"}}</th>
+                <th>{{localize "dc.player.core.wounds.arm_right"}}</th>
+                <th>{{localize "dc.player.core.wounds.gizzards"}}</th>
+                <th>{{localize "dc.player.core.wounds.lower_guts"}}</th>
+                <th>{{localize "dc.player.core.wounds.leg_left"}}</th>
+                <th>{{localize "dc.player.core.wounds.leg_right"}}</th>
+            </tr>
+            <tr>
+                <td>Wounds:</td>
+                <td><input style="text-align: center;" type="number" name="data.wounds.noggin" value="{{data.data.wounds.noggin}}"/></td>
+                <td><input style="text-align: center;" type="number" name="data.wounds.guts" value="{{data.data.wounds.guts}}"/></td>
+                <td><input style="text-align: center;" type="number" name="data.wounds.arm_left" value="{{data.data.wounds.arm_left}}"/></td>
+                <td><input style="text-align: center;" type="number" name="data.wounds.arm_right" value="{{data.data.wounds.arm_right}}"/></td>
+                <td><input style="text-align: center;" type="number" name="data.wounds.gizzards" value="{{data.data.wounds.gizzards}}"/></td>
+                <td><input style="text-align: center;" type="number" name="data.wounds.lower_guts" value="{{data.data.wounds.lower_guts}}"/></td>
+                <td><input style="text-align: center;" type="number" name="data.wounds.leg_left" value="{{data.data.wounds.leg_left}}"/></td>
+                <td><input style="text-align: center;" type="number" name="data.wounds.leg_right" value="{{data.data.wounds.leg_right}}"/></td>
+            </tr>
+            <tr>
+                <td>Armour:</td>
+                <td><input style="text-align: center;" type="number" name="data.armour.noggin" value="{{data.data.armour.noggin}}"/></td>
+                <td><input style="text-align: center;" type="number" name="data.armour.guts" value="{{data.data.armour.guts}}"/></td>
+                <td><input style="text-align: center;" type="number" name="data.armour.arm_left" value="{{data.data.armour.arm_left}}"/></td>
+                <td><input style="text-align: center;" type="number" name="data.armour.arm_right" value="{{data.data.armour.arm_right}}"/></td>
+                <td><input style="text-align: center;" type="number" name="data.armour.gizzards" value="{{data.data.armour.gizzards}}"/></td>
+                <td><input style="text-align: center;" type="number" name="data.armour.lower_guts" value="{{data.data.armour.lower_guts}}"/></td>
+                <td><input style="text-align: center;" type="number" name="data.armour.leg_left" value="{{data.data.armour.leg_left}}"/></td>
+                <td><input style="text-align: center;" type="number" name="data.armour.leg_right" value="{{data.data.armour.leg_right}}"/></td>
+            </tr>
+        </table>
+    </div>
+</section>

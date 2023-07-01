@@ -1,0 +1,57 @@
+<div>
+    <table>
+        <tr>
+            {{#each deck as |card|}}
+            <td class="item" data-itemId="{{this.id}}" data-itemindex="{{@index}}" style="text-align: center;">
+                <div class="flexrow" style="display: inline-block;">
+                    {{#if (eq data.data.sleeved_card card.name)}}
+                    <a>{{this.name}} (Sl)</a>
+                    {{else}}
+                    <a>{{this.name}}</a>
+                    {{/if}}
+                    {{#if (eq this.type 'action_deck')}}
+                    <a class="aim-button"><i class="fas fa-crosshairs" title="Aim (Adds +2 to next shot, stacks to +6)"> </i></a>
+                        {{#lvl_head}}
+                    <a class="recycle-card"><i class="fas fa-sync-alt" title="Cycle this card"></i> </a>
+                        {{/lvl_head}}
+                    <a class="play-card"><i class="fas fa-hand-paper" title="Play this Card"></i></a>
+                    {{else}}
+                    <a class="play-item-card"><i class="fas fa-hand-paper" title="Discard this Card"></i></a>
+                    {{/if}}
+                </div>
+            </td>
+            {{/each}}
+        </tr>
+    </table>
+    <div class="center flexrow">
+        {{#if (eq deck_type 'huckster_deck')}}
+            {{#has_joker "huckster_deck"}}
+        <div class="flexrow">
+            <p class="center">Joker's are Wild!</p>
+            <select class="small-drop" name="data.joker_value" id="joker-value-select">
+                {{#each cards as |card|}}
+                    {{#if (ne card 'Joker')}}
+                        {{#if (eq card ../data.data.joker_value)}}
+                <option value="{{card}}" selected>{{card}}</option>
+                        {{else}}
+                <option value="{{card}}">{{card}}</option>
+                        {{/if}}
+                    {{/if}}
+                {{/each}}
+            </select>
+            <select class="small-drop" name="data.joker_suit" id="joker-suit-select">
+                {{#each suits as |suit|}}
+                    {{#if (eq suit ../data.data.joker_suit)}}
+                <option value="{{suit}}" selected>{{suit}}</option>
+                    {{else}}
+                <option value="{{suit}}">{{suit}}</option>
+                    {{/if}}
+                {{/each}}
+            </select>
+            <a class="wild-joker-hex">Set Card</a>
+        </div>
+            {{/has_joker}}
+        <a class="center discard-hand" data-type="huckster_deck">Play {{hand}}</a>
+        {{/if}}
+    </div>
+</div>

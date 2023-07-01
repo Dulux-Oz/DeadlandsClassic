@@ -1,0 +1,38 @@
+<form class="{{cssClass}} typed" autocomplete="off">
+    <header class="sheet-header">
+        <img src="{{item.img}}" data-edit="img" title="{{item.name}}" height="64" width="64"/>
+        <h1><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+    </header>
+    <div>
+        <textarea name="data.description" style="height: 200px;">{{data.data.description}}</textarea>
+        <table>
+            <tr>
+                <th>{{localize "dc.items.goods.cost"}}</th>
+                <td><input style="text-align: center;" type="text" name="data.cost" value="{{data.data.cost}}"/></td>
+            </tr>
+            <tr>
+                <th>{{localize "dc.items.goods.amount"}}</th>
+                <td><input style="text-align: center;" type="text" name="data.amount" value="{{data.data.amount}}"/></td>
+            </tr>
+            <tr>
+                <th>{{localize "dc.items.goods.is_float"}}</th>
+            {{#if (eq data.data.is_float true)}}
+                <td><input type="checkbox" name="data.is_float" checked/></td>
+            {{else}}
+                <td><input type="checkbox" name="data.is_float"/></td>
+            {{/if}}
+            </tr>
+            <tr>
+                <th>{{localize "dc.items.boxed_multiple"}}</th>
+            {{#if (eq data.data.boxed_multiple true)}}
+                <td><input type="checkbox" name="data.boxed_multiple" checked/></td>
+            <tr>
+                <td><input style="text-align: center;" type="text" name="data.box_amount" value="{{data.data.box_amount}}"/></td>
+            {{else}}
+                <td><input type="checkbox" name="data.boxed_multiple"/></td>
+            {{/if}}
+            </tr>
+            {{> systems/deadlands_classic/templates/partials/reuseable/equip_opts.hbs this}}
+        </table>
+    </div>
+</form>

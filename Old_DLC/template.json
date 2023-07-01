@@ -1,0 +1,1391 @@
+{
+    "Actor": {
+        "types": [
+            "player",
+            "npc",
+            "mook",
+            "gm",
+            "vehicle",
+            "merchant"
+        ],
+        "templates": {
+            "core": {
+                "generated": false,
+                "random_name": false,
+                "ethnicity": "american",
+                "male_names": true,
+                "female_names": true,
+                "size": 6,
+                "pace": 4,
+                "wind": {
+                    "min": 0,
+                    "max": 1,
+                    "value": 1
+                },
+                "wounds": {
+                    "noggin": 0,
+                    "guts": 0,
+                    "arm_left": 0,
+                    "arm_right": 0,
+                    "gizzards": 0,
+                    "lower_guts": 0,
+                    "leg_left": 0,
+                    "leg_right": 0
+                },
+                "heals": {
+                    "noggin": 0,
+                    "guts": 0,
+                    "arm_left": 0,
+                    "arm_right": 0,
+                    "gizzards": 0,
+                    "lower_guts": 0,
+                    "leg_left": 0,
+                    "leg_right": 0
+                },
+                "armour": {
+                    "noggin": 0,
+                    "guts": 0,
+                    "arm_left": 0,
+                    "arm_right": 0,
+                    "gizzards": 0,
+                    "lower_guts": 0,
+                    "leg_left": 0,
+                    "leg_right": 0
+                },
+                "equipped": {
+                    "dominant": "Nuthin",
+                    "off": "Nuthin",
+                    "head":"Nuthin",
+                    "body": "Nuthin",
+                    "belt": "Nuthin",
+                    "legs": "Nuthin",
+                    "feet": "Nuthin"
+                },
+                "wound_modifier": 0,
+                "wound_soak": 0,
+                "next_heal": 0,
+                "healing_factor": 432000000,
+                "grit": 0,
+                "cash": 250,
+                "bounty": {
+                    "min": 0,
+                    "max": 0,
+                    "value": 0
+                },
+                "action_cards": [],
+                "sleeved_card": "none",
+                "aim_bonus": 0,
+                "off_hand_modifier": -6,
+                "called_shot": "any",
+                "is_bleeding": false,
+                "is_running": false,
+                "is_mounted": false,
+                "is_moved":false,
+                "perks": {
+                    "level_headed": false
+                },
+                "joker_value": "A",
+                "joker_suit": "\u2660",
+                "description": "",
+                "notes": "",
+                "nightmare": "",
+                "player_target": "none",
+                "boons": [],
+                "send_target": "None",
+                "send_amount": 0,
+                "current_vehicle": "None",
+                "show_editor": false,
+                "marshal": "Marshal",
+                "completed_quests": [],
+                "strain": 0
+            },
+            "attributes": {
+                "traits": {
+                    "cognition": {
+                        "name": "Cognition",
+                        "level": 1,
+                        "die_type": "d4",
+                        "modifier": 0,
+                        "skills": {
+                            "artillery": {
+                                "name": "Artillery",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "art": {
+                                "name": "Art",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "scrutinize": {
+                                "name": "Scrutinize",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "search": {
+                                "name": "Search",
+                                "level": 1,
+                                "modifier": 0
+                            },
+                            "trackin": {
+                                "name": "Trackin",
+                                "level": 0,
+                                "modifier": 0
+                            }
+                        }
+                    },
+                    "deftness": {
+                        "name": "Deftness",
+                        "level": 1,
+                        "die_type": "d4",
+                        "modifier": 0,
+                        "skills": {
+                            "bow": {
+                                "name": "Bow",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "filchin": {
+                                "name": "Filchin",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "lockpickin": {
+                                "name": "Lockpickin",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "shootin_pistol": {
+                                "name": "Shootin Pistol",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "shootin_rifle": {
+                                "name": "Shootin Rifle",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "shootin_shotgun": {
+                                "name": "Shootin Shotgun",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "shootin_automatic": {
+                                "name": "Shootin Automatic",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "sleight_o_hand": {
+                                "name": "Sleight o Hand",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "speed_load": {
+                                "name": "Speed Load",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "throwin": {
+                                "name": "Throwin",
+                                "level": 0,
+                                "modifier": 0
+                            }
+                        }
+                    },
+                    "knowledge": {
+                        "name": "Knowledge",
+                        "level": 1,
+                        "die_type": "d4",
+                        "modifier": 0,
+                        "skills": {
+                            "academia": {
+                                "name": "Academia",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "academia_1": {
+                                "name": "Academia II",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "academia_2": {
+                                "name": "Academia III",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "area_knowledge": {
+                                "name": "Area Knowledge",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "demolition": {
+                                "name": "Demolition",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "disguise": {
+                                "name": "Disguise",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "mad_science": {
+                                "name": "Mad Science",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "medicine": {
+                                "name": "Medicine",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "professional": {
+                                "name": "Professional",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "professional_2": {
+                                "name": "Professional II",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "science": {
+                                "name": "Science",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "science_2": {
+                                "name": "Science II",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "science_3": {
+                                "name": "Science III",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "science_4": {
+                                "name": "Science IV",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "trade": {
+                                "name": "Trade",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "trade_2": {
+                                "name": "Trade II",
+                                "level": 0,
+                                "modifier": 0
+                            }
+                        }
+                    },
+                    "mien": {
+                        "name": "Mien",
+                        "level": 1,
+                        "die_type": "d4",
+                        "modifier": 0,
+                        "skills": {
+                            "animal_wranglin": {
+                                "name": "Animal Wranglin",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "leadership": {
+                                "name": "Leadership",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "overawe": {
+                                "name": "Overawe",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "performin": {
+                                "name": "Performin",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "performin_2": {
+                                "name": "Performin II",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "persuasion": {
+                                "name": "Persuasion",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "tale_tellin": {
+                                "name": "Tale Tellin",
+                                "level": 0,
+                                "modifier": 0
+                            }
+                        }
+                    },
+                    "nimbleness": {
+                        "name": "Nimbleness",
+                        "level": 1,
+                        "die_type": "d4",
+                        "modifier": 0,
+                        "skills": {
+                            "climbin": {
+                                "name": "Climbin",
+                                "level": 1,
+                                "modifier": 0
+                            },
+                            "dodge": {
+                                "name": "Dodge",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "drivin": {
+                                "name": "Drivin",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "fightin": {
+                                "name": "Fightin (Brawlin)",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "fightin_2": {
+                                "name": "Fightin II",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "horse_ridin": {
+                                "name": "Horse Ridin",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "sneak": {
+                                "name": "Sneak",
+                                "level": 1,
+                                "modifier": 0
+                            },
+                            "swimmin": {
+                                "name": "Swimmin",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "teamster": {
+                                "name": "Teamster",
+                                "level": 0,
+                                "modifier": 0
+                            }
+                        }
+                    },
+                    "quickness": {
+                        "name": "Quickness",
+                        "level": 1,
+                        "die_type": "d4",
+                        "modifier": 0,
+                        "skills": {
+                            "quick_draw": {
+                                "name": "Quick Draw",
+                                "level": 0,
+                                "modifier": 0
+                            }
+                        }
+                    },
+                    "smarts": {
+                        "name": "Smarts",
+                        "level": 1,
+                        "die_type": "d4",
+                        "modifier": 0,
+                        "skills": {
+                            "bluff": {
+                                "name": "Bluff",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "gamblin": {
+                                "name": "Gamblin",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "ridicule": {
+                                "name": "Ridicule",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "scroungin": {
+                                "name": "Scroungin",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "streetwise": {
+                                "name": "Streetwise",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "survival": {
+                                "name": "Survival",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "tinkerin": {
+                                "name": "Tinkerin",
+                                "level": 0,
+                                "modifier": 0
+                            }
+                        }
+                    },
+                    "spirit": {
+                        "name": "Spirit",
+                        "level": 1,
+                        "die_type": "d4",
+                        "modifier": 0,
+                        "skills": {
+                            "faith": {
+                                "name": "Faith",
+                                "level": 0,
+                                "modifier": 0
+                            },
+                            "guts": {
+                                "name": "Guts",
+                                "level": 0,
+                                "modifier": 0
+                            }
+                        }
+                    },
+                    "strength": {
+                        "name": "Strength",
+                        "level": 1,
+                        "die_type": "d4",
+                        "modifier": 0,
+                        "skills": {}
+                    },
+                    "vigor": {
+                        "name": "Vigor",
+                        "level": 1,
+                        "die_type": "d4",
+                        "modifier": 0,
+                        "skills": {}
+                    }
+                }
+            }
+        },
+        "player": {
+            "templates": [
+                "core"
+            ],
+            "generator": {
+                "hand": [],
+                "dice": [],
+                "s_points": 0,
+                "h_points": 0,
+                "e_points": 0
+            },
+            "traits": {
+                "cognition": {
+                    "name": "Cognition",
+                    "level": 1,
+                    "die_type": "d4",
+                    "modifier": 0,
+                    "skills": {
+                        "artillery": {
+                            "name": "Artillery",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "art": {
+                            "name": "Art",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "scrutinize": {
+                            "name": "Scrutinize",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "search": {
+                            "name": "Search",
+                            "level": 1,
+                            "modifier": 0
+                        },
+                        "trackin": {
+                            "name": "Trackin",
+                            "level": 0,
+                            "modifier": 0
+                        }
+                    }
+                },
+                "deftness": {
+                    "name": "Deftness",
+                    "level": 1,
+                    "die_type": "d4",
+                    "modifier": 0,
+                    "skills": {
+                        "bow": {
+                            "name": "Bow",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "filchin": {
+                            "name": "Filchin",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "lockpickin": {
+                            "name": "Lockpickin",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "shootin_pistol": {
+                            "name": "Shootin Pistol",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "shootin_rifle": {
+                            "name": "Shootin Rifle",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "shootin_shotgun": {
+                            "name": "Shootin Shotgun",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "shootin_automatic": {
+                            "name": "Shootin Automatic",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "sleight_o_hand": {
+                            "name": "Sleight o Hand",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "speed_load": {
+                            "name": "Speed Load",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "throwin": {
+                            "name": "Throwin",
+                            "level": 0,
+                            "modifier": 0
+                        }
+                    }
+                },
+                "knowledge": {
+                    "name": "Knowledge",
+                    "level": 1,
+                    "die_type": "d4",
+                    "modifier": 0,
+                    "skills": {
+                        "academia": {
+                            "name": "Academia",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "academia_1": {
+                            "name": "Academia II",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "academia_2": {
+                            "name": "Academia III",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "area_knowledge": {
+                            "name": "Area Knowledge",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "demolition": {
+                            "name": "Demolition",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "disguise": {
+                            "name": "Disguise",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "mad_science": {
+                            "name": "Mad Science",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "medicine": {
+                            "name": "Medicine",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "professional": {
+                            "name": "Professional",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "professional_2": {
+                            "name": "Professional II",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "science": {
+                            "name": "Science",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "science_2": {
+                            "name": "Science II",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "science_3": {
+                            "name": "Science III",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "science_4": {
+                            "name": "Science IV",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "trade": {
+                            "name": "Trade",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "trade_2": {
+                            "name": "Trade II",
+                            "level": 0,
+                            "modifier": 0
+                        }
+                    }
+                },
+                "mien": {
+                    "name": "Mien",
+                    "level": 1,
+                    "die_type": "d4",
+                    "modifier": 0,
+                    "skills": {
+                        "animal_wranglin": {
+                            "name": "Animal Wranglin",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "leadership": {
+                            "name": "Leadership",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "overawe": {
+                            "name": "Overawe",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "performin": {
+                            "name": "Performin",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "performin_2": {
+                            "name": "Performin II",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "persuasion": {
+                            "name": "Persuasion",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "tale_tellin": {
+                            "name": "Tale Tellin",
+                            "level": 0,
+                            "modifier": 0
+                        }
+                    }
+                },
+                "nimbleness": {
+                    "name": "Nimbleness",
+                    "level": 1,
+                    "die_type": "d4",
+                    "modifier": 0,
+                    "skills": {
+                        "climbin": {
+                            "name": "Climbin",
+                            "level": 1,
+                            "modifier": 0
+                        },
+                        "dodge": {
+                            "name": "Dodge",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "drivin": {
+                            "name": "Drivin",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "fightin": {
+                            "name": "Fightin (Brawlin)",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "fightin_2": {
+                            "name": "Fightin II",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "horse_ridin": {
+                            "name": "Horse Ridin",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "sneak": {
+                            "name": "Sneak",
+                            "level": 1,
+                            "modifier": 0
+                        },
+                        "swimmin": {
+                            "name": "Swimmin",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "teamster": {
+                            "name": "Teamster",
+                            "level": 0,
+                            "modifier": 0
+                        }
+                    }
+                },
+                "quickness": {
+                    "name": "Quickness",
+                    "level": 1,
+                    "die_type": "d4",
+                    "modifier": 0,
+                    "skills": {
+                        "quick_draw": {
+                            "name": "Quick Draw",
+                            "level": 0,
+                            "modifier": 0
+                        }
+                    }
+                },
+                "smarts": {
+                    "name": "Smarts",
+                    "level": 1,
+                    "die_type": "d4",
+                    "modifier": 0,
+                    "skills": {
+                        "bluff": {
+                            "name": "Bluff",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "gamblin": {
+                            "name": "Gamblin",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "ridicule": {
+                            "name": "Ridicule",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "scroungin": {
+                            "name": "Scroungin",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "streetwise": {
+                            "name": "Streetwise",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "survival": {
+                            "name": "Survival",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "tinkerin": {
+                            "name": "Tinkerin",
+                            "level": 0,
+                            "modifier": 0
+                        }
+                    }
+                },
+                "spirit": {
+                    "name": "Spirit",
+                    "level": 1,
+                    "die_type": "d4",
+                    "modifier": 0,
+                    "skills": {
+                        "faith": {
+                            "name": "Faith",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "rituals": {
+                            "name": "Rituals",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "chi": {
+                            "name": "Chi",
+                            "level": 0,
+                            "modifier": 0
+                        },
+                        "guts": {
+                            "name": "Guts",
+                            "level": 0,
+                            "modifier": 0
+                        }
+                    }
+                },
+                "strength": {
+                    "name": "Strength",
+                    "level": 1,
+                    "die_type": "d4",
+                    "modifier": 0,
+                    "skills": {}
+                },
+                "vigor": {
+                    "name": "Vigor",
+                    "level": 1,
+                    "die_type": "d4",
+                    "modifier": 0,
+                    "skills": {}
+                }
+            }
+        },
+        "npc": {
+            "templates": [
+                "core"
+            ]
+        },
+        "mook": {
+            "templates": [
+                "core"
+            ],
+            "traits": {
+                "cognition": {
+                    "name": "Cognition",
+                    "level": 1,
+                    "die_type": "d4",
+                    "modifier": 0,
+                    "skills": {
+                        "scrutinize": {
+                            "name": "Scrutinize",
+                            "level": 2,
+                            "modifier": 0
+                        },
+                        "search": {
+                            "name": "Search",
+                            "level": 2,
+                            "modifier": 0
+                        }
+                    }
+                },
+                "deftness": {
+                    "name": "Deftness",
+                    "level": 1,
+                    "die_type": "d4",
+                    "modifier": 0,
+                    "skills": {
+                        "bow": {
+                            "name": "Bow",
+                            "level": 2,
+                            "modifier": 0
+                        },
+                        "shootin_pistol": {
+                            "name": "Shootin Pistol",
+                            "level": 2,
+                            "modifier": 0
+                        },
+                        "shootin_rifle": {
+                            "name": "Shootin Rifle",
+                            "level": 2,
+                            "modifier": 0
+                        },
+                        "shootin_shotgun": {
+                            "name": "Shootin Shotgun",
+                            "level": 2,
+                            "modifier": 0
+                        },
+                        "shootin_automatic": {
+                            "name": "Shootin Automatic",
+                            "level": 2,
+                            "modifier": 0
+                        },
+                        "speed_load": {
+                            "name": "Speed Load",
+                            "level": 2,
+                            "modifier": 0
+                        }
+                    }
+                },
+                "knowledge": {
+                    "name": "Knowledge",
+                    "level": 1,
+                    "die_type": "d4",
+                    "modifier": 0,
+                    "skills": {}
+                },
+                "mien": {
+                    "name": "Mien",
+                    "level": 1,
+                    "die_type": "d4",
+                    "modifier": 0,
+                    "skills": {
+                        "overawe": {
+                            "name": "Overawe",
+                            "level": 2,
+                            "modifier": 0
+                        },
+                        "persuasion": {
+                            "name": "Persuasion",
+                            "level": 2,
+                            "modifier": 0
+                        }
+                    }
+                },
+                "nimbleness": {
+                    "name": "Nimbleness",
+                    "level": 1,
+                    "die_type": "d4",
+                    "modifier": 0,
+                    "skills": {
+                        "dodge": {
+                            "name": "Dodge",
+                            "level": 2,
+                            "modifier": 0
+                        },
+                        "fightin": {
+                            "name": "Fightin (Brawlin)",
+                            "level": 2,
+                            "modifier": 0
+                        },
+                        "horse_ridin": {
+                            "name": "Horse Ridin",
+                            "level": 2,
+                            "modifier": 0
+                        },
+                        "sneak": {
+                            "name": "Sneak",
+                            "level": 2,
+                            "modifier": 0
+                        }
+                    }
+                },
+                "quickness": {
+                    "name": "Quickness",
+                    "level": 1,
+                    "die_type": "d4",
+                    "modifier": 0,
+                    "skills": {
+                        "quick_draw": {
+                            "name": "Quick Draw",
+                            "level": 2,
+                            "modifier": 0
+                        }
+                    }
+                },
+                "smarts": {
+                    "name": "Smarts",
+                    "level": 1,
+                    "die_type": "d4",
+                    "modifier": 0,
+                    "skills": {
+                        "bluff": {
+                            "name": "Bluff",
+                            "level": 2,
+                            "modifier": 0
+                        },
+                        "gamblin": {
+                            "name": "Gamblin",
+                            "level": 2,
+                            "modifier": 0
+                        },
+                        "ridicule": {
+                            "name": "Ridicule",
+                            "level": 2,
+                            "modifier": 0
+                        }
+                    }
+                },
+                "spirit": {
+                    "name": "Spirit",
+                    "level": 1,
+                    "die_type": "d4",
+                    "modifier": 0,
+                    "skills": {
+                        "guts": {
+                            "name": "Guts",
+                            "level": 2,
+                            "modifier": 0
+                        }
+                    }
+                },
+                "strength": {
+                    "name": "Strength",
+                    "level": 1,
+                    "die_type": "d4",
+                    "modifier": 0,
+                    "skills": {}
+                },
+                "vigor": {
+                    "name": "Vigor",
+                    "level": 1,
+                    "die_type": "d4",
+                    "modifier": 0,
+                    "skills": {}
+                }
+            }
+        },
+        "gm": {
+            "templates": [
+                "core"
+            ],
+            "combat_active": false,
+            "modifiers": {
+                "foolproof": {"name": "Foolproof", "mod": 2, "active":false},
+                "onerous": {"name": "Onerous", "mod": -2, "active":false},
+                "impressive": {"name": "Impressive", "mod": -4, "active":false},
+                "incredible": {"name": "Incredible", "mod": -6, "active":false},
+                "heroic": {"name": "Heroic", "mod": -8, "active":false}
+            },
+            "player_target": "all",
+            "action_cards": [],
+            "timestamp": -2997907200000,
+            "add_posse_name": "",
+            "posse": [],
+            "posse_chips": {}
+        },
+        "vehicle": {
+            "templates": [
+                "core"
+            ],
+            "type": "Steamwagon",
+            "show_editor": true,
+            "description": "",
+            "notes": "",
+            "durability": {
+                "min": 0,
+                "max": 10,
+                "value": 10
+            },
+            "passenger_add": {
+                "name": "",
+                "driver": false,
+                "gunner": false
+            },
+            "passengers": {
+                "value": 0,
+                "max": 2,
+                "driver": "None",
+                "onboard": [
+                    {
+                        "name": "Driver",
+                        "driver": true,
+                        "gunner": false,
+                        "character": "Empty"
+                    }
+                ]
+            },
+            "pace": 10,
+            "climb": {
+                "min": 0,
+                "max": 0,
+                "value": 0
+            },
+            "turn": 5,
+            "turnin": 0,
+            "throttle": 0,
+            "brake": 0,
+            "travel": 15,
+            "fuel": 0,
+            "fuel_max": 10,
+            "reliability": 17,
+            "modifier": 2,
+            "hit_add": {
+                "name": "",
+                "min": 1,
+                "max": 20,
+                "armour": 0,
+                "malfunctions": {
+                    "minor": {"name": "", "description": ""},
+                    "major": {"name": "", "description": ""},
+                    "catastrophic": {"name": "", "description": ""}
+                }
+            },
+            "hit_locations": [],
+            "weapons": [],
+            "forces": {
+                "vel": {"x":0, "y":0},
+                "acc": {"x":0, "y":0},
+                "brk": {"x":0, "y":0}
+            },
+            "turn_point": 0,
+            "driver_actions": 1,
+            "friction": 0.98,
+            "round_distance": 0
+        },
+        "merchant": {
+            "templates": [
+                "core",
+                "attributes"
+            ],
+            "add_item_type": "goods",
+            "add_item_name": "None",
+            "add_item_cost": 1,
+            "customers": {},
+            "sale_list": [],
+            "buy_modifier": 0.5,
+            "sell_modifier": 1,
+            "global_price_modifier": 1,
+            "friendly_price_modifier": 1,
+            "hostile_price_modifier": 1,
+            "accepts_barter": false
+        }
+    },
+    "Item": {
+        "types": [
+            "gen_deck",
+            "firearm",
+            "melee",
+            "miracle",
+            "trick",
+            "hex",
+            "chi",
+            "favor",
+            "goods",
+            "consumeable",
+            "components",
+            "boon",
+            "edge",
+            "hinderance",
+            "literature",
+            "chip",
+            "huckster_deck",
+            "action_deck",
+            "blueprint_deck"
+        ],
+        "templates": {
+            "description": {
+                "description": "",
+                "script": "",
+                "equippable": false,
+                "equipped": false,
+                "equipped_dominant": false,
+                "equipped_off": false,
+                "slot": "hand",
+                "multi_slot": false,
+                "armour_piercing": 0,
+                "reliability": false,
+                "reliability_value": 20,
+                "type_select": "skill_mod",
+                "target_select": "cognition",
+                "value_select": 2,
+                "vehicle_mountable": false,
+                "modifiers": [],
+                "cost": "$0.00",
+                "boxed_multiple": false,
+                "box_amount": 1,
+                "amount": 1,
+                "total_cost": 0,
+                "will_sell": true,
+                "will_buy": true,
+                "limit_stock": false,
+                "emits_light": false,
+                "bright_light": 0,
+                "dim_light": 0,
+                "light_angle": 360,
+                "is_timepiece": false,
+                "defensive_bonus": 0
+            }
+        },
+        "firearm": {
+            "templates": [
+                "description"
+            ],
+            "cost": "$20.00",
+            "calibur": ".44",
+            "gun_type": "shootin_pistol",
+            "speed": 1,
+            "range": 10,
+            "rof": 1,
+            "chamber": 0,
+            "max": 6,
+            "damage":"3d6",
+            "damage_bonus": 0,
+            "off_hand": false
+        },
+        "melee": {
+            "templates": [
+                "description"
+            ],
+            "cost": "$10.00",
+            "skill": "fightin",
+            "damage": "1d4"
+        },
+        "miracle": {
+            "templates": [
+                "description"
+            ],
+            "tn": "5",
+            "speed": "1",
+            "duration": "Instant",
+            "range": "5 yards/faith level"
+        },
+        "trick": {
+            "templates": [
+                "description"
+            ],
+            "level": "1",
+            "trait": "smarts",
+            "speed": "1",
+            "duration": "instant",
+            "range": "5 yards/hex level"
+        },
+        "hex": {
+            "templates": [
+                "description"
+            ],
+            "level": "1",
+            "trait": "smarts",
+            "hand": "Ace",
+            "speed": "1",
+            "duration": "instant",
+            "range": "5 yards/hex level"
+        },
+        "chi": {
+            "templates": [
+                "description"
+            ],
+            "strain": 1,
+            "tn": "5",
+            "speed": "1",
+            "duration": "Instant"
+        },
+        "favor": {
+            "templates": [
+                "description"
+            ],
+            "appeasement": "1",
+            "duration": "instant",
+            "range": "5 yards/appeasement"
+        },
+        "edge": {
+            "templates":[
+                "description"
+            ],
+            "cost": "1"
+        },
+        "hinderance": {
+            "templates":[
+                "description"
+            ],
+            "cost": "-1"
+        },
+        "chip": {
+            "templates":[
+                "description"
+            ],
+            "value": "white",
+            "bounty": 1
+        },
+        "gen_deck": {
+            "die_type":"d4",
+            "level":1,
+            "trait": "unassigned"
+        },
+        "goods": {
+            "templates": [
+                "description"
+            ],
+            "cost": "$1.00",
+            "amount": "1",
+            "is_float": false,
+            "boxed_multiple": false,
+            "box_amount": 1,
+            "total_cost": 0
+        },
+        "components": {
+            "templates": [
+                "description"
+            ],
+            "cost": "$2.00",
+            "amount": 1,
+            "size": "small"
+        },
+        "coup": {
+            "templates": [
+                "description"
+            ]
+        },
+        "action_deck": {},
+        "huckster_deck": {},
+        "blueprint_deck": {},
+        "boon": {
+            "description": "",
+            "script": "",
+            "active": true,
+            "type_select": "skill_mod",
+            "target_select": "cognition",
+            "value_select": 2,
+            "modifiers": []
+        },
+        "literature": {
+            "templates": [
+                "description"
+            ],
+            "template": "letter",
+            "output":"",
+            "prefab": {
+                "letter": {
+                    "date": "Wed Nov 8th 1876",
+                    "greeting": "Howdy Partner!",
+                    "body": "I am writing to inform you...",
+                    "sign_off": "Kindest regards",
+                    "signature": "Some Person",
+                    "hand_written": true
+                },
+                "telegram": {
+                    "date": "1-1-1875",
+                    "company": "Western Union Telegraph Co.",
+                    "reciever": "Mr J. Doe",
+                    "body": "Telegrams really cool. Watch out for Gremlins.",
+                    "sender": "Guy Incognito",
+                    "hand_written": true
+                },
+                "wanted_poster": {
+                    "date":"Wed Nov 8th 1876",
+                    "crime": "FOR TRAIN ROBBERY",
+                    "name": "Thomas 'Black Jack' Ketchum",
+                    "img": "Images/",
+                    "details": "$5,000.00 for the capture dead or alive of the men who robbed the Atchison Topeka and Santa Fe train near Deming, NM.",
+                    "description": "Believed to be Thomas 'Black Jack' Ketchum and his band.  These men are desperate and dangerous.",
+                    "reward": "$5000.00",
+                    "contact": "Texas Rangers HQ"
+                },
+                "newspaper": {
+                    "date": "Wed Nov 8th 1876",
+                    "paper": "The Tombstone Epitaph",
+                    "price": "$0.05",
+                    "headline": "",
+                    "main_article": "",
+                    "columns": 2,
+                    "sub_articles": 1
+                },
+                "book": {
+                    "url": "None",
+                    "skill_roll": false,
+                    "skill": "cognition",
+                    "tn": 5,
+                    "clue": "Whilst flicking through this book, you realise... Reading is it's own reward!",
+                    "timer": 30
+                }
+            }
+        },
+        "consumeable": {
+            "uses": 1,
+            "reuseable": false
+        }
+    }
+}

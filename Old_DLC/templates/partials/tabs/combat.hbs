@@ -1,0 +1,143 @@
+<section class="form typed">
+    <a class="center"><p class="roll-quickness">Roll Quickness!</p></a>
+    <div class="border">
+        {{!-- <h2 class="center">Targeting</h2> --}}
+        <div class="flexrow">
+            {{#each targets as |target|}}
+                {{#if (eq @key ../data.data.called_shot)}}
+                <input type="radio" id="select-{{@key}}" name="data.called_shot" value="{{@key}}" checked>
+                {{else}}
+                <input type="radio" id="select-{{@key}}" name="data.called_shot" value="{{@key}}">
+                {{/if}}
+                <label for="select-{{@key}}">{{target.name}} [{{target.mod}}]</label>
+            {{/each}}
+        </div>
+    </div>
+    <div class="border">
+        <h2 class="center">Equipment</h2>
+        {{#is_one_handed}}
+        <div class="flexrow border">
+            <div>
+                <h3 class="center">Dominant Hand</h3>
+                {{> "systems/deadlands_classic/templates/partials/reuseable/equip.hbs" this items=equippable label="dominant" slot="hand" id=data.data.equipped.dominant}}
+            </div>
+            <div>
+                <h3 class="center">Off Hand</h3>
+                {{> "systems/deadlands_classic/templates/partials/reuseable/equip.hbs" this items=equippable label="off" slot="hand" id=data.data.equipped.off}}
+            </div>
+        </div>
+        {{else}}
+            <div class="border">
+                <h3 class="center">Two Handed</h3>
+                {{> "systems/deadlands_classic/templates/partials/reuseable/equip.hbs" this items=equippable label="dominant" slot="hand" id=data.data.equipped.dominant}}
+            </div>
+        {{/is_one_handed}}
+        <div class="flexrow border">
+            <div>
+                <h3 class="center">Head</h3>
+                {{> "systems/deadlands_classic/templates/partials/reuseable/equip.hbs" this items=equippable label="head" slot="head" id=data.data.equipped.head}}
+            </div>
+            <div>
+                <h3 class="center">Body</h3>
+                {{> "systems/deadlands_classic/templates/partials/reuseable/equip.hbs" this items=equippable label="body" slot="body" id=data.data.equipped.body}}
+            </div>
+            <div>
+                <h3 class="center">Belt</h3>
+                {{> "systems/deadlands_classic/templates/partials/reuseable/equip.hbs" this items=equippable label="belt" slot="belt" id=data.data.equipped.belt}}
+            </div>
+            <div>
+                <h3 class="center">Legs</h3>
+                {{> "systems/deadlands_classic/templates/partials/reuseable/equip.hbs" this items=equippable label="legs" slot="legs" id=data.data.equipped.legs}}
+            </div>
+            <div>
+                <h3 class="center">Feet</h3>
+                {{> "systems/deadlands_classic/templates/partials/reuseable/equip.hbs" this items=equippable label="feet" slot="feet" id=data.data.equipped.feet}}
+            </div>
+        </div>
+    </div>
+    <div class="flexrow">
+        <div class="border">
+            <h2 class="center">Wounds:</h2>
+            <table>
+                <tr>
+                    <th><i class="fas fa-tint" title="Bleeding"></i></th>
+                    <th><i class="fas fa-running" title="Running"></i></th>
+                    <th><i class="fas fa-horse" title="Mounted"></i></th>
+                    <th><i class="fas fa-user-injured" title="Wound Modifier"></i></th>
+                    <th>Soak</th>
+                    <th>Wind</th>
+                </tr>
+                <tr>
+                    {{#if (eq data.data.is_bleeding true)}}
+                    <td class="perc5 center"><a class="bleeding-toggle"><i class="fas fa-check"></i></a></td>
+                    {{else}}
+                    <td class="perc5 center"><a class="bleeding-toggle"><i class="fas fa-times"></i></a></td>
+                    {{/if}}
+                    {{#if (eq data.data.is_running true)}}
+                    <td class="perc5 center"><a class="running-toggle"><i class="fas fa-check"></i></a></td>
+                    {{else}}
+                    <td class="perc5 center"><a class="running-toggle"><i class="fas fa-times"></i></a></td>
+                    {{/if}}
+                    {{#if (eq data.data.is_mounted true)}}
+                    <td class="perc5 center"><a class="mounted-toggle"><i class="fas fa-check"></i></a></td>
+                    {{else}}
+                    <td class="perc5 center"><a class="mounted-toggle"><i class="fas fa-times"></i></a></td>
+                    {{/if}}
+                    {{#if (eq data.data.show_editor true)}}
+                    <td class="perc5 center"><input type="number" name="data.wound_modifier" value="{{data.data.wound_modifier}}"></td>
+                    {{else}}
+                    <td class="perc5 center">{{data.data.wound_modifier}}</td>
+                    {{/if}}
+                    {{#if (eq data.data.show_editor true)}}
+                    <td class="perc5 center"><input type="text" name="data.wound_soak" value="{{data.data.wound_soak}}"></td>
+                    {{else}}
+                    <td class="perc5 center">{{data.data.wound_soak}}</td>
+                    {{/if}}
+                    <td class="perc10 center">{{data.data.wind.value}}/{{data.data.wind.max}}</td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <th></th>
+                    <th><i class="fas fa-user-injured" title="Wounds"></i></th>
+                    <th><i class="fas fa-shield-alt" title="Armor"></i></th>
+                    <th><i class="fas fa-plus" title="Healing"></i></th>
+                </tr>
+                {{#each data.data.wounds as |loc|}}
+                    {{> "systems/deadlands_classic/templates/partials/reuseable/wound_location.hbs" this location=@key label=(location_name @key) show_editor=../data.data.show_editor wound_val=(location_data 'wounds' @key) armour_val=(location_data 'armour' @key) heal_val=(location_data 'heals' @key)}}
+                {{/each}}
+            </table>
+        </div>
+        <div class="border">
+            {{#if equippable}}
+            <h2 class="center">Equippable Items</h2>
+            <table>
+            {{#each equippable as |item|}}
+                <tr class="item" data-itemId="{{this.id}}">
+                    <td class="perc10 center"><a class="info-button"><i class="fas fa-info-circle"></i></a></td>
+                    <td class="perc80">{{this.name}}</td>
+                    <td class="perc10 center"><a class="item-delete"><i class="fas fa-trash" title="Remove {{this.name}}"></i></a></td>
+                </tr>
+            {{/each}}
+            </table>
+            {{/if}}
+            <h2 class="center">Boons/Banes</h2>
+            <table>
+            {{#if boons}}
+                {{#each boons as |boon|}}
+                <tr class="item" data-itemId="{{this.id}}">
+                    <td class="perc10 center"><a class="info-button"><i class="fas fa-info-circle"></i></a></td>
+                    <td class="perc80">{{this.name}}</td>
+                    {{#if (eq boon.data.data.active true)}}
+                    <td><input type="checkbox" name="this.data.data.active" checked></td>
+                    {{else}}
+                    <td><input type="checkbox" name="this.data.data.active"></td>
+                    {{/if}}
+                    <td class="perc10 center"><a class="item-delete"><i class="fas fa-trash" title="Remove {{this.name}}"></i></a></td>
+                </tr>
+                {{/each}}
+            {{/if}}
+            </table>
+        </div>
+    </div>
+</section>

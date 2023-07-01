@@ -1,0 +1,53 @@
+{
+  "name": "deadlands-classic",
+  "title": "Deadlands ClassicDOP: WFRP(DE) — A Member of the Dulux-Oz Suite of Game Systems",
+  "description": "A Foundry VTT Game System for playing Deadlands Classic, Deadlands Hell On Earth Classic, and (hopefully) Deadlands Lost Colony Classic.<br />For Foundry Virtual Tabletop v11.304+.",
+  "authors": [{
+    "name": "Dulux-Oz (Matthew J Black)",
+    "email": "matthewj@matthewj.black",
+    "url": "https://www.matthewj.black"
+  },{
+    "name": "Ben",
+    "email": "",
+    "url": ""
+  },{
+    "name": "Haxxx",
+    "email": "",
+    "url": ""
+  },{
+    "name": "Andrew",
+    "email": "",
+    "url": ""
+  },{
+    "name": "The Spyder",
+    "email": "",
+    "url": ""
+  }],
+  "version": "0.1",
+  "compatibility": {
+    "minimum": "11",
+    "verified": "11"
+  },
+  "templateVersion": 1,
+  "esmodules": [
+    "deadlands-classic/scripts/dlc-main.js"
+  ],
+  "styles": [
+    "deadlands-classic/styles/dlc.css"
+  ],
+  "languages": [{
+    "lang": "en",
+    "name": "English",
+    "path": "lang/en.json"
+  }],
+  "packs": [],
+  "socket": true,
+  "gridDistance": 2,
+  "gridUnits": "yrd",
+  "primaryTokenAttribute": "oWind",
+  "secondaryTokenAttribute": "oStrain",
+  "url": "https://github.com/RhombusWeasel/Deadlands-Classic",
+  "manifest": "https://raw.githubusercontent.com/RhombusWeasel/Deadlands-Classic/main/system.json",
+  "download": "https://github.com/RhombusWeasel/Deadlands-Classic/releases/download/0.5.4/deadlands_classic.zip",
+  "license": "TBD"
+}

@@ -1,0 +1,56 @@
+<form class="{{cssClass}} typed" autocomplete="off">
+    <header class="sheet-header">
+        <img src="{{item.img}}" data-edit="img" title="{{item.name}}" height="64" width="64"/>
+        <h1><input name="name" type="text" value="{{item.name}}" placeholder="Name"/></h1>
+    </header>
+    <div>
+        <textarea name="data.description" style="height: 200px;">{{data.data.description}}</textarea>
+        <table>
+            <tr>
+                <th>{{localize "dc.items.combat.firearm.cost"}}</th>
+                <td><input style="text-align: center;" type="text" name="data.cost" value="{{data.data.cost}}"/></td>
+            </tr>
+            <tr>
+                <th>{{localize "dc.items.combat.firearm.calibur"}}</th>
+                <td><input style="text-align: center;" type="text" name="data.calibur" value="{{data.data.calibur}}"/></td>
+            </tr>
+            <tr>
+                <th>{{localize "dc.items.combat.firearm.gun_type"}}</th>
+                <td>{{> systems/deadlands_classic/templates/partials/reuseable/skill-dropdown.hbs this key_name='gun_type' value=data.data.gun_type}}</td>
+            </tr>
+            <tr>
+                <th>{{localize "dc.items.combat.firearm.speed"}}</th>
+                <td><input style="text-align: center;" type="text" name="data.speed" value="{{data.data.speed}}"/></td>
+            </tr>
+            <tr>
+                <th>{{localize "dc.items.combat.firearm.range"}}</th>
+                <td><input style="text-align: center;" type="text" name="data.range" value="{{data.data.range}}"/></td>
+            </tr>
+            <tr>
+                <th>{{localize "dc.items.combat.firearm.rof"}}</th>
+                <td><input style="text-align: center;" type="text" name="data.rof" value="{{data.data.rof}}"/></td>
+            </tr>
+            <tr>
+                <th>{{localize "dc.items.combat.firearm.chamber"}}</th>
+                <td><input style="text-align: center;" type="text" name="data.chamber" value="{{data.data.chamber}}"/></td>
+            </tr>
+            <tr>
+                <th>{{localize "dc.items.combat.firearm.ammo"}}</th>
+                <td><input style="text-align: center;" type="text" name="data.max" value="{{data.data.max}}"/></td>
+            </tr>
+            <tr>
+                <th>{{localize "dc.items.combat.firearm.damage"}}</th>
+                <td><input style="text-align: center;" type="text" name="data.damage" value="{{data.data.damage}}"/></td>
+            </tr>
+            <tr>
+                <th>{{localize "dc.items.combat.firearm.damage_bonus"}}</th>
+                <td><input style="text-align: center;" type="text" name="data.damage_bonus" value="{{data.data.damage_bonus}}"/></td>
+            </tr>
+            <tr>
+                <th>Defensive Bonus (Melee only)</th>
+                <td><input type="number" name="data.defensive_bonus" value="{{data.data.defensive_bonus}}"></td>
+            </tr>
+            {{> systems/deadlands_classic/templates/partials/reuseable/equip_opts.hbs this}}
+        </table>
+    </div>
+</form>

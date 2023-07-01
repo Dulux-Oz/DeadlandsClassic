@@ -46,8 +46,8 @@
   "gridUnits": "yrd",
   "primaryTokenAttribute": "oWind",
   "secondaryTokenAttribute": "oStrain",
-  "url": "https://github.com/RhombusWeasel/Deadlands-Classic",
-  "manifest": "https://raw.githubusercontent.com/RhombusWeasel/Deadlands-Classic/main/system.json",
-  "download": "https://github.com/RhombusWeasel/Deadlands-Classic/releases/download/0.5.4/deadlands_classic.zip",
+  "url": "https://github.com/Dulux-Oz/DeadlandsClassic",
+  "manifest": "https://raw.githubusercontent.com/Dulux-Oz/DeadlandsClassic/master/system.json",
+  "download": "https://github.com/Dulux-Oz/DeadlandsClassic/releases/download/0.1/deadlands_classic.zip",
   "license": "TBD"
 }

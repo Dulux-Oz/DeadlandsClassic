@@ -2,7 +2,7 @@
   "Actor": {
     "types": [
       "Character",
-      "NPC",
+      "NPC"
     ],
     "htmlFields": ["sNotes"],
     "character": {},
@@ -11,8 +11,8 @@
   "Item": {
     "types": [
       "Edge",
-      "Hindrance"
-      "Weapon",
+      "Hindrance",
+      "Weapon"
     ],
     "htmlFields": ["sDescription"],
     "edge": {},

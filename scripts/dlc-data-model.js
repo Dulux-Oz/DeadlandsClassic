@@ -1,5 +1,6 @@
 "use strict";
 
+// The following comment block is for instructional / example purposes. It can be removed once we have theData Model (near) complete - MJB - 20230702
 /*
 class MyDataModel extends foundry.abstract.DataModel {
   static defineSchema() {
@@ -16,7 +17,6 @@ class MyDataModel extends foundry.abstract.DataModel {
   }
 }
 */
-
 
 class cCharacterData extends foundry.abstract.DataModel {
   static defineSchema() {
@@ -69,6 +69,9 @@ class cEdgeData extends foundry.abstract.DataModel {
   static defineSchema() {
     const fields = foundry.data.fields;
     return {
+      bUsedInWW: new fields.BooleanField({initial: true}),
+      bUsedInHE: new fields.BooleanField({initial: false}),
+      bUsedInLC: new fields.BooleanField({initial: false}),
       sDescription: new fields.HTMLField()
     };
   }
@@ -78,6 +81,9 @@ class cHindranceData extends foundry.abstract.DataModel {
   static defineSchema() {
     const fields = foundry.data.fields;
     return {
+      bUsedInWW: new fields.BooleanField({initial: true}),
+      bUsedInHE: new fields.BooleanField({initial: false}),
+      bUsedInLC: new fields.BooleanField({initial: false}),
       sDescription: new fields.HTMLField()
     };
   }
@@ -87,6 +93,9 @@ class cNPCData extends foundry.abstract.DataModel {
   static defineSchema() {
     const fields = foundry.data.fields;
     return {
+      bUsedInWW: new fields.BooleanField({initial: true}),
+      bUsedInHE: new fields.BooleanField({initial: false}),
+      bUsedInLC: new fields.BooleanField({initial: false}),
       sDescription: new fields.HTMLField()
     };
   }
@@ -96,6 +105,9 @@ class cWeaponData extends foundry.abstract.DataModel {
   static defineSchema() {
     const fields = foundry.data.fields;
     return {
+      bUsedInWW: new fields.BooleanField({initial: true}),
+      bUsedInHE: new fields.BooleanField({initial: false}),
+      bUsedInLC: new fields.BooleanField({initial: false}),
       sDescription: new fields.HTMLField()
     };
   }

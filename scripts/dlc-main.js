@@ -32,11 +32,13 @@ console.log("Deadlands Classic | Readying");
 
 function fpOnSetup() {
 console.log("Deadlands Classic | Setting Up");
+// I think this next line goes here in this function, but maybe not - MJB - 20230702
+  fpCreateGameOptions();
   return;
 }
 
 
-// This needs to be put into a module as a class or something
+// Functions following this comment should probably be put in one or more classes / modules / whatevers and placed in different files. IE How do you boys want to arrange things. - MJB - 20230702
 
 function fpRegisterDataModel() {}
   CONFIG.Actor.systemDataModels.beast = cBeastData;
@@ -51,4 +53,9 @@ function fpRegisterDataModel() {}
   CONFIG.Item.systemDataModels.subrace = cSubraceData;
   CONFIG.Item.systemDataModels.talent = cTalentData;
   CONFIG.Item.systemDataModels.trait = cTraitData;
-};
+  return;
+}
+
+function fpCreateGameOptions() {
+  // We'll need this fuction sooner or later - MJB - 20230702
+}

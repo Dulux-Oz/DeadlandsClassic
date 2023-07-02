@@ -112,3 +112,19 @@ class cWeaponData extends foundry.abstract.DataModel {
     };
   }
 }
+
+export const function fpRegisterDataModel() {
+  CONFIG.Actor.systemDataModels.beast = cBeastData;
+  CONFIG.Actor.systemDataModels.character = cCharacterData;
+  CONFIG.Actor.systemDataModels.npc = cNPCData;
+  CONFIG.Item.systemDataModels.career = cCareerData;
+  CONFIG.Item.systemDataModels.careerrole = cCareerRoleData;
+  CONFIG.Item.systemDataModels.mutation = cMutationData;
+  CONFIG.Item.systemDataModels.province = cProvinceData;
+  CONFIG.Item.systemDataModels.race = cRaceData;
+  CONFIG.Item.systemDataModels.skill = cSkillData;
+  CONFIG.Item.systemDataModels.subrace = cSubraceData;
+  CONFIG.Item.systemDataModels.talent = cTalentData;
+  CONFIG.Item.systemDataModels.trait = cTraitData;
+  return;
+}

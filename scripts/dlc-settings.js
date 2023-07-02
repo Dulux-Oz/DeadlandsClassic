@@ -1,7 +1,7 @@
-export const function fpCreateGameSettings() {
+export function fpCreateGameSettings() {
   game.settings.register("deadlands-classic", "game-world", {
     name: "deadlands-classic.settings.game-world.name",
-    hint: "deadlands-classic.settings.game-world.hint"
+    hint: "deadlands-classic.settings.game-world.hint",
     scope: "world",
     config: true,
     type: String,
@@ -10,6 +10,6 @@ export const function fpCreateGameSettings() {
       "WW": "deadlands-classic.game-world.ww",
       "HE": "deadlands-classic.game-world.he",
       "LC": "deadlands-classic.game-world.lc"
-    },
+    }
   });
 }

@@ -42,7 +42,7 @@ class cCharacterData extends foundry.abstract.DataModel {
       oProficiencies: new fields.SchemaField({
         sWeapons: new fields.ArrayField(new fields.StringField()),
         sSkills: new fields.ArrayField(new fields.StringField())
-      })
+      }),
       oStrain: new fields.SchemaField({
         nValue: new fields.NumberField({
           required: true,
@@ -60,7 +60,7 @@ class cCharacterData extends foundry.abstract.DataModel {
           integer: true
         })
       }),
-      sNotes: new fields.HTMLField(),
+      sNotes: new fields.HTMLField()
     };
   }
 }
@@ -113,18 +113,11 @@ class cWeaponData extends foundry.abstract.DataModel {
   }
 }
 
-export const function fpRegisterDataModel() {
-  CONFIG.Actor.systemDataModels.beast = cBeastData;
-  CONFIG.Actor.systemDataModels.character = cCharacterData;
-  CONFIG.Actor.systemDataModels.npc = cNPCData;
-  CONFIG.Item.systemDataModels.career = cCareerData;
-  CONFIG.Item.systemDataModels.careerrole = cCareerRoleData;
-  CONFIG.Item.systemDataModels.mutation = cMutationData;
-  CONFIG.Item.systemDataModels.province = cProvinceData;
-  CONFIG.Item.systemDataModels.race = cRaceData;
-  CONFIG.Item.systemDataModels.skill = cSkillData;
-  CONFIG.Item.systemDataModels.subrace = cSubraceData;
-  CONFIG.Item.systemDataModels.talent = cTalentData;
-  CONFIG.Item.systemDataModels.trait = cTraitData;
+export function fpRegisterDataModel() {
+  CONFIG.Actor.dataModels.character = cCharacterData;
+  CONFIG.Actor.dataModels.npc = cNPCData;
+  CONFIG.Item.dataModels.edge = cEdgeData;
+  CONFIG.Item.dataModels.hindrance = cHindranceData;
+  CONFIG.Item.dataModels.weapon = cWeaponData;
   return;
 }

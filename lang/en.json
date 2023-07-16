@@ -13,6 +13,26 @@
         "hint": "Which Deadlands Classic Game is being played: Weird West, Hell On Earth, or Lost Colony."
       }
     },
+    "sheets": {
+      "actor-sheet": {
+        "character": "Character",
+        "tabs": {
+          "aptitudes": "Aptitudes",
+          "bio": "Biography",
+          "biodata": "Bio-Data",
+          "combat": "Combat",
+          "edges": "Edges",
+          "gear": "Inventory",
+          "main": "Main",
+          "notes": "Notes",
+          "spells": "Spells"
+        }
+      },
+      "types": {
+        "character": "Player Character",
+        "npc": "Non-Player Character"
+      }
+    },
     "traits": {
       "cog": "Cognition",
       "def": "Deftness",

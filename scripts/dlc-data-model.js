@@ -1,5 +1,7 @@
 "use strict";
 
+import { cCharacterSheet } from "./dlc-character-sheet.js ";
+
 // The following comment block is for instructional / example purposes. It can be removed once we have theData Model (near) complete - MJB - 20230702
 /*
 class MyDataModel extends foundry.abstract.DataModel {
@@ -60,6 +62,7 @@ class cCharacterData extends foundry.abstract.DataModel {
           integer: true
         })
       }),
+      sBiography: new fields.HTMLField(),
       sNotes: new fields.HTMLField()
     };
   }
@@ -119,5 +122,10 @@ export function fpRegisterDataModel() {
   CONFIG.Item.dataModels.edge = cEdgeData;
   CONFIG.Item.dataModels.hindrance = cHindranceData;
   CONFIG.Item.dataModels.weapon = cWeaponData;
+  Actors.registerSheet("deadlands-classic", cCharacterSheet, {
+    types: ["character"],
+    makeDefault: true,
+    label: game.i18n.localize("deadlands-classic.sheets.types.character")
+  });
   return;
 }

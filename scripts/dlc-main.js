@@ -1,7 +1,5 @@
 "use strict";
 
-const SYS_ID = "deadlands-classic";
-
 //Temporary Setting for debugging
 CONFIG.debug.hooks = true;
 
@@ -10,8 +8,9 @@ CONFIG.debug.hooks = true;
 
 import { fpRegisterDataModel } from "./dlc-data-model.js";
 import { fpCreateGameSettings } from "./dlc-settings.js";
+import { fpPreloadTemplates } from "./dlc-preloads.js";
 
-Hooks.once("init",fpOnInit);
+Hooks.once("init",await fpOnInit);
 Hooks.once("setup",fpOnSetup);
 Hooks.once("ready",fpOnReady);
 
@@ -22,11 +21,12 @@ function fpCreateNamespace() {
   return;
 };
 
-function fpOnInit() {
+async function fpOnInit() {
 console.log("Deadlands Classic | Initalising");
   fpCreateNamespace();
   fpRegisterDataModel();
   fpCreateGameSettings();
+  await fpPreloadTemplates();
   return;
 };
 

@@ -1,0 +1,31 @@
+{
+  "name": "deadlands-classic",
+  "version": "0.1.0",
+  "scripts": {
+    "lint:eslint:check": "npx eslint scripts/ --ext .js ",
+    "lint:prettier:check": "npx prettier . --check --ignore-unknown",
+    "lint:prettier:write": "npx prettier . --write --ignore-unknown",
+    "build:styles": "",
+    "build": "npx npm-run-all --parallel build:*",
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "eslint": "~8.15.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-simple-import-sort": "^8.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3",
+    "prettier": "^2.6.2"
+  },
+  "lint-staged": {
+    "*.js": [
+      "npm run lint:eslint:check --"
+    ],
+    "**/*": [
+      "npm run lint:prettier:check --"
+    ]
+  }
+}

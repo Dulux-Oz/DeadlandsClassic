@@ -58,8 +58,8 @@
 }
 .dlc .tabs {
   flex: 0 0 40px;
-  border-top: 1px solid #AAA;
-  border-bottom: 1px solid #AAA;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
 }
 .dlc .tabs .item {
   line-height: 40px;

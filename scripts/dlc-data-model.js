@@ -1,6 +1,5 @@
-"use strict";
-
-import { cCharacterSheet } from "./dlc-character-sheet.js ";
+/* eslint-disable max-classes-per-file */
+import { cCharacterSheet } from './dlc-character-sheet.js';
 
 // The following comment block is for instructional / example purposes. It can be removed once we have theData Model (near) complete - MJB - 20230702
 /*
@@ -22,96 +21,96 @@ class MyDataModel extends foundry.abstract.DataModel {
 
 class cCharacterData extends foundry.abstract.DataModel {
   static defineSchema() {
-    const fields = foundry.data.fields;
+    const { fields } = foundry.data;
     return {
       oWind: new fields.SchemaField({
         nValue: new fields.NumberField({
           required: true,
           initial: 10,
-          integer: true
+          integer: true,
         }),
         nMin: new fields.NumberField({
           required: true,
           initial: 0,
-          integer: true
+          integer: true,
         }),
         nMax: new fields.NumberField({
           required: true,
           initial: 10,
-          integer: true
-        })
+          integer: true,
+        }),
       }),
       oProficiencies: new fields.SchemaField({
         sWeapons: new fields.ArrayField(new fields.StringField()),
-        sSkills: new fields.ArrayField(new fields.StringField())
+        sSkills: new fields.ArrayField(new fields.StringField()),
       }),
       oStrain: new fields.SchemaField({
         nValue: new fields.NumberField({
           required: true,
           initial: 10,
-          integer: true
+          integer: true,
         }),
         nMin: new fields.NumberField({
           required: true,
           initial: 0,
-          integer: true
+          integer: true,
         }),
         nMax: new fields.NumberField({
           required: true,
           initial: 10,
-          integer: true
-        })
+          integer: true,
+        }),
       }),
       sBiography: new fields.HTMLField(),
-      sNotes: new fields.HTMLField()
+      sNotes: new fields.HTMLField(),
     };
   }
 }
 
 class cEdgeData extends foundry.abstract.DataModel {
   static defineSchema() {
-    const fields = foundry.data.fields;
+    const { fields } = foundry.data;
     return {
-      bUsedInWW: new fields.BooleanField({initial: true}),
-      bUsedInHE: new fields.BooleanField({initial: false}),
-      bUsedInLC: new fields.BooleanField({initial: false}),
-      sDescription: new fields.HTMLField()
+      bUsedInWW: new fields.BooleanField({ initial: true }),
+      bUsedInHE: new fields.BooleanField({ initial: false }),
+      bUsedInLC: new fields.BooleanField({ initial: false }),
+      sDescription: new fields.HTMLField(),
     };
   }
 }
 
 class cHindranceData extends foundry.abstract.DataModel {
   static defineSchema() {
-    const fields = foundry.data.fields;
+    const { fields } = foundry.data;
     return {
-      bUsedInWW: new fields.BooleanField({initial: true}),
-      bUsedInHE: new fields.BooleanField({initial: false}),
-      bUsedInLC: new fields.BooleanField({initial: false}),
-      sDescription: new fields.HTMLField()
+      bUsedInWW: new fields.BooleanField({ initial: true }),
+      bUsedInHE: new fields.BooleanField({ initial: false }),
+      bUsedInLC: new fields.BooleanField({ initial: false }),
+      sDescription: new fields.HTMLField(),
     };
   }
 }
 
 class cNPCData extends foundry.abstract.DataModel {
   static defineSchema() {
-    const fields = foundry.data.fields;
+    const { fields } = foundry.data;
     return {
-      bUsedInWW: new fields.BooleanField({initial: true}),
-      bUsedInHE: new fields.BooleanField({initial: false}),
-      bUsedInLC: new fields.BooleanField({initial: false}),
-      sDescription: new fields.HTMLField()
+      bUsedInWW: new fields.BooleanField({ initial: true }),
+      bUsedInHE: new fields.BooleanField({ initial: false }),
+      bUsedInLC: new fields.BooleanField({ initial: false }),
+      sDescription: new fields.HTMLField(),
     };
   }
 }
 
 class cWeaponData extends foundry.abstract.DataModel {
   static defineSchema() {
-    const fields = foundry.data.fields;
+    const { fields } = foundry.data;
     return {
-      bUsedInWW: new fields.BooleanField({initial: true}),
-      bUsedInHE: new fields.BooleanField({initial: false}),
-      bUsedInLC: new fields.BooleanField({initial: false}),
-      sDescription: new fields.HTMLField()
+      bUsedInWW: new fields.BooleanField({ initial: true }),
+      bUsedInHE: new fields.BooleanField({ initial: false }),
+      bUsedInLC: new fields.BooleanField({ initial: false }),
+      sDescription: new fields.HTMLField(),
     };
   }
 }
@@ -122,10 +121,9 @@ export function fpRegisterDataModel() {
   CONFIG.Item.dataModels.edge = cEdgeData;
   CONFIG.Item.dataModels.hindrance = cHindranceData;
   CONFIG.Item.dataModels.weapon = cWeaponData;
-  Actors.registerSheet("deadlands-classic", cCharacterSheet, {
-    types: ["character"],
+  Actors.registerSheet('deadlands-classic', cCharacterSheet, {
+    types: ['character'],
     makeDefault: true,
-    label: game.i18n.localize("deadlands-classic.sheets.types.character")
+    label: game.i18n.localize('deadlands-classic.sheets.types.character'),
   });
-  return;
 }

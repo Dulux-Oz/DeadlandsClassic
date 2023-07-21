@@ -1,19 +1,12 @@
 {
   "Actor": {
-    "types": [
-      "character",
-      "npc"
-    ],
-    "htmlFields": ["sBiography","sNotes"],
+    "types": ["character", "npc"],
+    "htmlFields": ["sBiography", "sNotes"],
     "character": {},
     "npc": {}
   },
   "Item": {
-    "types": [
-      "edge",
-      "hindrance",
-      "weapon"
-    ],
+    "types": ["edge", "hindrance", "weapon"],
     "htmlFields": ["sDescription"],
     "edge": {},
     "hindrance": {},

@@ -1,0 +1,6 @@
+**/public/**
+
+!/globalsExtractor/
+!**/public/
+!**/public/scripts/
+!**/public/scripts/foundry.js

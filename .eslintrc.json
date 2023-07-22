@@ -7,7 +7,11 @@
     "mocha": true,
     "node": true
   },
-  "extends": ["airbnb", "prettier"],
+  "extends": [
+    "airbnb",
+    "prettier",
+    "./foundry/globalsExtractor/.eslintrc.json"
+  ],
   "plugins": ["prettier", "simple-import-sort"],
   "overrides": [],
   "parserOptions": {
@@ -23,9 +27,6 @@
         ".js": "always"
       }
     ],
-
-    // TODO: HOLY SHIT THIS IS GOD AWFUL, FIND A WAY TO GET A LIST OF GLOBALS
-    "no-undef": "off",
 
     // Cross Platform Dev
     "linebreak-style": "off",

@@ -1,6 +1,4 @@
-"use strict";
-
-export const fpPreloadTemplates = async function() {
+export async function fpPreloadTemplates() {
   const sPrePath = `systems/deadlands-classic/templates/parts/dlc-`;
   const sCharSheetPath = `${sPrePath}character-sheet-`;
   const aTemplatePaths = [
@@ -13,4 +11,4 @@ export const fpPreloadTemplates = async function() {
     `${sCharSheetPath}spells.html`,
   ];
   return loadTemplates(aTemplatePaths);
-};
+}

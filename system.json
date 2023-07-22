@@ -2,44 +2,48 @@
   "id": "deadlands-classic",
   "title": "Deadlands Classic",
   "description": "A Foundry VTT Game System for playing Deadlands Classic, Deadlands Hell On Earth Classic, and (hopefully) Deadlands Lost Colony Classic.<br />For Foundry Virtual Tabletop v11.304+.",
-  "authors": [{
-    "name": "Dulux-Oz (Matthew J Black)",
-    "email": "matthewj@matthewj.black",
-    "url": "https://www.matthewj.black"
-  },{
-    "name": "Ben",
-    "email": "",
-    "url": ""
-  },{
-    "name": "Haxxx",
-    "email": "",
-    "url": ""
-  },{
-    "name": "Andrew",
-    "email": "",
-    "url": ""
-  },{
-    "name": "The Spyder",
-    "email": "",
-    "url": ""
-  }],
+  "authors": [
+    {
+      "name": "Dulux-Oz (Matthew J Black)",
+      "email": "matthewj@matthewj.black",
+      "url": "https://www.matthewj.black"
+    },
+    {
+      "name": "Ben",
+      "email": "",
+      "url": ""
+    },
+    {
+      "name": "Haxxxton",
+      "email": "james@gaandder.com",
+      "url": "https://gaandder.com"
+    },
+    {
+      "name": "Andrew",
+      "email": "",
+      "url": ""
+    },
+    {
+      "name": "The Spyder",
+      "email": "",
+      "url": ""
+    }
+  ],
   "version": "0.1",
   "compatibility": {
     "minimum": "11",
     "verified": "11"
   },
   "templateVersion": 1,
-  "esmodules": [
-    "scripts/dlc-main.js"
+  "esmodules": ["scripts/dlc-main.js"],
+  "styles": ["styles/dlc.css"],
+  "languages": [
+    {
+      "lang": "en",
+      "id": "English",
+      "path": "lang/en.json"
+    }
   ],
-  "styles": [
-    "styles/dlc.css"
-  ],
-  "languages": [{
-    "lang": "en",
-    "id": "English",
-    "path": "lang/en.json"
-  }],
   "packs": [],
   "socket": true,
   "gridDistance": 2,

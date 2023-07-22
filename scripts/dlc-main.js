@@ -1,4 +1,5 @@
-// Temporary Setting for debugging
+"use strict";
+
 // Remove Comment and activate next line for Production
 //  CONFIG.debug.hooks = false;
 
@@ -6,10 +7,11 @@ import { fpRegisterDataModel } from './dlc-data-model.js';
 import { fpPreloadTemplates } from './dlc-preloads.js';
 import { fpCreateGameSettings } from './dlc-settings.js';
 
+// Temporary Setting for debugging
 CONFIG.debug.hooks = true;
 
 function fpCreateNamespace() {
-  if (!Array.isArray(game.deadlands_classic)) {
+  if (!Array.isArray(globalThis.game.deadlands_classic)) {
     game.deadlands_classic = {};
   }
 }

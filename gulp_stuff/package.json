@@ -1,0 +1,77 @@
+{
+  "name": "deadlands-classic",
+  "version": "0.1",
+  "description": "A Foundry VTT Game System for playing Deadlands Classic, Deadlands Hell On Earth Classic, and (hopefully) Deadlands Lost Colony Classic.<br />For Foundry Virtual Tabletop v11.304+.",
+  "ignore": [
+    "**/.*",
+    "mocha"
+  ],
+  "keywords": [
+    "Deadlands Classic",
+    "Foundry VTT",
+    "FVTT"
+  ],
+  "authors": [{
+    "name": "Dulux-Oz (Matthew J Black)",
+    "email": "matthewj@matthewj.black",
+    "url": "https://www.matthewj.black"
+  },{
+    "name": "Ben",
+    "email": "",
+    "url": ""
+  },{
+    "name": "Haxxx",
+    "email": "",
+    "url": ""
+  },{
+    "name": "Andrew",
+    "email": "",
+    "url": ""
+  },{
+    "name": "The Spyder (Andrew Herron)",
+    "email": "",
+    "url": ""
+  }],
+  "homepage": "https://github.com/Dulux-Oz/DeadlandsClassic",
+  "license": "GPLv3",
+  "devDependencies": {
+    "@types/chai": "latest",
+    "@types/gulp": "latest",
+    "@types/gulp-htmlhint": "latest",
+    "@types/gulp-htmlmin": "latest",
+    "@types/gulp-if": "latest",
+    "@types/gulp-less": "latest",
+    "@types/gulp-lesshint": "latest",
+    "@types/gulp-mocha": "latest",
+    "@types/gulp-muxml": "latest",
+    "@types/gulp-newer": "latest",
+    "@types/gulp-postcss": "latest",
+    "@types/gulp-sourcemaps": "latest",
+    "@types/sinon": "latest",
+    "@types/sinon-chai": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest",
+    "autoprefixer": "latest",
+    "chai": "latest",
+    "chalk": "^4.1.2",
+    "cssnano": "latest",
+    "del": "latest",
+    "gulp": "latest",
+    "gulp-eslint-new": "latest",
+    "gulp-htmlhint": "latest",
+    "gulp-htmlmin": "latest",
+    "gulp-if": "latest",
+    "gulp-less": "latest",
+    "gulp-lesshint": "latest",
+    "gulp-mocha": "latest",
+    "gulp-muxml": "latest",
+    "gulp-newer": "latest",
+    "gulp-postcss": "latest",
+    "gulp-sourcemaps": "latest",
+    "gulp-typescript": "latest",
+    "sinon": "latest",
+    "sinon-chai": "latest",
+    "ts-node": "latest",
+    "typescript": "latest"
+  }
+}

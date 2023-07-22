@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* @haxxx: apparently its best practice to use class, etc, definitions with a prefix so as to avoid name-space issues. I suggest "dlc".  -MJB - 20230702 */
 
 .dlc {
@@ -77,3 +78,102 @@
   min-width: 500px;
   min-height: 500px;
 }
+=======
+/*
+################################################################################
+## Copyright (c) 2023 {{Andrew}}, Andrew Herron, {{Ben}}, Matthew J Black,    ##
+##    James Gill & {{James}}.                                                 ##
+## This file is part of the *Deadlands Classic* Foundry Virtual Tabletop Game ##
+##   System.                                                                  ##
+## *Deadlands Classic* is free software: you can redistribute it and/or       ##
+##    modify it under the terms of the GNU General Public License as          ##
+##    published by the Free Software Foundation, either version 3 of the      ##
+##    License, or (at your option) any later version.                         ##
+## *Deadlands Classic* is distributed in the hope that it will be useful, but ##
+##    WITHOUT ANY WARRANTY; without even the implied warranty of              ##
+##    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU        ##
+##    General Public License for more details.                                ##
+## You should have received a copy of the GNU General Public License along    ##
+##    with *Deadlands Classic*. If not, see <https://www.gnu.org/licenses/>.  ##
+################################################################################
+*/
+/* @haxxx: apparently its best practice to use class, etc, definitions with a prefix so as to avoid name-space issues. I suggest "dlc".  -MJB - 20230702 */
+
+.dlc {
+}
+.dlc .sheet-header {
+  flex: 0 0 100px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+.dlc .sheet-header .profile-img {
+  flex: 0 0 100px;
+  height: 100px;
+  margin-right: 10px;
+}
+.dlc .sheet-header .header-fields {
+  flex: 1;
+  height: 100px;
+}
+.dlc .sheet-header h1.charname {
+  height: 50px;
+  padding: 0px;
+  margin: 5px 0;
+  border-bottom: 0;
+}
+.dlc .sheet-header h1.charname input {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+.dlc .sheet-body {
+  overflow: hidden;
+}
+.dlc .sheet-body .aptitudes {
+}
+.dlc .sheet-body .bio {
+}
+.dlc .sheet-body .biodata {
+}
+.dlc .sheet-body .combat {
+}
+.dlc .sheet-body .edges {
+}
+.dlc .sheet-body .gear {
+}
+.dlc .sheet-body .main {
+}
+.dlc .sheet-body .notes {
+}
+.dlc .sheet-body .spells {
+}
+.dlc .sheet-body .tab {
+  height: 100%;
+  overflow-y: auto;
+}
+.dlc .tabs {
+  flex: 0 0 40px;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa;
+}
+.dlc .tabs .item {
+  line-height: 40px;
+  font-weight: bold;
+}
+.dlc .tabs .item.active {
+  text-decoration: underline;
+  text-shadow: none;
+}
+.dlc.sheet.actor {
+  min-width: 660px;
+  min-height: 660px;
+}
+.dlc.sheet.item {
+  min-width: 500px;
+  min-height: 500px;
+}
+>>>>>>> license_update

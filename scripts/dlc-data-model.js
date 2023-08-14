@@ -1,12 +1,11 @@
-"use strict";
-
 /* eslint-disable max-classes-per-file */
 
 import { cCharacterSheet } from './dlc-character-sheet.js';
 
 // The following comment block is for instructional / example purposes. It can be removed once we have theData Model (near) complete - MJB - 20230702
 /*
-class MyDataModel extends foundry.abstract.DataModel {
+lint:prettier:checkclass
+MyDataModel extends foundry.abstract.DataModel {
   static defineSchema() {
     const fields = foundry.data.fields;
     return {

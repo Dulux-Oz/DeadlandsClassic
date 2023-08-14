@@ -1,5 +1,3 @@
-"use strict";
-
 export class cCharacterSheet extends ActorSheet {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {

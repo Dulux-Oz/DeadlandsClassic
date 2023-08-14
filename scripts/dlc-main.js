@@ -1,5 +1,3 @@
-"use strict";
-
 // Remove Comment and activate next line for Production
 //  CONFIG.debug.hooks = false;
 
@@ -17,6 +15,7 @@ function fpCreateNamespace() {
 }
 
 async function fpOnInit() {
+  // eslint-disable-next-line no-console
   console.log('Deadlands Classic | Initalising');
   fpCreateNamespace();
   fpRegisterDataModel();
@@ -25,10 +24,12 @@ async function fpOnInit() {
 }
 
 function fpOnReady() {
+  // eslint-disable-next-line no-console
   console.log('Deadlands Classic | Readying');
 }
 
 function fpOnSetup() {
+  // eslint-disable-next-line no-console
   console.log('Deadlands Classic | Setting Up');
 }
 

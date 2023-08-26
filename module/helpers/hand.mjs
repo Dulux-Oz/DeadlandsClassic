@@ -14,6 +14,33 @@ export class Hand {
     this.initiative = -1;
   }
 
+  static fromObject(proto) {
+    const isProto =
+      typeof proto.isHostile === 'boolean' &&
+      typeof proto.live === 'object' &&
+      typeof proto.spent === 'object' &&
+      typeof proto.rjoker === 'boolean' &&
+      typeof proto.bjoker === 'boolean' &&
+      typeof proto.held === 'number' &&
+      typeof proto.override === 'number' &&
+      typeof proto.initiative === 'number';
+
+    let hand;
+
+    if (isProto) {
+      hand = new Hand(proto.isHostile);
+      hand.live = proto.live;
+      hand.spent = proto.spent;
+      hand.rjoker = proto.rjoker;
+      hand.bjoker = proto.bjoker;
+      hand.held = proto.held;
+      hand.override = proto.override;
+      hand.initiative = proto.initiative;
+    }
+
+    return hand;
+  }
+
   get contents() {
     const cards = [...this.live, ...this.spent];
     if (this.rjoker) {
@@ -24,7 +51,7 @@ export class Hand {
       cards.push(52);
     }
 
-    if (this.hasSleeved()) {
+    if (this.hasSleeved) {
       cards.push(this.held);
     }
 
@@ -175,7 +202,7 @@ export class Hand {
   sleeve() {
     // If there is already a sleeved card or we don't have an active card,
     // then we can't sleeve a card.
-    if (this.hasSleeved() || !this.hasNormal()) {
+    if (this.hasSleeved || !this.hasNormal) {
       return false;
     }
 
@@ -220,7 +247,7 @@ export class Hand {
   spendActive() {
     if (this.override !== -1) {
       this.spendAny(this.override);
-    } else if (this.hasNormal()) {
+    } else if (this.hasNormal) {
       this.spendAny(this.live[0]);
     }
   }
@@ -276,7 +303,7 @@ export class Hand {
   // (or to change the deck a combatant is using).
   collectAll() {
     // Discard all active cards
-    while (this.hasNormal()) {
+    while (this.hasNormal) {
       this.spent.push(this.live.shift());
     }
 
@@ -318,7 +345,7 @@ export class Hand {
       held.push(52);
     }
 
-    if (this.hasSleeved()) {
+    if (this.hasSleeved) {
       held.push(this.held);
     }
 

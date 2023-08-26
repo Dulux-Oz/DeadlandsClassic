@@ -7,7 +7,11 @@ export class DeadlandsCombat extends Combat {
     this.allies = new Deck();
     this.axis = new Deck();
 
-    if (typeof this.data.flags.deadlands.previous !== 'undefined') {
+    const hasPrevious =
+      typeof this.flags.deadlands !== 'undefined' &&
+      typeof this.flags.deadlands.previous !== 'undefined';
+
+    if (hasPrevious) {
       this.previousTurns = this.getFlag('deadlands', 'previous');
     } else {
       this.previousTurns = [];
@@ -57,17 +61,15 @@ export class DeadlandsCombat extends Combat {
     return this.turns[1];
   }
 
-  // Is plus one because when there are no previous turns this is turn
-  // one, not turn zero.
-  get turn() {
-    return this.previousTurns.length + 1;
+  set initiative(foo) {
+    this.initiative = foo;
   }
 
   /* -------------------------------------------- */
 
   /**
-   * Begin the combat encounter, advancing to round 1 and turn 0. We store turn 0 to indicate that the round hasn't started
-   * this.turn will return 1
+   * Begin the combat encounter, advancing to round 1 and turn 0. We store
+   * turn 0 to indicate that the round hasn't started yet.
    * @returns {Promise<Combat>}
    */
   async startCombat() {
@@ -105,7 +107,7 @@ export class DeadlandsCombat extends Combat {
    * @returns {Promise<Combat>}
    */
   async resetRoundData() {
-    // No previous turns (makes this.turn return 1)
+    // No previous turns
     this.previousTurns = [];
     await this.setFlag('deadlands', 'previous', this.previousTurns);
 
@@ -190,9 +192,10 @@ export class DeadlandsCombat extends Combat {
     }
 
     const { round } = this;
+    const turn = this.previousTurns.length + 1;
 
     // Update the document, passing data through a hook first
-    const updateData = { round, turn: this.turn };
+    const updateData = { round, turn };
     const updateOptions = {};
     Hooks.callAll('combatTurn', this, updateData, updateOptions);
     return this.update(updateData, updateOptions);
@@ -220,8 +223,10 @@ export class DeadlandsCombat extends Combat {
       this.turns.sort((a, b) => a.initiative - b.initiative);
     }
 
+    const turn = this.previousTurns.length + 1;
+
     // Update the document, passing data through a hook first
-    const updateData = { round: this.round, turn: this.turn };
+    const updateData = { round: this.round, turn };
     const updateOptions = {};
     Hooks.callAll('combatTurn', this, updateData, updateOptions);
     return this.update(updateData, updateOptions);
@@ -253,22 +258,27 @@ export class DeadlandsCombat extends Combat {
     // Determine the turn order and the current turn
     this.turns = this.combatants.contents.sort(DeadlandsCombat.sortCombatants);
 
+    const hasPrevious =
+      typeof this.flags.deadlands !== 'undefined' &&
+      typeof this.flags.deadlands.previous !== 'undefined';
+
     // Guard against getFlag throwing
-    this.previousTurns =
-      typeof this.data.flags.deadlands.previousTurns !== 'undefined'
-        ? await this.getFlag('deadlands', 'previousTurns')
-        : [];
+    this.previousTurns = hasPrevious
+      ? await this.getFlag('deadlands', 'previous')
+      : [];
 
     // Rebuild the canonical decks. Remove any card that is held elsewhere
-    this.turns.array.forEach((c) => {
+    this.turns.forEach((c) => {
       const deck = c.isHostile ? this.axis : this.allies;
-      deck.prune(c.contents());
+      deck.prune(c.contents);
     });
+
+    const turn = this.previousTurns.length + 1;
 
     // Update state tracking
     this.current = {
       round: this.round,
-      turn: this.turn,
+      turn,
       combatantId: this.combatant ? this.combatant.id : null,
       tokenId: this.combatant ? this.combatant.tokenId : null,
     };
@@ -289,7 +299,7 @@ export class DeadlandsCombat extends Combat {
 
     // Gather up a copy of all the cards that are held by combatants
     const cards = [];
-    this.turns.array.forEach((c) => {
+    this.turns.forEach((c) => {
       if (c.hand.isHostile === adversary) {
         cards.push(c.hand.contents);
       }

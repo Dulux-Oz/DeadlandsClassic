@@ -4,8 +4,13 @@ export class DeadlandsCombatant extends Combatant {
   constructor(data, context) {
     super(data, context);
 
-    if (typeof this.data.flags.deadlands.hand !== 'undefined') {
-      this.hand = this.getFlag('deadlands', 'hand');
+    const hasHand =
+      typeof this.flags.deadlands !== 'undefined' &&
+      typeof this.flags.deadlands.hand !== 'undefined';
+
+    if (hasHand) {
+      const flag = this.getFlag('deadlands', 'hand');
+      this.hand = Hand.fromObject(flag);
     } else {
       this.hand = new Hand();
     }
@@ -14,6 +19,10 @@ export class DeadlandsCombatant extends Combatant {
   // Higher numbers are better and go first
   get initiative() {
     return this.hand.initiative;
+  }
+
+  set initiative(foo) {
+    this.irrelevant = foo;
   }
 
   async endTurn() {
@@ -85,5 +94,9 @@ export class DeadlandsCombatant extends Combatant {
     const deck = this.hand.isHostile ? this.parent.allies : this.parent.axis;
     deck.discard(this.hand.collectAll());
     await this.setFlag('deadlands', 'hand', this.hand);
+  }
+
+  get contents() {
+    return this.hand.contents;
   }
 }

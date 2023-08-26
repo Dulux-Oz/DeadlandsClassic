@@ -25,6 +25,9 @@ export class Deck {
   }
 
   static makeCardArray(hand) {
+    if (typeof hand === 'undefined') {
+      return [];
+    }
     if (hand.constructor === Array) {
       return hand.filter((c) => Deck.isCard(c));
     }

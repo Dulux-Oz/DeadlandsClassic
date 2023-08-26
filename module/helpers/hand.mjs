@@ -1,5 +1,5 @@
-import { aCards, mCardMap } from './cards.js';
-import { Deck } from './deck.js';
+import { aCards, mCardMap } from './cards.mjs';
+import { Deck } from './deck.mjs';
 
 export class Hand {
   constructor(isHostile) {

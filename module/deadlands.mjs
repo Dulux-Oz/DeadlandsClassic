@@ -1,6 +1,6 @@
 // import modules
-import { DeadlandsCombat } from './dlccombat.js';
-import { DeadlandsCombatant } from './dlccombatant.js';
+import { DeadlandsCombat } from './documents/dlccombat.mjs';
+import { DeadlandsCombatant } from './documents/dlccombatant.mjs';
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */

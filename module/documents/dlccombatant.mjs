@@ -1,4 +1,4 @@
-import { Hand } from './hand.js';
+import { Hand } from '../helpers/hand.mjs';
 
 export class DeadlandsCombatant extends Combatant {
   constructor(data, context) {

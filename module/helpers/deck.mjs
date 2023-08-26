@@ -1,4 +1,4 @@
-import { aCards, mCardMap } from './cards.js';
+import { aCards, mCardMap } from './cards.mjs';
 
 export class Deck {
   constructor() {

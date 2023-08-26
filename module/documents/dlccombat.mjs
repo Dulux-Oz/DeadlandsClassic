@@ -1,4 +1,4 @@
-import { Deck } from './deck.js';
+import { Deck } from '../helpers/deck.mjs';
 
 export class DeadlandsCombat extends Combat {
   constructor(data, context) {

@@ -57,8 +57,80 @@ export class DeadlandsCombat extends Combat {
     return this.turns[1];
   }
 
+  // Is plus one because when there are no previous turns this is turn
+  // one, not turn zero.
   get turn() {
     return this.previousTurns.length + 1;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Begin the combat encounter, advancing to round 1 and turn 0. We store turn 0 to indicate that the round hasn't started
+   * this.turn will return 1
+   * @returns {Promise<Combat>}
+   */
+  async startCombat() {
+    this.resetRoundData();
+
+    // eslint-disable-next-line no-underscore-dangle
+    this._playCombatSound('startEncounter');
+
+    // turn zero, because no one has gone yet.
+    const updateData = { round: 1, turn: 0 };
+    Hooks.callAll('combatStart', this, updateData);
+    return this.update(updateData);
+  }
+
+  /* -------------------------------------------- */
+
+  /*
+   * After all the cards have been drawn, start this round of combat.
+   */
+  async startRound() {
+    this.turns.sort(DeadlandsCombat.sortCombatants);
+    this.roundStarted = true;
+
+    const updateData = { round: this.round, turn: 1 };
+    const updateOptions = {};
+
+    Hooks.callAll('combatRound', this, updateData, updateOptions);
+    return this.update(updateData, updateOptions);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * process the combat between rounds.
+   * @returns {Promise<Combat>}
+   */
+  async resetRoundData() {
+    // No previous turns (makes this.turn return 1)
+    this.previousTurns = [];
+    await this.setFlag('deadlands', 'previous', this.previousTurns);
+
+    // Collect all the cards that are discarded at turn end
+    this.turns.forEach((e) => {
+      e.cleanUpRound();
+    });
+
+    // Make sure each deck has exactly 54 cards. following this, All the cards
+    // not up a combatant's sleeve are in the available or in the discard pile
+    // of the deck itself.
+
+    this.#reconcileDeck(true);
+    this.#reconcileDeck(false);
+
+    if (this.axis.needsShuffled) {
+      this.axis.recycle();
+    }
+    if (this.allies.needsShuffled) {
+      this.allies.recycle();
+    }
+
+    this.turns.sort(DeadlandsCombat.sortCombatants);
+
+    this.roundStarted = false;
   }
 
   /* -------------------------------------------- */
@@ -68,25 +140,13 @@ export class DeadlandsCombat extends Combat {
    * @returns {Promise<Combat>}
    */
   async nextRound() {
-    this.roundStarted = false;
-
-    this.previousTurns = [];
-    await this.setFlag('deadlands', 'previous', this.previousTurns);
-
-    this.turns.forEach((e) => {
-      e.cleanUpRound();
-    });
-
-    this.turns.sort(DeadlandsCombat.sortCombatants);
-
-    this.#reconcileDeck(true);
-    this.#reconcileDeck(false);
+    this.resetRoundData();
 
     const advanceTime = CONFIG.time.roundTime;
     const nextRound = this.round + 1;
 
     // Update the document, passing data through a hook first
-    const updateData = { round: nextRound, turn: 1 };
+    const updateData = { round: nextRound, turn: 0 };
     const updateOptions = { advanceTime, direction: 1 };
     Hooks.callAll('combatRound', this, updateData, updateOptions);
     return this.update(updateData, updateOptions);
@@ -113,28 +173,22 @@ export class DeadlandsCombat extends Combat {
     // combatants draw cards.  In this case, nextTurn sorts the combatants by
     // the cards they have drawn and moves into the round proper.
 
-    if (this.roundStarted) {
-      const priorHand = foundry.utils.deepClone(this.combatant.hand);
+    const priorHand = foundry.utils.deepClone(this.combatant.hand);
 
-      const turn = {
-        id: this.combatant.id,
-        hand: priorHand,
-      };
+    const proir = {
+      id: this.combatant.id,
+      hand: priorHand,
+    };
 
-      this.previousTurns.push(turn);
-      await this.setFlag('deadlands', 'previous', this.previousTurns);
+    this.previousTurns.push(proir);
+    await this.setFlag('deadlands', 'previous', this.previousTurns);
 
-      this.combatant.endTurn();
-    }
-
-    this.roundStarted = true;
-    this.turns.sort(DeadlandsCombat.sortCombatants);
+    this.combatant.endTurn();
 
     if (this.combatant.initiative === -1) {
       return this.nextRound();
     }
 
-    // Maybe advance to the next round
     const { round } = this;
 
     // Update the document, passing data through a hook first
@@ -153,6 +207,7 @@ export class DeadlandsCombat extends Combat {
   async previousTurn() {
     if (this.previousTurns.length > 0) {
       const previousCombatant = this.previousTurns.pop();
+      await this.setFlag('deadlands', 'previous', this.previousTurns);
 
       const combatant = this.combatants.find(
         (c) => c.id === previousCombatant.id
@@ -198,6 +253,12 @@ export class DeadlandsCombat extends Combat {
     // Determine the turn order and the current turn
     this.turns = this.combatants.contents.sort(DeadlandsCombat.sortCombatants);
 
+    // Guard against getFlag throwing
+    this.previousTurns =
+      typeof this.data.flags.deadlands.previousTurns !== 'undefined'
+        ? await this.getFlag('deadlands', 'previousTurns')
+        : [];
+
     // Rebuild the canonical decks. Remove any card that is held elsewhere
     this.turns.array.forEach((c) => {
       const deck = c.isHostile ? this.axis : this.allies;
@@ -215,12 +276,6 @@ export class DeadlandsCombat extends Combat {
     // One-time initialization of the previous state
     if (!this.previous) this.previous = this.current;
 
-    // Guard against getFlag throwing
-    this.previousTurns =
-      typeof this.data.flags.deadlands.previousTurns !== 'undefined'
-        ? await this.getFlag('deadlands', 'previousTurns')
-        : [];
-
     // Return the array of prepared turns
     return this.turns;
   }
@@ -232,6 +287,7 @@ export class DeadlandsCombat extends Combat {
     const adversary = typeof enemy === 'boolean' && !!enemy;
     const deck = adversary ? this.axis : this.allies;
 
+    // Gather up a copy of all the cards that are held by combatants
     const cards = [];
     this.turns.array.forEach((c) => {
       if (c.hand.isHostile === adversary) {
@@ -239,6 +295,9 @@ export class DeadlandsCombat extends Combat {
       }
     });
 
+    // Make the deck consistent with these cards having been drawn
+    // and all other cards either not drawn, or discarded. Deck
+    // should have exactly 54 cards when finished.
     deck.reconcile(cards);
   }
 

@@ -16,28 +16,6 @@ export class DeadlandsCombatant extends Combatant {
     return this.hand.initiative;
   }
 
-  /**
-   * This converts initiave number (ordered largest first) into a turn
-   * effectively 54 - initiave.
-   *
-   * This value is used for ordering. In standard foundry, where each
-   * combatant gets one "turn" per round it is a number in the range 1 ..
-   * number of combatants. In the deadlands game it is not a contiguous
-   * range, but can be used to determine if the turn has changed, as it
-   * is in standard foundry. Numbers will always be in the range 1 .. 54,
-   * one means a joker has been played
-   */
-
-  get turn() {
-    if (this.hand.initiative === 60) {
-      return 1;
-    }
-    if (this.hand.initiative === 55) {
-      return 2;
-    }
-    return 54 - this.hand.initiative;
-  }
-
   async endTurn() {
     this.hand.spendActive();
     await this.setFlag('deadlands', 'hand', this.hand);
@@ -51,6 +29,24 @@ export class DeadlandsCombatant extends Combatant {
     this.hand.isHostile = !this.hand.isHostile;
     await this.setFlag('deadlands', 'hand', this.hand);
   }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Get a Roll object which represents the initiative roll for this Combatant.
+   */
+  // eslint-disable-next-line class-methods-use-this
+  getInitiativeRoll(formula) {}
+
+  /* -------------------------------------------- */
+
+  /**
+   * Roll initiative for this particular combatant.
+   */
+  // eslint-disable-next-line no-empty-function, class-methods-use-this
+  async rollInitiative(formula) {}
+
+  /* -------------------------------------------- */
 
   /*
    * Draw @num cards from this combatants deck in the parent.  Default to one

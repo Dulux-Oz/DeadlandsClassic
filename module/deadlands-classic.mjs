@@ -1,8 +1,9 @@
 // import modules
-import { DeadlandsCombat } from './documents/dlccombat.mjs';
-import { DeadlandsCombatant } from './documents/dlccombatant.mjs';
+import { DeadlandsCombat } from './documents/dlc-combat.mjs';
+import { DeadlandsCombatant } from './documents/dlc-combatant.mjs';
 import { fpPreloadTemplates } from './init/preloads.mjs';
 import { fpCreateGameSettings } from './init/settings.mjs';
+import { DeadlandsCombatTracker } from './sidebar/dlc-combat-tracker.mjs';
 import { fpRegisterDataModel } from './dlc-data-model.mjs';
 
 /* -------------------------------------------- */
@@ -25,8 +26,11 @@ Hooks.once('init', async () => {
   CONFIG.Combat.documentClass = DeadlandsCombat;
   CONFIG.Combatant.documentClass = DeadlandsCombatant;
 
-  if (!Array.isArray(globalThis.game.deadlands_classic)) {
-    game.deadlands_classic = {};
+  // Define custom ui classes
+  CONFIG.ui.combat = DeadlandsCombatTracker;
+
+  if (!Array.isArray(globalThis.game['deadlands-classic'])) {
+    game['deadlands-classic'] = {};
   }
 
   fpRegisterDataModel();

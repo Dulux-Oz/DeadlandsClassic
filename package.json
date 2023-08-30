@@ -1,5 +1,5 @@
 {
-  "name": "deadlands",
+  "name": "deadlands-classic",
   "version": "0.1.0",
   "scripts": {
     "lint:eslint:check": "npx eslint **/*.mjs",

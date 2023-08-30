@@ -5,15 +5,37 @@ export class DeadlandsCombatant extends Combatant {
     super(data, context);
 
     const hasHand =
-      typeof this.flags.deadlands !== 'undefined' &&
-      typeof this.flags.deadlands.hand !== 'undefined';
+      typeof this.flags['deadlands-classic'] !== 'undefined' &&
+      typeof this.flags['deadlands-classic'].hand !== 'undefined';
 
     if (hasHand) {
-      const flag = this.getFlag('deadlands', 'hand');
+      const flag = this.getFlag('deadlands-classic', 'hand');
       this.hand = Hand.fromObject(flag);
     } else {
       this.hand = new Hand();
     }
+  }
+
+  /* Methods that delegate to the embedded hand object */
+
+  get contents() {
+    return this.hand.contents;
+  }
+
+  get hasNormal() {
+    return this.hand.hasNormal;
+  }
+
+  get hasBlackJoker() {
+    return this.hand.bjoker;
+  }
+
+  get hasRedJoker() {
+    return this.hand.rjoker;
+  }
+
+  get hasSleeved() {
+    return this.hand.hasSleeved;
   }
 
   // Higher numbers are better and go first
@@ -21,13 +43,32 @@ export class DeadlandsCombatant extends Combatant {
     return this.hand.initiative;
   }
 
+  // Foundry calls this setter, but we don't care about this value, since we
+  // calculate initiative from the cards in the hand. use it to set irrelevant
+  // which nothing uses.
   set initiative(foo) {
     this.irrelevant = foo;
   }
 
+  get roundStarted() {
+    return this.parent.roundStarted;
+  }
+
+  toggleSleeved() {
+    this.hand.toggleSleeved();
+  }
+
+  toggleRedJoker() {
+    this.hand.toggleRedJoker();
+  }
+
+  toggleBlackJoker() {
+    this.hand.toggleBlackJoker();
+  }
+
   async endTurn() {
     this.hand.spendActive();
-    await this.setFlag('deadlands', 'hand', this.hand);
+    await this.setFlag('deadlands-classic', 'hand', this.hand);
   }
 
   async toggleHostility() {
@@ -36,13 +77,13 @@ export class DeadlandsCombatant extends Combatant {
     deck.discard(cards);
 
     this.hand.isHostile = !this.hand.isHostile;
-    await this.setFlag('deadlands', 'hand', this.hand);
+    await this.setFlag('deadlands-classic', 'hand', this.hand);
   }
 
   /* -------------------------------------------- */
 
   /**
-   * Get a Roll object which represents the initiative roll for this Combatant.
+   * disable the initiative roll for this Combatant.
    */
   // eslint-disable-next-line class-methods-use-this
   getInitiativeRoll(formula) {}
@@ -81,22 +122,18 @@ export class DeadlandsCombatant extends Combatant {
         }
       }
     }
-    await this.setFlag('deadlands', 'hand', this.hand);
+    await this.setFlag('deadlands-classic', 'hand', this.hand);
   }
 
   async cleanUpRound() {
     const deck = this.hand.isHostile ? this.parent.allies : this.parent.axis;
     deck.discard(this.hand.collectForRoundEnd());
-    await this.setFlag('deadlands', 'hand', this.hand);
+    await this.setFlag('deadlands-classic', 'hand', this.hand);
   }
 
   async cleanUpAll() {
     const deck = this.hand.isHostile ? this.parent.allies : this.parent.axis;
     deck.discard(this.hand.collectAll());
-    await this.setFlag('deadlands', 'hand', this.hand);
-  }
-
-  get contents() {
-    return this.hand.contents;
+    await this.setFlag('deadlands-classic', 'hand', this.hand);
   }
 }

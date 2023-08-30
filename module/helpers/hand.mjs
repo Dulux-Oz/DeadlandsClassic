@@ -15,27 +15,42 @@ export class Hand {
   }
 
   static fromObject(proto) {
-    const isProto =
+    const isHostile =
+      typeof proto !== 'undefined' &&
+      typeof proto.isHostile !== 'undefined' &&
       typeof proto.isHostile === 'boolean' &&
-      typeof proto.live === 'object' &&
-      typeof proto.spent === 'object' &&
-      typeof proto.rjoker === 'boolean' &&
-      typeof proto.bjoker === 'boolean' &&
-      typeof proto.held === 'number' &&
-      typeof proto.override === 'number' &&
-      typeof proto.initiative === 'number';
+      proto.isHostile;
 
-    let hand;
+    const hand = new Hand(isHostile);
 
-    if (isProto) {
-      hand = new Hand(proto.isHostile);
-      hand.live = proto.live;
-      hand.spent = proto.spent;
-      hand.rjoker = proto.rjoker;
-      hand.bjoker = proto.bjoker;
-      hand.held = proto.held;
-      hand.override = proto.override;
-      hand.initiative = proto.initiative;
+    if (typeof proto !== 'undefined') {
+      if (typeof proto.live === 'object') {
+        hand.live = proto.live;
+      }
+
+      if (typeof proto.spent === 'object') {
+        hand.spent = proto.spent;
+      }
+
+      if (typeof proto.rjoker === 'boolean') {
+        hand.rjoker = proto.rjoker;
+      }
+
+      if (typeof proto.bjoker === 'boolean') {
+        hand.bjoker = proto.bjoker;
+      }
+
+      if (typeof proto.held === 'number') {
+        hand.held = proto.held;
+      }
+
+      if (typeof proto.override === 'number') {
+        hand.override = proto.override;
+      }
+
+      if (typeof proto.initiative === 'number') {
+        hand.initiative = proto.initiative;
+      }
     }
 
     return hand;

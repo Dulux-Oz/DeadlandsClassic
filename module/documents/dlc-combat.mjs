@@ -8,11 +8,11 @@ export class DeadlandsCombat extends Combat {
     this.axis = new Deck();
 
     const hasPrevious =
-      typeof this.flags.deadlands !== 'undefined' &&
-      typeof this.flags.deadlands.previous !== 'undefined';
+      typeof this.flags['deadlands-classic'] !== 'undefined' &&
+      typeof this.flags['deadlands-classic'].previous !== 'undefined';
 
     if (hasPrevious) {
-      this.previousTurns = this.getFlag('deadlands', 'previous');
+      this.previousTurns = this.getFlag('deadlands-classic', 'previous');
     } else {
       this.previousTurns = [];
     }
@@ -73,7 +73,7 @@ export class DeadlandsCombat extends Combat {
    * @returns {Promise<Combat>}
    */
   async startCombat() {
-    this.resetRoundData();
+    this.#resetRoundData();
 
     // eslint-disable-next-line no-underscore-dangle
     this._playCombatSound('startEncounter');
@@ -90,7 +90,7 @@ export class DeadlandsCombat extends Combat {
    * After all the cards have been drawn, start this round of combat.
    */
   async startRound() {
-    this.turns.sort(DeadlandsCombat.sortCombatants);
+    this.turns.sort(DeadlandsCombat.#sortCombatants);
     this.roundStarted = true;
 
     const updateData = { round: this.round, turn: 1 };
@@ -103,46 +103,11 @@ export class DeadlandsCombat extends Combat {
   /* -------------------------------------------- */
 
   /**
-   * process the combat between rounds.
-   * @returns {Promise<Combat>}
-   */
-  async resetRoundData() {
-    // No previous turns
-    this.previousTurns = [];
-    await this.setFlag('deadlands', 'previous', this.previousTurns);
-
-    // Collect all the cards that are discarded at turn end
-    this.turns.forEach((e) => {
-      e.cleanUpRound();
-    });
-
-    // Make sure each deck has exactly 54 cards. following this, All the cards
-    // not up a combatant's sleeve are in the available or in the discard pile
-    // of the deck itself.
-
-    this.#reconcileDeck(true);
-    this.#reconcileDeck(false);
-
-    if (this.axis.needsShuffled) {
-      this.axis.recycle();
-    }
-    if (this.allies.needsShuffled) {
-      this.allies.recycle();
-    }
-
-    this.turns.sort(DeadlandsCombat.sortCombatants);
-
-    this.roundStarted = false;
-  }
-
-  /* -------------------------------------------- */
-
-  /**
    * Advance the combat to the next round
    * @returns {Promise<Combat>}
    */
   async nextRound() {
-    this.resetRoundData();
+    this.#resetRoundData();
 
     const advanceTime = CONFIG.time.roundTime;
     const nextRound = this.round + 1;
@@ -183,19 +148,17 @@ export class DeadlandsCombat extends Combat {
     };
 
     this.previousTurns.push(proir);
-    await this.setFlag('deadlands', 'previous', this.previousTurns);
+    await this.setFlag('deadlands-classic', 'previous', this.previousTurns);
 
     this.combatant.endTurn();
 
-    if (this.combatant.initiative === -1) {
-      return this.nextRound();
-    }
+    this.offerEndTurn = this.combatant.initiative === -1;
 
     const { round } = this;
-    const turn = this.previousTurns.length + 1;
+    const turn = this.previousTurns.length;
 
     // Update the document, passing data through a hook first
-    const updateData = { round, turn };
+    const updateData = { round, turn: 0 };
     const updateOptions = {};
     Hooks.callAll('combatTurn', this, updateData, updateOptions);
     return this.update(updateData, updateOptions);
@@ -210,7 +173,7 @@ export class DeadlandsCombat extends Combat {
   async previousTurn() {
     if (this.previousTurns.length > 0) {
       const previousCombatant = this.previousTurns.pop();
-      await this.setFlag('deadlands', 'previous', this.previousTurns);
+      await this.setFlag('deadlands-classic', 'previous', this.previousTurns);
 
       const combatant = this.combatants.find(
         (c) => c.id === previousCombatant.id
@@ -223,7 +186,7 @@ export class DeadlandsCombat extends Combat {
       this.turns.sort((a, b) => a.initiative - b.initiative);
     }
 
-    const turn = this.previousTurns.length + 1;
+    const turn = 0;
 
     // Update the document, passing data through a hook first
     const updateData = { round: this.round, turn };
@@ -256,15 +219,15 @@ export class DeadlandsCombat extends Combat {
    */
   async setupTurns() {
     // Determine the turn order and the current turn
-    this.turns = this.combatants.contents.sort(DeadlandsCombat.sortCombatants);
+    this.turns = this.combatants.contents.sort(DeadlandsCombat.#sortCombatants);
 
     const hasPrevious =
-      typeof this.flags.deadlands !== 'undefined' &&
-      typeof this.flags.deadlands.previous !== 'undefined';
+      typeof this.flags['deadlands-classic'] !== 'undefined' &&
+      typeof this.flags['deadlands-classic'].previous !== 'undefined';
 
     // Guard against getFlag throwing
     this.previousTurns = hasPrevious
-      ? await this.getFlag('deadlands', 'previous')
+      ? await this.getFlag('deadlands-classic', 'previous')
       : [];
 
     // Rebuild the canonical decks. Remove any card that is held elsewhere
@@ -273,12 +236,10 @@ export class DeadlandsCombat extends Combat {
       deck.prune(c.contents);
     });
 
-    const turn = this.previousTurns.length + 1;
-
     // Update state tracking
     this.current = {
       round: this.round,
-      turn,
+      turn: 0,
       combatantId: this.combatant ? this.combatant.id : null,
       tokenId: this.combatant ? this.combatant.tokenId : null,
     };
@@ -288,6 +249,42 @@ export class DeadlandsCombat extends Combat {
 
     // Return the array of prepared turns
     return this.turns;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * process the combat between rounds.
+   * @returns {Promise<Combat>}
+   */
+  async #resetRoundData() {
+    // No previous turns
+    this.previousTurns = [];
+    await this.setFlag('deadlands-classic', 'previous', this.previousTurns);
+
+    // Collect all the cards that are discarded at turn end
+    this.turns.forEach((e) => {
+      e.cleanUpRound();
+    });
+
+    // Make sure each deck has exactly 54 cards. following this, All the cards
+    // not up a combatant's sleeve are in the available or in the discard pile
+    // of the deck itself.
+
+    this.#reconcileDeck(true);
+    this.#reconcileDeck(false);
+
+    if (this.axis.needsShuffled) {
+      this.axis.recycle();
+    }
+    if (this.allies.needsShuffled) {
+      this.allies.recycle();
+    }
+
+    this.turns.sort(DeadlandsCombat.#sortCombatants);
+
+    this.roundStarted = false;
+    this.offerEndTurn = false;
   }
 
   /* -------------------------------------------- */
@@ -318,7 +315,7 @@ export class DeadlandsCombat extends Combat {
    * @param {Combatant} a     Some combatant
    * @param {Combatant} b     Some other combatant
    */
-  static sortCombatants(a, b) {
+  static #sortCombatants(a, b) {
     const ia = Deck.isCard(a.initiative) ? Math.floor(a.initiative) : -1;
     const ib = Deck.isCard(b.initiative) ? Math.floor(b.initiative) : -1;
 

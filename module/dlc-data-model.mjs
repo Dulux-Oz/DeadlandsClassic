@@ -11,9 +11,9 @@ export function fpRegisterDataModel() {
   CONFIG.Item.dataModels.edge = cEdgeData;
   CONFIG.Item.dataModels.hindrance = cHindranceData;
   CONFIG.Item.dataModels.weapon = cItemData;
-  Actors.registerSheet('deadlands', cCharacterSheet, {
+  Actors.registerSheet('deadlands-classic', cCharacterSheet, {
     types: ['character'],
     makeDefault: true,
-    label: game.i18n.localize('deadlands.sheets.types.character'),
+    label: game.i18n.localize('deadlands-classic.sheets.types.character'),
   });
 }

@@ -1,5 +1,5 @@
 export async function fpPreloadTemplates() {
-  const sPrePath = `systems/deadlands/templates/parts/dlc-`;
+  const sPrePath = `systems/deadlands-classic/templates/parts/dlc-`;
   const sCharSheetPath = `${sPrePath}character-sheet-`;
   const aTemplatePaths = [
     `${sCharSheetPath}aptitudes.html`,
@@ -9,6 +9,7 @@ export async function fpPreloadTemplates() {
     `${sCharSheetPath}gear.html`,
     `${sCharSheetPath}main.html`,
     `${sCharSheetPath}spells.html`,
+    'systems/deadlands-classic/templates/sidebar/combat-tracker.html',
   ];
   return loadTemplates(aTemplatePaths);
 }

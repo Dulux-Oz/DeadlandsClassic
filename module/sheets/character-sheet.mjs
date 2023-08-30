@@ -2,7 +2,7 @@ export class cCharacterSheet extends ActorSheet {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['dlc', 'sheet', 'actor'],
-      template: 'systems/deadlands/templates/dlc-character-sheet.html',
+      template: 'systems/deadlands-classic/templates/dlc-character-sheet.html',
       width: 660,
       height: 800,
       tabs: [

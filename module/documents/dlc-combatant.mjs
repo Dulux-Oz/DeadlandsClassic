@@ -24,7 +24,7 @@ export class DeadlandsCombatant extends Combatant {
   }
 
   get cardImages() {
-    return this.hand.cards.map((c) => aCards[c].icon);
+    return this.cards.map((c) => aCards[c].icon);
   }
 
   get contents() {
@@ -36,7 +36,7 @@ export class DeadlandsCombatant extends Combatant {
   }
 
   get discardImages() {
-    return this.hand.discards.map((c) => aCards[c].icon);
+    return this.discards.map((c) => aCards[c].icon);
   }
 
   get hasNormal() {

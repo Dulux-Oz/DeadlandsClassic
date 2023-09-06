@@ -41,13 +41,17 @@ function makeCards() {
 
   const cards = [];
 
+  const iconDir = 'systems/deadlands-classic/icons/svg/';
   for (let r = 0; r < aCardRank.length; r += 1) {
     for (let s = 0; s < aCardSuit.length; s += 1) {
       const symbol = `${aCardRank[r]}${aCardSuit[s]}`;
       const name = `${rankWord[r]} of ${suitWord[s]}`;
+      const file = `${aCardRank[r]}${suitWord[s].charAt(0)}.svg`;
+      const icon = `${iconDir}${file}`;
       cards.push({
         symbol,
         name,
+        icon,
       });
     }
   }
@@ -59,12 +63,14 @@ function makeCards() {
   cards.push({
     symbol: 'BJ',
     name: 'The Black Joker',
+    icon: `${iconDir}JokerB.svg`,
   });
 
   // Red joker in index 53
   cards.push({
     symbol: 'RJ',
     name: 'The Red Joker',
+    icon: `${iconDir}JokerR.svg`,
   });
 
   return cards;

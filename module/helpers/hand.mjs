@@ -73,6 +73,14 @@ export class Hand {
     return cards.sort();
   }
 
+  get cards() {
+    return [...this.live];
+  }
+
+  get discards() {
+    return [...this.spent];
+  }
+
   /**
    * Whether this "hand" has an unused "normal" card available.
    */

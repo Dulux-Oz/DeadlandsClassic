@@ -1,3 +1,4 @@
+import { aCards } from '../helpers/cards.mjs';
 import { Hand } from '../helpers/hand.mjs';
 
 export class DeadlandsCombatant extends Combatant {
@@ -18,8 +19,24 @@ export class DeadlandsCombatant extends Combatant {
 
   /* Methods that delegate to the embedded hand object */
 
+  get cards() {
+    return this.hand.cards;
+  }
+
+  get cardImages() {
+    return this.hand.cards.map((c) => aCards[c].icon);
+  }
+
   get contents() {
     return this.hand.contents;
+  }
+
+  get discards() {
+    return this.hand.discards;
+  }
+
+  get discardImages() {
+    return this.hand.discards.map((c) => aCards[c].icon);
   }
 
   get hasNormal() {
@@ -112,12 +129,12 @@ export class DeadlandsCombatant extends Combatant {
     const deck = this.hand.isHostile ? this.parent.allies : this.parent.axis;
 
     while (toDraw > 0) {
-      if (deck.canDraw()) {
+      if (deck.canDraw) {
         this.hand.add(deck.draw());
         toDraw -= 1;
       } else {
         this.parent.reapDiscards(this.hand.isHostile);
-        if (!deck.canDraw()) {
+        if (!deck.canDraw) {
           break;
         }
       }

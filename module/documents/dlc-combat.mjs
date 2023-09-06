@@ -54,6 +54,15 @@ export class DeadlandsCombat extends Combat {
   }
 
   /**
+   * Get a Combatant using its combatant id
+   * @param {string} id   The id of the combatant being sought.
+   * @returns {Combatant}
+   */
+  getCombatantById(id) {
+    return this.combatants.find((c) => c.id === id);
+  }
+
+  /**
    * Get the Combatant who has the next turn.
    * @type {Combatant}
    */
@@ -151,6 +160,8 @@ export class DeadlandsCombat extends Combat {
     await this.setFlag('deadlands-classic', 'previous', this.previousTurns);
 
     this.combatant.endTurn();
+
+    this.turns.sort(DeadlandsCombat.#sortCombatants);
 
     this.offerEndTurn = this.combatant.initiative === -1;
 

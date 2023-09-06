@@ -62,8 +62,15 @@
         {{#each turns}}
         <li class="combatant actor directory-item flexrow {{this.css}}" data-combatant-id="{{this.id}}">
             <img class="token-image" data-src="{{this.img}}" alt="{{this.name}}"/>
+            <h4>{{this.name}}</h4>
+
+            {{#if this.roundStarted}}
+            <a class="combatant-control center" aria-label="{{localize 'COMBAT.PlayCards'}}" role="button"  data-control=""><img src="systems/deadlands-classic/icons/svg/AS.svg" width="12" height="7"></a>
+            {{else}}
+            <a class="combatant-control center" aria-label="{{localize 'COMBAT.DrawCards'}}" role="button"  data-control=""><img src=""></a>
+            {{/if}}
+
             <div class="token-name flexcol">
-                <h4>{{this.name}}</h4>
                 <div class="combatant-controls flexrow">
                     {{#if ../user.isGM}}
                     <a class="combatant-control {{#if this.hidden}}active{{/if}}" aria-label="{{localize 'COMBAT.ToggleVis'}}" role="button" data-tooltip="COMBAT.ToggleVis" data-control="toggleHidden">
@@ -83,11 +90,6 @@
                         <img class="token-effect" src="{{this}}"/>
                         {{/each}}
                     </div>
-                    {{#if combat.roundStarted}}
-                    <a class="combatant-control center" aria-label="{{localize 'COMBAT.PlayCards'}}" role="button"  data-control="">{{localize 'COMBAT.PlayCards'}}</a>
-                    {{else}}
-                    <a class="combatant-control center" aria-label="{{localize 'COMBAT.DrawCards'}}" role="button"  data-control="">{{localize 'COMBAT.DrawCards'}}</a>
-                    {{/if}}
                 </div>
             </div>
 
@@ -112,9 +114,9 @@
     {{#if hasCombat}}
         {{#if user.isGM}}
             {{#if round}}
-                {{#if combat.offerEndTurn}}
+                {{#if offerEndTurn}}
                 <a class="combat-control center" aria-label="{{localize 'COMBAT.EndRound'}}" role="button"  data-control="nextRound">{{localize 'COMBAT.EndRound'}}</a>
-                {{else if combat.roundStarted}}
+                {{else if roundStarted}}
                 <a class="combat-control" aria-label="{{localize 'COMBAT.RoundPrev'}}" role="button" data-tooltip="COMBAT.RoundPrev" data-control="previousRound"><i class="fas fa-step-backward"></i></a>
                 <a class="combat-control" aria-label="{{localize 'COMBAT.TurnPrev'}}" role="button" data-tooltip="COMBAT.TurnPrev" data-control="previousTurn"><i class="fas fa-arrow-left"></i></a>
                 <a class="combat-control center" aria-label="{{localize 'COMBAT.End'}}" role="button" data-control="endCombat">{{localize 'COMBAT.End'}}</a>

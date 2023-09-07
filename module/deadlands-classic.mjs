@@ -1,6 +1,7 @@
 // import modules
 import { DeadlandsCombat } from './documents/dlc-combat.mjs';
 import { DeadlandsCombatant } from './documents/dlc-combatant.mjs';
+import { updateIcons } from './helpers/cards.mjs';
 import { fpPreloadTemplates } from './init/preloads.mjs';
 import { fpCreateGameSettings } from './init/settings.mjs';
 import { DeadlandsCombatTracker } from './sidebar/dlc-combat-tracker.mjs';
@@ -36,6 +37,8 @@ Hooks.once('init', async () => {
   fpRegisterDataModel();
   fpCreateGameSettings();
   await fpPreloadTemplates();
+
+  updateIcons();
 });
 
 Hooks.once('setup', async () => {

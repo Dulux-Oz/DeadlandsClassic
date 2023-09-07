@@ -260,6 +260,54 @@ export class DeadlandsCombat extends Combat {
   }
 
   /* -------------------------------------------- */
+  /*  Turn Events                                 */
+  /* -------------------------------------------- */
+
+  /**
+   * Manage the execution of Combat lifecycle events.
+   * This method orchestrates the execution of four events in the following order, as applicable:
+   * 1. End Turn
+   * 2. End Round
+   * 3. Begin Round
+   * 4. Begin Turn
+   * Each lifecycle event is an async method, and each is awaited before proceeding.
+   * @param {number} [adjustedTurn]   Optionally, an adjusted turn to commit to the Combat.
+   * @returns {Promise<void>}
+   * @protected
+   */
+  // eslint-disable-next-line no-underscore-dangle
+  async _manageTurnEvents(adjustedTurn) {
+    if (!game.users.activeGM?.isSelf) return;
+
+    // If there is no previous
+    const prior = this.combatants.get(this.previous?.combatantId);
+
+    // Adjust the turn order before proceeding. Used for embedded document workflows
+    if (Number.isNumeric(adjustedTurn))
+      await this.update({ turn: adjustedTurn }, { turnEvents: false });
+    if (!this.started) return;
+
+    // Identify what progressed
+    const advanceRound = this.current.round > (this.previous?.round ?? -1);
+    const advanceTurn = this.current.turn > (this.previous?.turn ?? -1);
+    if (!(advanceTurn || advanceRound)) return;
+
+    // Conclude prior turn
+    // eslint-disable-next-line no-underscore-dangle
+    if (prior) await this._onEndTurn(prior);
+
+    // Conclude prior round
+    // eslint-disable-next-line no-underscore-dangle
+    if (advanceRound && this.previous?.round !== null) await this._onEndRound();
+
+    // Begin new round
+    // eslint-disable-next-line no-underscore-dangle
+    if (advanceRound) await this._onStartRound();
+
+    // Begin a new turn
+    // eslint-disable-next-line no-underscore-dangle
+    await this._onStartTurn(this.combatant);
+  }
 
   /**
    * process the combat between rounds.

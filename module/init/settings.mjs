@@ -12,4 +12,17 @@ export function fpCreateGameSettings() {
       LC: 'deadlands-classic.game-world.lc',
     },
   });
+
+  game.settings.register('deadlands-classic', 'deckStyle', {
+    name: 'Deck Style',
+    hint: 'Classic deadlands or modern cards for initiative,',
+    scope: 'client',
+    config: true,
+    type: String,
+    default: 'old',
+    choices: {
+      old: 'Old School',
+      mod: 'Modern',
+    },
+  });
 }

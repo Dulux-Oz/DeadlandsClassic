@@ -21,37 +21,33 @@ export const aCardSuit = [
   '\u2660', // 'Spades',
 ];
 
-function makeCards() {
-  const rankWord = [
-    'Two',
-    'Three',
-    'Four',
-    'Five',
-    'Six',
-    'Seven',
-    'Eight',
-    'Nine',
-    'Ten',
-    'Jack',
-    'Queen',
-    'King',
-    'Ace',
-  ];
-  const suitWord = ['Clubs', 'Diamonds', 'Hearts', 'Spades'];
+const rankWord = [
+  'Two',
+  'Three',
+  'Four',
+  'Five',
+  'Six',
+  'Seven',
+  'Eight',
+  'Nine',
+  'Ten',
+  'Jack',
+  'Queen',
+  'King',
+  'Ace',
+];
+const suitWord = ['Clubs', 'Diamonds', 'Hearts', 'Spades'];
 
+function makeCards() {
   const cards = [];
 
-  const iconDir = 'systems/deadlands-classic/icons/svg/';
   for (let r = 0; r < aCardRank.length; r += 1) {
     for (let s = 0; s < aCardSuit.length; s += 1) {
       const symbol = `${aCardRank[r]}${aCardSuit[s]}`;
       const name = `${rankWord[r]} of ${suitWord[s]}`;
-      const file = `${aCardRank[r]}${suitWord[s].charAt(0)}.svg`;
-      const icon = `${iconDir}${file}`;
       cards.push({
         symbol,
         name,
-        icon,
       });
     }
   }
@@ -63,14 +59,12 @@ function makeCards() {
   cards.push({
     symbol: 'BJ',
     name: 'The Black Joker',
-    icon: `${iconDir}JokerB.svg`,
   });
 
   // Red joker in index 53
   cards.push({
     symbol: 'RJ',
     name: 'The Red Joker',
-    icon: `${iconDir}JokerR.svg`,
   });
 
   return cards;
@@ -103,4 +97,52 @@ export function compareSymbol(a, b) {
   if (left > right) return -1;
   if (left < right) return 1;
   return 0;
+}
+
+// eslint-disable-next-line no-underscore-dangle
+function _makePath(rank, suit) {
+  const deckStyle = game.settings.get('deadlands-classic', 'deckStyle');
+
+  if (deckStyle === 'old') {
+    let rankLetter;
+    let suitLetter;
+
+    if (rank >= aCardRank.length) {
+      rankLetter = 'J';
+      suitLetter = suit === 4 ? 'B' : 'R';
+    } else {
+      rankLetter = aCardRank[rank] === 'T' ? 0 : aCardRank[rank];
+      suitLetter = suitWord[suit].charAt(0);
+    }
+
+    const file = `Deadlands_Poker_Deck_${suitLetter}${rankLetter}.png`;
+    return `systems/deadlands-classic/images/${file}`;
+  }
+
+  let file;
+
+  if (rank >= aCardRank.length) {
+    file = suit === 4 ? 'JokerB.svg' : 'JokerR.svg';
+  } else {
+    file = `${aCardRank[rank]}${suitWord[suit].charAt(0)}.svg`;
+  }
+
+  return `systems/deadlands-classic/icons/svg/${file}`;
+}
+
+export function updateIcons() {
+  let index = 0;
+
+  for (let r = 0; r < aCardRank.length; r += 1) {
+    for (let s = 0; s < aCardSuit.length; s += 1) {
+      const icon = _makePath(r, s);
+      aCards[index].icon = icon;
+      index += 1;
+    }
+  }
+
+  aCards[index].icon = _makePath(13, 4);
+  index += 1;
+
+  aCards[index].icon = _makePath(13, 5);
 }

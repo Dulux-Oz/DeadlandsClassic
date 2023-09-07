@@ -67,6 +67,10 @@ export class DeadlandsCombatant extends Combatant {
     this.irrelevant = foo;
   }
 
+  get isHostile() {
+    return this.hand.isHostile;
+  }
+
   get roundStarted() {
     return this.parent.roundStarted;
   }
@@ -89,7 +93,7 @@ export class DeadlandsCombatant extends Combatant {
   }
 
   async toggleHostility() {
-    const deck = this.hand.isHostile ? this.parent.allies : this.parent.axis;
+    const deck = this.isHostile ? this.parent.axis : this.parent.allies;
     const cards = this.hand.collectAll();
     deck.discard(cards);
 
@@ -126,14 +130,13 @@ export class DeadlandsCombatant extends Combatant {
   async draw(num) {
     let toDraw = typeof num === 'number' && num > 0 ? num : 1;
 
-    const deck = this.hand.isHostile ? this.parent.allies : this.parent.axis;
-
+    const deck = this.isHostile ? this.parent.axis : this.parent.allies;
     while (toDraw > 0) {
       if (deck.canDraw) {
         this.hand.add(deck.draw());
         toDraw -= 1;
       } else {
-        this.parent.reapDiscards(this.hand.isHostile);
+        this.parent.reapDiscards(this.isHostile);
         if (!deck.canDraw) {
           break;
         }
@@ -143,13 +146,13 @@ export class DeadlandsCombatant extends Combatant {
   }
 
   async cleanUpRound() {
-    const deck = this.hand.isHostile ? this.parent.allies : this.parent.axis;
-    deck.discard(this.hand.collectForRoundEnd());
+    const deck = this.isHostile ? this.parent.axis : this.parent.allies;
+    deck.discard(...this.hand.collectForRoundEnd());
     await this.setFlag('deadlands-classic', 'hand', this.hand);
   }
 
   async cleanUpAll() {
-    const deck = this.hand.isHostile ? this.parent.allies : this.parent.axis;
+    const deck = this.isHostile ? this.parent.axis : this.parent.allies;
     deck.discard(this.hand.collectAll());
     await this.setFlag('deadlands-classic', 'hand', this.hand);
   }

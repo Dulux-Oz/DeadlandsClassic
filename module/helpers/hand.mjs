@@ -315,7 +315,7 @@ export class Hand {
   collectForRoundEnd() {
     const cards = this.collectDiscards();
 
-    cards.push(this.#collectJokers());
+    cards.push(...this.#collectJokers());
 
     this.override = -1;
 
@@ -334,7 +334,7 @@ export class Hand {
     const cards = this.collectForRoundEnd();
 
     // add in held if it exists
-    cards.push(this.#collectHeld());
+    cards.push(...this.#collectHeld());
 
     this.override = -1;
 

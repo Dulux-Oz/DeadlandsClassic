@@ -77,9 +77,7 @@ export class Deck {
     const cards = Deck.makeCardArray(hand);
 
     // transition though a set to eliminate dupilcates.
-    this.discards = Array.from(
-      new Set([...this.discards, ...Deck.makeCardArray(hand)])
-    );
+    this.discards = Array.from(new Set([...this.discards, ...cards]));
 
     return cards.length > 0;
   }
@@ -96,8 +94,6 @@ export class Deck {
     // Remove anything from cards or discards that is in hand
     this.cards = this.cards.filter((e) => !handSet.has(e));
     this.discards = this.discards.filter((e) => !handSet.has(e));
-
-    return handSet;
   }
 
   /**
@@ -115,9 +111,13 @@ export class Deck {
     this.discards = Array.from(new Set([...this.discards]));
 
     // Remove any cards from cards and discards that are in the hand
-    const handSet = this.prune(hand);
+    this.prune(hand);
 
-    const deckSet = new Set([...this.cards, ...this.discards, ...handSet]);
+    const deckSet = new Set([
+      ...this.cards,
+      ...this.discards,
+      ...Deck.makeCardArray(hand),
+    ]);
 
     // Add anything missing to this.discards
     if (deckSet.size !== 54) {
@@ -134,6 +134,8 @@ export class Deck {
    * @returns nothing
    */
   recycle() {
+    this.shuffle = false;
+
     if (this.discards.length <= 0) {
       return;
     }
@@ -147,7 +149,6 @@ export class Deck {
     }
 
     this.discards = [];
-    this.shuffle = false;
     this.cards = cards;
   }
 

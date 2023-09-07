@@ -1,4 +1,5 @@
 import { Deck } from '../helpers/deck.mjs';
+import { Hand } from '../helpers/hand.mjs';
 
 export class DeadlandsCombat extends Combat {
   constructor(data, context) {
@@ -145,11 +146,7 @@ export class DeadlandsCombat extends Combat {
    * @returns {Promise<Combat>}
    */
   async nextTurn() {
-    // When the round has not started, combat is paused to let
-    // combatants draw cards.  In this case, nextTurn sorts the combatants by
-    // the cards they have drawn and moves into the round proper.
-
-    const priorHand = foundry.utils.deepClone(this.combatant.hand);
+    const priorHand = Hand.fromObject(this.combatant.hand);
 
     const proir = {
       id: this.combatant.id,

@@ -3,6 +3,10 @@
   "COMBAT.EndRound": "End Combat Round",
   "COMBAT.DrawCards": "Draw Cards",
   "COMBAT.PlayCards": "Play Cards",
+  "COMBAT.ToggleJoker": "Toggle use joker",
+  "COMBAT.ToggleSleeved": "Toggle use sleeved card",
+  "COMBAT.Sleeve": "Sleeve highest card",
+  "COMBAT.Vamoose": "Vamoose!!",
 
   "deadlands-classic": {
     "title": "Deadlands Classic",
@@ -25,6 +29,7 @@
           "aptitudes": "Aptitudes",
           "bio": "Biography",
           "biodata": "Bio-Data",
+          "chips": "Chips",
           "combat": "Combat",
           "edges": "Edges",
           "gear": "Inventory",

@@ -1,5 +1,87 @@
 /* @haxxx: apparently its best practice to use class, etc, definitions with a prefix so as to avoid name-space issues. I suggest "dlc".  -MJB - 20230702 */
 
+:root {
+  --combat-card-height: 36px;
+  --sidebar-item-height: 48px;
+}
+
+.directory li.combatant {
+  line-height: var(--sidebar-item-height);
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+}
+
+.directory li.combatant h3,
+.directory li.combatant h4 {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.directory li.combatant img {
+  flex: 0 0 var(--sidebar-item-height);
+  height: var(--sidebar-item-height);
+  width: var(--sidebar-item-height);
+  object-fit: scale-down;
+  object-position: 50% 0;
+  border: none;
+}
+
+.directory li.combatant .token-image {
+  margin: 0;
+  height: var(--sidebar-item-height);
+  width: var(--sidebar-item-height);
+  flex: 0 0 24px;
+  line-height: 28px;
+  margin: 0 0 2px;
+}
+.directory li.combatant .token-name {
+  flex: 1;
+  overflow: hidden;
+  margin: 0 5px;
+  text-shadow: 1px 1px 4px var(--color-shadow-dark);
+}
+.directory li.combatant .token-name h4 {
+  flex: 0 0 24px;
+  line-height: 28px;
+  margin: 0 0 2px;
+}
+.card-flexrow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.combatant-cards img {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  justify-content: flex-start;
+  height: var(--combat-card-height);
+  padding: 2px 0px 2px 1px;
+  object-fit: scale-down;
+  border: none;
+  margin: 5px;
+}
+
+li.combatant .roll {
+  display: block;
+  width: 40px;
+  height: var(--sidebar-item-height);
+  background: url(../icons/svg/d20.svg) no-repeat 50% 50%;
+  background-size: 32px;
+  margin: 0 0.5em;
+}
+li.combatant .roll:hover {
+  background-image: url(../icons/svg/d20-highlight.svg);
+}
+
+.chip-entry {
+  display: grid;
+  grid-template-columns: 180px 40px;
+  gap: 10px;
+  padding: 10px;
+}
+
 .dlc {
 }
 .dlc .sheet-header {
@@ -39,6 +121,8 @@
 .dlc .sheet-body .bio {
 }
 .dlc .sheet-body .biodata {
+}
+.sheet-body .chips {
 }
 .dlc .sheet-body .combat {
 }

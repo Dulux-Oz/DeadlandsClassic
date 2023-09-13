@@ -25,11 +25,11 @@ export class Hand {
 
     if (typeof proto !== 'undefined') {
       if (typeof proto.live === 'object') {
-        hand.live = proto.live;
+        hand.live = Array.from(proto.live);
       }
 
       if (typeof proto.spent === 'object') {
-        hand.spent = proto.spent;
+        hand.spent = Array.from(proto.spent);
       }
 
       if (typeof proto.rjoker === 'boolean') {
@@ -48,9 +48,7 @@ export class Hand {
         hand.override = proto.override;
       }
 
-      if (typeof proto.initiative === 'number') {
-        hand.initiative = proto.initiative;
-      }
+      hand.updateInitiative();
     }
 
     return hand;
@@ -102,6 +100,13 @@ export class Hand {
     return this.held >= 0;
   }
 
+  /*
+   * Whether we are using the sleeved card to set initiative
+   */
+  get usingSleeved() {
+    return this.override === this.held;
+  }
+
   purge(card) {
     if (!Deck.isCard(card)) {
       return false;
@@ -148,7 +153,7 @@ export class Hand {
    */
   toggleSleeved() {
     if (this.held > -1) {
-      this.override = this.override === this.held ? -1 : this.held;
+      this.override = this.usingSleeved ? -1 : this.held;
     }
     this.updateInitiative();
   }

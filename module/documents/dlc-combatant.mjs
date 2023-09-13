@@ -17,14 +17,18 @@ export class DeadlandsCombatant extends Combatant {
     }
   }
 
-  /* Methods that delegate to the embedded hand object */
+  async setHand(newHand) {
+    this.hand = Hand.fromObject(newHand);
+    await this.setFlag('deadlands-classic', 'hand', this.hand);
+  }
 
+  /* Methods that delegate to the embedded hand object */
   get cards() {
     return this.hand.cards;
   }
 
-  get cardImages() {
-    return this.cards.map((c) => aCards[c].icon);
+  get cardObjects() {
+    return this.cards.map((c) => aCards[c]);
   }
 
   get contents() {
@@ -35,8 +39,8 @@ export class DeadlandsCombatant extends Combatant {
     return this.hand.discards;
   }
 
-  get discardImages() {
-    return this.discards.map((c) => aCards[c].icon);
+  get discardObjects() {
+    return this.discards.map((c) => aCards[c]);
   }
 
   get hasNormal() {
@@ -75,6 +79,10 @@ export class DeadlandsCombatant extends Combatant {
     return this.parent.roundStarted;
   }
 
+  get usingSleeved() {
+    return this.hand.usingSleeved;
+  }
+
   toggleSleeved() {
     this.hand.toggleSleeved();
   }
@@ -102,7 +110,6 @@ export class DeadlandsCombatant extends Combatant {
   }
 
   /* -------------------------------------------- */
-
   /**
    * disable the initiative roll for this Combatant.
    */
@@ -110,7 +117,6 @@ export class DeadlandsCombatant extends Combatant {
   getInitiativeRoll(formula) {}
 
   /* -------------------------------------------- */
-
   /**
    * Roll initiative for this particular combatant.
    */
@@ -118,7 +124,6 @@ export class DeadlandsCombatant extends Combatant {
   async rollInitiative(formula) {}
 
   /* -------------------------------------------- */
-
   /*
    * Draw @num cards from this combatants deck in the parent.  Default to one
    * card if @num is non-numeric or <= 0.  Checks if there are cards available
@@ -126,7 +131,6 @@ export class DeadlandsCombatant extends Combatant {
    * all the discards from combatants allied to this combatant back to their
    * deck. If that doesn't fix the lack of cards, then the function stops
    * trying to allocate them. */
-
   async draw(num) {
     let toDraw = typeof num === 'number' && num > 0 ? num : 1;
 

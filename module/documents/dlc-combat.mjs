@@ -239,7 +239,7 @@ export class DeadlandsCombat extends Combat {
       );
 
       if (typeof combatant !== 'undefined') {
-        combatant.hand = Hand.fromObject(previousCombatant.hand);
+        combatant.setHand(previousCombatant.hand);
       }
 
       this.turns.sort((a, b) => a.initiative - b.initiative);

@@ -43,15 +43,24 @@ export class DeadlandsCombatTracker extends CombatTracker {
       const combatant = this.viewed.getCombatantById(element.id);
 
       element.cards = combatant.cards; // array of integers
-      element.cardImages = combatant.cardImages; // array of paths to icons
+      element.cardObjects = combatant.cardObjects; // array of card objects
 
       element.discards = combatant.discards; // array of integers
-      element.discardImages = combatant.discardImages; // array of paths to icons
+      element.discardObjects = combatant.discardObjects; // array of card objects
 
       element.hasBlackJoker = !!combatant.hasBlackJoker;
       element.hasNormal = !!combatant.hasNormal;
       element.hasRedJoker = !!combatant.hasRedJoker;
       element.hasSleeved = !!combatant.hasSleeved;
+
+      // It's our turn, we are not using an override, we have normal card and no sleeved card.
+      element.canSleeve =
+        index === 0 &&
+        combatant.initiative <= 51 &&
+        !combatant.hasSleeved &&
+        !!combatant.hasNormal;
+
+      element.usingSleeved = combatant.usingSleeved;
 
       // It's always the first entry that's active in deadlands classic
       element.active = index === 0;

@@ -9,34 +9,46 @@ export class DeadlandsCombat extends Combat {
     this.allies = new Deck();
     this.axis = new Deck();
 
-    /* If the axis deck has discards stored in the database, prune those cards
-       from the newly constructed deck. */
-    const hasAxisDiscards =
+    this.roundStarted = false;
+  }
+
+  /*
+   * Handle all the database jiggery pokery that keeps the various clients in synch.
+   */
+  prepareDerivedData() {
+    super.prepareDerivedData();
+
+    const hasRoundState =
       typeof this.flags['deadlands-classic'] !== 'undefined' &&
-      typeof this.flags['deadlands-classic'].axisDiscards !== 'undefined';
+      typeof this.flags['deadlands-classic'].roundState !== 'undefined';
 
-    if (hasAxisDiscards) {
-      const discardRec = this.getFlag('deadlands-classic', 'axisDiscards');
-      this.axis.shuffle = !!discardRec.shuffle; // guarantee a boolean value
-      this.axis.prune(discardRec.discards);
+    if (hasRoundState) {
+      const deckRec = this.getFlag('deadlands-classic', 'roundState');
+
+      // guarantee a boolean value
+      this.axis.shuffle = !!deckRec.axisShuffle;
+
+      this.axis.cards = deckRec.axisCards.filter(
+        (item, index) => deckRec.axisCards.indexOf(item) === index
+      );
+
+      this.axis.discards = deckRec.axisDiscards.filter(
+        (item, index) => deckRec.axisDiscards.indexOf(item) === index
+      );
+
+      // guarantee a boolean value
+      this.allies.shuffle = !!deckRec.allyShuffle;
+
+      this.allies.cards = deckRec.allyCards.filter(
+        (item, index) => deckRec.allyCards.indexOf(item) === index
+      );
+
+      this.allies.discards = deckRec.allyDiscards.filter(
+        (item, index) => deckRec.allyDiscards.indexOf(item) === index
+      );
+
+      this.roundStarted = !!deckRec.roundStarted;
     }
-
-    /* If the allies deck has discards stored in the database, prune those cards
-       from the newly constructed deck. */
-    const hasAllyDiscards =
-      typeof this.flags['deadlands-classic'] !== 'undefined' &&
-      typeof this.flags['deadlands-classic'].allyDiscards !== 'undefined';
-
-    if (hasAllyDiscards) {
-      const discardRec = this.getFlag('deadlands-classic', 'allyDiscards');
-      this.allies.shuffle = !!discardRec.shuffle; // guarantee a boolean value
-      this.allies.prune(discardRec.discards);
-    }
-
-    /* Remove from the decks live cards, cards that combatants are holding. This 
-       process also add the cards we pruned above to the decks' discard piles */
-    this.#reconcileDeck(true);
-    this.#reconcileDeck(false);
 
     const hasPreviousTurns =
       typeof this.flags['deadlands-classic'] !== 'undefined' &&
@@ -46,18 +58,6 @@ export class DeadlandsCombat extends Combat {
       this.previousTurns = this.getFlag('deadlands-classic', 'previousTurns');
     } else {
       this.previousTurns = [];
-    }
-
-    /* If the round is already started, this is stored in a flag. */
-    const hasRoundStarted =
-      typeof this.flags['deadlands-classic'] !== 'undefined' &&
-      typeof this.flags['deadlands-classic'].roundStarted !== 'undefined';
-
-    if (hasRoundStarted) {
-      const started = this.getFlag('deadlands-classic', 'roundStarted');
-      this.roundStarted = !!started;
-    } else {
-      this.roundStarted = false;
     }
   }
 
@@ -150,16 +150,25 @@ export class DeadlandsCombat extends Combat {
 
   /* -------------------------------------------- */
 
+  async updateCombatData() {
+    this.turns.forEach((c) => {
+      c.updateInitiative();
+    });
+
+    this.sortCombatants();
+
+    this.storeRoundData();
+  }
+
   /*
    * After all the cards have been drawn, start this round of combat.
    */
   async startRound() {
-    this.turns.sort(DeadlandsCombat.#sortCombatants);
     this.roundStarted = true;
 
-    this.#storeRoundData();
+    this.updateCombatData();
 
-    const updateData = { round: this.round, turn: 1 };
+    const updateData = { round: this.round, turn: 0 };
     const updateOptions = {};
 
     Hooks.callAll('combatRound', this, updateData, updateOptions);
@@ -202,6 +211,8 @@ export class DeadlandsCombat extends Combat {
    * @returns {Promise<Combat>}
    */
   async nextTurn() {
+    // deep clone does not produce a deep clone. Make a new object from the current data
+    // This will not have references to the original arrays in this.combatant.hand
     const priorHand = Hand.fromObject(this.combatant.hand);
 
     const proir = {
@@ -218,7 +229,44 @@ export class DeadlandsCombat extends Combat {
 
     this.combatant.endTurn();
 
-    this.turns.sort(DeadlandsCombat.#sortCombatants);
+    this.sortCombatants();
+
+    this.offerEndTurn = this.combatant.initiative === -1;
+
+    const { round } = this;
+    const turn = this.previousTurns.length;
+
+    // Update the document, passing data through a hook first
+    const updateData = { round, turn: 0 };
+    const updateOptions = {};
+    Hooks.callAll('combatTurn', this, updateData, updateOptions);
+    return this.update(updateData, updateOptions);
+  }
+
+  /**
+   * Advance the combat to the next turn
+   * @returns {Promise<Combat>}
+   */
+  async vamoose(combatant) {
+    // deep clone does not produce a deep clone. Make a new object from the current data
+    // This will not have references to the original arrays in this.combatant.hand
+    const priorHand = Hand.fromObject(combatant.hand);
+
+    const proir = {
+      id: combatant.id,
+      hand: priorHand,
+    };
+
+    this.previousTurns.push(proir);
+    await this.setFlag(
+      'deadlands-classic',
+      'previousTurns',
+      this.previousTurns
+    );
+
+    combatant.endTurn();
+
+    this.sortCombatants();
 
     this.offerEndTurn = this.combatant.initiative === -1;
 
@@ -385,33 +433,28 @@ export class DeadlandsCombat extends Combat {
 
   async #clearRoundData() {
     await this.unsetFlag('deadlands-classic', 'previousTurns');
-    await this.unsetFlag('deadlands-classic', 'axisDiscards');
-    await this.unsetFlag('deadlands-classic', 'allyDiscards');
-    await this.setFlag('deadlands-classic', 'roundStarted', this.roundStarted);
+    await this.unsetFlag('deadlands-classic', 'roundState');
   }
 
   /* -------------------------------------------- */
 
-  async #storeRoundData() {
+  async storeRoundData() {
+    const roundState = {
+      axisShuffle: this.axis.needsShuffled,
+      axisCards: this.axis.cards,
+      axisDiscards: this.axis.discards,
+      allyShuffle: this.allies.needsShuffled,
+      allyCards: this.allies.cards,
+      allyDiscards: this.allies.discards,
+      roundStarted: this.roundStarted,
+    };
+    await this.setFlag('deadlands-classic', 'roundState', roundState);
+
     await this.setFlag(
       'deadlands-classic',
       'previousTurns',
       this.previousTurns
     );
-
-    const axisDiscards = {
-      shuffle: this.axis.needsShuffled,
-      discards: this.axis.discards,
-    };
-    await this.setFlag('deadlands-classic', 'axisDiscards', axisDiscards);
-
-    const allyDiscards = {
-      shuffle: this.allies.needsShuffled,
-      discards: this.allies.discards,
-    };
-    await this.setFlag('deadlands-classic', 'allyDiscards', allyDiscards);
-
-    await this.setFlag('deadlands-classic', 'roundStarted', this.roundStarted);
   }
 
   /* -------------------------------------------- */
@@ -448,7 +491,7 @@ export class DeadlandsCombat extends Combat {
     this.roundStarted = false;
     this.offerEndTurn = false;
 
-    this.#storeRoundData();
+    this.storeRoundData();
 
     this.sortCombatants();
   }

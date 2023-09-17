@@ -23,14 +23,6 @@
         {{/if}}
 
         <div class="encounter-controls flexrow {{#if hasCombat}}combat{{/if}}">
-            {{#if user.isGM}}
-            <a class="combat-button combat-control" aria-label="{{localize 'COMBAT.RollAll'}}" role="button" data-tooltip="COMBAT.RollAll" data-control="rollAll" {{#unless turns}}disabled{{/unless}}>
-                <i class="fas fa-users"></i>
-            </a>
-            <a class="combat-button combat-control" aria-label="{{localize 'COMBAT.RollNPC'}}" role="button" data-tooltip="COMBAT.RollNPC" data-control="rollNPC" {{#unless turns}}disabled{{/unless}}>
-                <i class="fas fa-users-cog"></i>
-            </a>
-            {{/if}}
 
             {{#if combatCount}}
             {{#if combat.round}}
@@ -64,7 +56,12 @@
                 <li class="combatant flexrow {{this.css}}" data-combatant-id="{{this.id}}">
                 <img class="token-image" data-src="{{this.img}}" alt="{{this.name}}"/>
                 <div class="token-name flexcol">
-                    <h4>{{this.name}}</h4>
+                    {{#if this.isHostile}}
+                        <h4 class="hostile">{{this.name}}</h4>
+                    {{else}}
+                        <h4>{{this.name}}</h4>
+                    {{/if}}
+
                     <div class="combatant-controls flexrow">
                         {{#if ../user.isGM}}
                         <a class="combatant-control {{#if this.hidden}}active{{/if}}" aria-label="{{localize 'COMBAT.ToggleVis'}}" role="button" data-tooltip="COMBAT.ToggleVis" data-control="toggleHidden">
@@ -79,36 +76,68 @@
                             <i class="fa-solid fa-bullseye-arrow"></i>
                         </a>
                         {{/if}}
+
+                        {{#unless this.roundStarted}}
+                            {{#if ../user.isGM}}
+                                {{#if this.isHostile}}
+                                <a class="combatant-control" aria-label="{{localize 'COMBAT.MakeFriend'}}" role="button" data-tooltip="COMBAT.MakeFriend" data-control="toggleHostility"><i class="fas fa-square-check"></i></a>
+                                {{else}}
+                                <a class="combatant-control" aria-label="{{localize 'COMBAT.MakeEnemy'}}" role="button" data-tooltip="COMBAT.MakeEnemy" data-control="toggleHostility"><i class="fas fa-square-xmark"></i></a>
+                                {{/if}}
+                            {{/if}}
+                        {{/unless}}
+
                         <div class="token-effects">
                             {{#each this.effects}}
                             <img class="token-effect" src="{{this}}"/>
                             {{/each}}
                         </div>
 
-                        {{#if this.hasRedJoker}}
-                        <a class="combatant-control" aria-label="{{localize 'COMBAT.ToggleJoker'}}" role="button" data-tooltip="COMBAT.ToggleJoker" data-control="toggleHidden">
-                            </i><img src="system/deadlands-classic/icons/svg/card-joker.svg" data-tooltip="toggle use joker" />
-                        </a>
-                        {{/if}}
-
-
-                        {{#if this.canSleeve}}
-                            <a class="combatant-control {{#if this.defeated}}active{{/if}}" aria-label="{{localize 'COMBAT.Sleeve'}}" role="button" data-tooltip="COMBAT.Sleeve" data-control="toggleDefeated">
-                                <i class="fas fa-hand-holding"></i>
+                        {{#if this.hasBlackJoker}}
+                            {{#if ../user.isGM}}
+                            <a class="combatant-control active" aria-label="{{localize 'COMBAT.ToggleJoker'}}" role="button" data-tooltip="COMBAT.ToggleJoker" data-control="toggleBlackJoker">
+                                <i class="fas fa-poo"></i>
                             </a>
-                        {{else if this.hasSleeved}}
-                        <a class="combatant-control {{#if this.usingSleeved}}active{{/if}}" aria-label="{{localize 'COMBAT.ToggleSleeved'}}" role="button" data-tooltip="COMBAT.ToggleSleeved" data-control="toggleDefeated">
-                            <i class="fas fa-hand-holding-heart"></i>
-                        </a>
+                            {{else}}
+                            <i class="fas fa-poo"></i>
+                            {{/if}}
                         {{/if}}
 
-                        {{#if this.hasNormal}}
-                        <a class="combatant-control" aria-label="{{localize 'COMBAT.Vamoose'}}" role="button" data-tooltip="COMBAT.Vamoose" data-control="toggleDefeated">
-                            <i class="fas fa-person-running"></i>
-                        </a>
+                        {{#if this.showControl}}
+
+                            {{#if this.hasRedJoker}}
+                            <a class="combatant-control" aria-label="{{localize 'COMBAT.ToggleJoker'}}" role="button" data-tooltip="COMBAT.ToggleJoker" data-control="toggleRedJoker">
+                                <img src="../icons/svg/card-joker.svg" data-tooltip="toggle use joker" />
+                            </a>
+                            {{/if}}
+
+                            {{#if this.canSleeve}}
+                                <a class="combatant-control {{#if this.canSleeve}}active{{/if}}" aria-label="{{localize 'COMBAT.Sleeve'}}" role="button" data-tooltip="COMBAT.Sleeve" data-control="sleeveHighest">
+                                    <i class="fas fa-hand-holding"></i>
+                                </a>
+                            {{else if this.hasSleeved}}
+
+                                {{#if this.usingSleeved}}
+                                    <a class="combatant-control active" aria-label="{{localize 'COMBAT.ToggleSleeved'}}" role="button" data-tooltip="COMBAT.ToggleSleeved" data-control="toggleSleeved">
+                                        <i class="fas fa-thumbs-down"></i>
+                                    </a>
+                                {{else}}
+                                    <a class="combatant-control active" aria-label="{{localize 'COMBAT.ToggleSleeved'}}" role="button" data-tooltip="COMBAT.ToggleSleeved" data-control="toggleSleeved">
+                                        <i class="fas fa-hand-holding-heart"></i>
+                                    </a>
+                                {{/if}}
+
+                            {{/if}}
+
+                            {{#if this.hasNormal}}
+                            <a class="combatant-control active" aria-label="{{localize 'COMBAT.Vamoose'}}" role="button" data-tooltip="COMBAT.Vamoose" data-control="vamoose">
+                                <i class="fas fa-person-running"></i>
+                            </a>
+                            {{/if}}
                         {{/if}}
 
                     </div>
+
                 </div>
 
                 {{#if this.hasResource}}
@@ -117,20 +146,38 @@
                 </div>
                 {{/if}}
 
-                <div class="token-initiative">
-                    {{#if this.roundStarted}}
-                        {{#each this.cardObjects as | card |}}
-                            {{#if @first}}<a class="combatant-control roll" role="button""><img src="{{card.icon}}" data-tooltip="{{card.name}}" /></a>{{/if}}
-                        {{/each}}
-                    {{else if this.owner}}
-                    <a class="combatant-control roll" aria-label="{{localize 'COMBAT.InitiativeRoll'}}" role="button" data-tooltip="COMBAT.InitiativeRoll" data-control="drawCard"></a>
-                    {{/if}}
+                    <div class="token-initiative">
+
+                        {{#if this.roundStarted}}
+
+                            {{#if this.isFriend}}
+
+                                {{#if this.isUsingJoker}}
+                                    <a class="combatant-control" role="button""><i class="fas fa-dragon"></i></a>
+                                {{else if this.isOverridden}}
+                                    <a class="combatant-control" role="button""><i class="fas fa-hand-holding-heart"></i></a>
+                                {{else}}
+                                    {{#each this.cardObjects as | card |}}
+                                        {{#if @first}}<a class="combatant-control" role="button""><img src="{{card.icon}}" data-tooltip="{{card.name}}" /></a>{{/if}}
+                                    {{/each}}
+                                {{/if}}
+
+                            {{/if}}
+
+                        {{else}}
+                            {{#if this.owner}}
+                            <a class="combatant-control roll" aria-label="{{localize 'COMBAT.InitiativeRoll'}}" role="button" data-tooltip="COMBAT.InitiativeRoll" data-control="drawCard"></a>
+                            {{/if}}
+                        {{/if}}
+                    </div>
+
                 </div>
+
                 </li>
             </div>
             
-            <div class="card-flexrow">
-                {{#if this.roundStarted}}
+            {{#if this.isFriend}}
+                <div class="card-flexrow">
                     {{#with this as | combatant | }}
                         {{#each combatant.cardObjects as | card |}}
                             <li class="combatant-cards" data-combatant-id="{{combatant.id}}">
@@ -138,10 +185,20 @@
                             </li>
                         {{/each}}
                     {{/with}}
-                {{else}}
-                <a class="combatant-cards" role="button"  data-control=""><i class="fas fa-yin-yang"></i></a>
+                </div>
+
+                {{#if this.showDiscards}}
+                <div class="card-flexrow">
+                    {{#with this as | combatant | }}
+                        {{#each combatant.discardObjects as | card |}}
+                            <li class="combatant-cards" data-combatant-id="{{combatant.id}}">
+                                <div><img src="{{card.icon}}"  data-tooltip="{{card.name}}" /></div>
+                            </li>
+                        {{/each}}
+                    {{/with}}
+                </div>
                 {{/if}}
-            </div>
+            {{/if}}
         {{/each}}
     </ol>
 
@@ -149,24 +206,28 @@
     {{#if hasCombat}}
         {{#if user.isGM}}
             {{#if round}}
-                {{#if offerEndTurn}}
-                <a class="combat-control center" aria-label="{{localize 'COMBAT.EndRound'}}" role="button"  data-control="nextRound">{{localize 'COMBAT.EndRound'}}</a>
-                {{else if roundStarted}}
+                {{#if hasPreviousTurns}}
                 <a class="combat-control" aria-label="{{localize 'COMBAT.TurnPrev'}}" role="button" data-tooltip="COMBAT.TurnPrev" data-control="previousTurn"><i class="fas fa-arrow-left"></i></a>
-                <a class="combat-control center" aria-label="{{localize 'COMBAT.End'}}" role="button" data-control="endCombat">{{localize 'COMBAT.End'}}</a>
-                <a class="combat-control" aria-label="{{localize 'COMBAT.TurnNext'}}" role="button" data-tooltip="COMBAT.TurnNext" data-control="nextTurn"><i class="fas fa-arrow-right"></i></a>
-                <a class="combat-control" aria-label="{{localize 'COMBAT.RoundNext'}}" role="button" data-tooltip="COMBAT.RoundNext" data-control="nextRound"><i class="fas fa-step-forward"></i></a>
+                {{/if}}
+
+                {{#if offerEndTurn}}
+                    <a class="combat-control center" aria-label="{{localize 'COMBAT.EndRound'}}" role="button"  data-control="nextRound">{{localize 'COMBAT.EndRound'}}</a>
+                    {{#if isOverridden}}
+                        <a class="combat-control" aria-label="{{localize 'COMBAT.RoundNext'}}" role="button" data-tooltip="COMBAT.RoundNext" data-control="nextRound"><i class="fas fa-step-forward"></i></a>
+                    {{/if}}
+                {{else if roundStarted}}
+                    <a class="combat-control center" aria-label="{{localize 'COMBAT.End'}}" role="button" data-control="endCombat">{{localize 'COMBAT.End'}}</a>
+                    <a class="combat-control" aria-label="{{localize 'COMBAT.TurnNext'}}" role="button" data-tooltip="COMBAT.TurnNext" data-control="nextTurn"><i class="fas fa-arrow-right"></i></a>
+                    <a class="combat-control" aria-label="{{localize 'COMBAT.RoundNext'}}" role="button" data-tooltip="COMBAT.RoundNext" data-control="nextRound"><i class="fas fa-step-forward"></i></a>
                 {{else}}
-                <a class="combat-control" aria-label="{{localize 'COMBAT.End'}}" role="button" data-control="endCombat">{{localize 'COMBAT.End'}}</a>
-                <a class="combat-control" aria-label="{{localize 'COMBAT.BeginRound'}}" role="button"  data-control="startRound">{{localize 'COMBAT.BeginRound'}}</a>
+                    <a class="combat-control" aria-label="{{localize 'COMBAT.End'}}" role="button" data-control="endCombat">{{localize 'COMBAT.End'}}</a>
+                    <a class="combat-control" aria-label="{{localize 'COMBAT.BeginRound'}}" role="button"  data-control="startRound">{{localize 'COMBAT.BeginRound'}}</a>
                 {{/if}}
             {{else}}
             <a class="combat-control center" aria-label="{{localize 'COMBAT.Begin'}}" role="button"  data-control="startCombat">{{localize 'COMBAT.Begin'}}</a>
             {{/if}}
         {{else if control}}
-        <a class="combat-control" aria-label="{{localize 'COMBAT.TurnPrev'}}" role="button"  data-tooltip="COMBAT.TurnPrev" data-control="previousTurn"><i class="fas fa-arrow-left"></i></a>
         <a class="combat-control center" aria-label="{{localize 'COMBAT.TurnEnd'}}" role="button"  data-control="nextTurn">{{localize 'COMBAT.TurnEnd'}}</a>
-        <a class="combat-control" aria-label="{{localize 'COMBAT.TurnNext'}}" role="button"  data-tooltip="COMBAT.TurnNext" data-control="nextTurn"><i class="fas fa-arrow-right"></i></a>
         {{/if}}
     {{/if}}
     </nav>

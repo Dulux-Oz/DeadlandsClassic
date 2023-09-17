@@ -30,9 +30,12 @@ export class DeadlandsCombatTracker extends CombatTracker {
           ? !!this.viewed.offerEndTurn
           : false;
 
+      const { hasPreviousTurns } = this.viewed;
+
       context = foundry.utils.mergeObject(context, {
-        roundStarted,
+        hasPreviousTurns,
         offerEndTurn,
+        roundStarted,
       });
     }
 
@@ -45,6 +48,13 @@ export class DeadlandsCombatTracker extends CombatTracker {
       element.cards = combatant.cards; // array of integers
       element.cardObjects = combatant.cardObjects; // array of card objects
 
+      // It's our turn, we are not using an override, we have normal card and no sleeved card.
+      element.canSleeve =
+        index === 0 &&
+        !combatant.isOverridden &&
+        !combatant.hasSleeved &&
+        !!combatant.hasNormal;
+
       element.discards = combatant.discards; // array of integers
       element.discardObjects = combatant.discardObjects; // array of card objects
 
@@ -53,14 +63,19 @@ export class DeadlandsCombatTracker extends CombatTracker {
       element.hasRedJoker = !!combatant.hasRedJoker;
       element.hasSleeved = !!combatant.hasSleeved;
 
-      // It's our turn, we are not using an override, we have normal card and no sleeved card.
-      element.canSleeve =
-        index === 0 &&
-        combatant.initiative <= 51 &&
-        !combatant.hasSleeved &&
-        !!combatant.hasNormal;
+      element.isHostile = !!combatant.isHostile;
+      element.isOverridden = !!combatant.isOverridden;
+      element.isUsingJoker = !!combatant.isUsingJoker;
 
       element.usingSleeved = combatant.usingSleeved;
+
+      element.isFriend = !combatant.isHostile || game.user.isGM;
+
+      element.showControl =
+        (combatant?.players?.includes(game.user) || game.user.isGM) &&
+        this.viewed.roundStarted;
+
+      element.showDiscards = !this.viewed.roundStarted;
 
       // It's always the first entry that's active in deadlands classic
       element.active = index === 0;
@@ -72,6 +87,41 @@ export class DeadlandsCombatTracker extends CombatTracker {
   }
 
   /* -------------------------------------------- */
+
+  /* -------------------------------------------- */
+
+  /**
+   * Handle click events on Combat control buttons
+   * @private
+   * @param {Event} event   The originating mousedown event
+   */
+  // eslint-disable-next-line no-underscore-dangle
+  async _onCombatControl(event) {
+    event.preventDefault();
+    const combat = this.viewed;
+
+    const ctrl = event.currentTarget;
+    if (ctrl.getAttribute('disabled')) {
+      return;
+    }
+    ctrl.setAttribute('disabled', true);
+
+    if (ctrl.dataset.control === 'nextTurn') {
+      await game['deadlands-classic'].socket.executeAsGM(
+        'socketNextTurn',
+        combat.id
+      );
+    } else {
+      // 'startCombat' 'startRound' 'nextRound' 'endCombat'
+
+      const fn = combat[ctrl.dataset.control];
+      if (fn) {
+        await fn.bind(combat)();
+      }
+    }
+
+    ctrl.removeAttribute('disabled');
+  }
 
   /**
    * Handle a Combatant control toggle
@@ -104,14 +154,67 @@ export class DeadlandsCombatTracker extends CombatTracker {
         // eslint-disable-next-line no-underscore-dangle
         return this._onPingCombatant(c);
 
+      /*
+       * These all need GM permissions to modify the combat */
+
       // Draw a card
       case 'drawCard':
-        // eslint-disable-next-line no-underscore-dangle
-        return c.draw(1);
+        await game['deadlands-classic'].socket.executeAsGM(
+          'socketDrawCard',
+          combat.id,
+          c.id
+        );
+        break;
 
-      // Roll combatant initiative
-      // case 'rollInitiative':
-      // return combat.rollInitiative([c.id]);
+      // Sleeve the highest card
+      case 'sleeveHighest':
+        await game['deadlands-classic'].socket.executeAsGM(
+          'socketSleeveHighest',
+          combat.id,
+          c.id
+        );
+        break;
+
+      // Toggle the use joker
+      case 'toggleBlackJoker':
+        await game['deadlands-classic'].socket.executeAsGM(
+          'socketToggleBlackJoker',
+          combat.id,
+          c.id
+        );
+        break;
+
+      case 'toggleHostility':
+        await game['deadlands-classic'].socket.executeAsGM(
+          'socketToggleHostility',
+          combat.id,
+          c.id
+        );
+        break;
+
+      // Toggle the use joker
+      case 'toggleRedJoker':
+        await game['deadlands-classic'].socket.executeAsGM(
+          'socketToggleRedJoker',
+          combat.id,
+          c.id
+        );
+        break;
+
+      case 'toggleSleeved':
+        await game['deadlands-classic'].socket.executeAsGM(
+          'socketToggleSleeved',
+          combat.id,
+          c.id
+        );
+        break;
+
+      case 'vamoose':
+        await game['deadlands-classic'].socket.executeAsGM(
+          'socketVamoose',
+          combat.id,
+          c.id
+        );
     }
   }
 }

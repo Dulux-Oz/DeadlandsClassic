@@ -2,8 +2,16 @@ import { aCards } from '../helpers/cards.mjs';
 import { Hand } from '../helpers/hand.mjs';
 
 export class DeadlandsCombatant extends Combatant {
+  // eslint-disable-next-line no-useless-constructor
   constructor(data, context) {
     super(data, context);
+  }
+
+  /*
+   * Handle all the database jiggery pokery that keeps the various clients in synch.
+   */
+  prepareDerivedData() {
+    super.prepareDerivedData();
 
     const hasHand =
       typeof this.flags['deadlands-classic'] !== 'undefined' &&
@@ -19,6 +27,30 @@ export class DeadlandsCombatant extends Combatant {
 
   async setHand(newHand) {
     this.hand = Hand.fromObject(newHand);
+    await this.setFlag('deadlands-classic', 'hand', this.hand);
+  }
+
+  async sleeveHighest() {
+    this.hand.sleeve();
+    this.parent.updateCombatData();
+    await this.setFlag('deadlands-classic', 'hand', this.hand);
+  }
+
+  async toggleSleeved() {
+    this.hand.toggleSleeved();
+    this.parent.updateCombatData();
+    await this.setFlag('deadlands-classic', 'hand', this.hand);
+  }
+
+  async toggleRedJoker() {
+    this.hand.toggleRedJoker();
+    this.parent.updateCombatData();
+    await this.setFlag('deadlands-classic', 'hand', this.hand);
+  }
+
+  async toggleBlackJoker() {
+    this.hand.toggleBlackJoker();
+    this.parent.updateCombatData();
     await this.setFlag('deadlands-classic', 'hand', this.hand);
   }
 
@@ -75,6 +107,14 @@ export class DeadlandsCombatant extends Combatant {
     return this.hand.isHostile;
   }
 
+  get isOverridden() {
+    return this.hand.usingJoker || this.hand.usingSleeved;
+  }
+
+  get isUsingJoker() {
+    return this.hand.usingJoker;
+  }
+
   get roundStarted() {
     return this.parent.roundStarted;
   }
@@ -83,16 +123,8 @@ export class DeadlandsCombatant extends Combatant {
     return this.hand.usingSleeved;
   }
 
-  toggleSleeved() {
-    this.hand.toggleSleeved();
-  }
-
-  toggleRedJoker() {
-    this.hand.toggleRedJoker();
-  }
-
-  toggleBlackJoker() {
-    this.hand.toggleBlackJoker();
+  updateInitiative() {
+    this.hand.updateInitiative();
   }
 
   async endTurn() {
@@ -100,10 +132,16 @@ export class DeadlandsCombatant extends Combatant {
     await this.setFlag('deadlands-classic', 'hand', this.hand);
   }
 
+  // The combat calls endTurn for us
+  async vamoose() {
+    this.parent.vamoose(this);
+  }
+
   async toggleHostility() {
     const deck = this.isHostile ? this.parent.axis : this.parent.allies;
     const cards = this.hand.collectAll();
     deck.discard(cards);
+    this.parent.storeRoundData();
 
     this.hand.isHostile = !this.hand.isHostile;
     await this.setFlag('deadlands-classic', 'hand', this.hand);
@@ -152,12 +190,16 @@ export class DeadlandsCombatant extends Combatant {
   async cleanUpRound() {
     const deck = this.isHostile ? this.parent.axis : this.parent.allies;
     deck.discard(...this.hand.collectForRoundEnd());
+    this.parent.storeRoundData();
+
     await this.setFlag('deadlands-classic', 'hand', this.hand);
   }
 
   async cleanUpAll() {
     const deck = this.isHostile ? this.parent.axis : this.parent.allies;
     deck.discard(this.hand.collectAll());
+    this.parent.storeRoundData();
+
     await this.setFlag('deadlands-classic', 'hand', this.hand);
   }
 }

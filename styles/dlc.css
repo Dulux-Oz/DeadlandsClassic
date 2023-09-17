@@ -1,6 +1,9 @@
 /* @haxxx: apparently its best practice to use class, etc, definitions with a prefix so as to avoid name-space issues. I suggest "dlc".  -MJB - 20230702 */
 
 :root {
+  --color-shadow-dark: #000;
+  --color-shadow-highlight: #ff6400;
+  --color-shadow-primary: #fe6a6a;
   --combat-card-height: 36px;
   --sidebar-item-height: 48px;
 }
@@ -44,6 +47,12 @@
   flex: 0 0 24px;
   line-height: 28px;
   margin: 0 0 2px;
+}
+.directory li.combatant .token-name .hostile {
+  flex: 0 0 24px;
+  line-height: 28px;
+  margin: 0 0 2px;
+  color: crimson;
 }
 .card-flexrow {
   display: flex;

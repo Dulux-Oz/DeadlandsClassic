@@ -1,11 +1,11 @@
 {
   "COMBAT.BeginRound": "Begin Round",
   "COMBAT.EndRound": "End Combat Round",
-  "COMBAT.DrawCards": "Draw Cards",
-  "COMBAT.PlayCards": "Play Cards",
+  "COMBAT.MakeEnemy": "Make hostile",
+  "COMBAT.MakeFriend": "Make friendly",
+  "COMBAT.Sleeve": "Sleeve highest card",
   "COMBAT.ToggleJoker": "Toggle use joker",
   "COMBAT.ToggleSleeved": "Toggle use sleeved card",
-  "COMBAT.Sleeve": "Sleeve highest card",
   "COMBAT.Vamoose": "Vamoose!!",
 
   "deadlands-classic": {

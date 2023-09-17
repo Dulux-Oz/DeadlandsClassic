@@ -69,19 +69,21 @@ export class DeadlandsCombat extends Combat {
     const adversary = typeof isHostile === 'boolean' && isHostile;
     const deck = adversary ? this.axis : this.allies;
 
-    this.turns.array.forEach((c) => {
+    this.turns.forEach((c) => {
       const { hand } = c;
       if (hand.isHostile === adversary) {
         const cards = hand.collectDiscards();
         deck.discard(cards);
       }
     });
+
+    deck.recycle();
   }
 
   /*
    * Collect every card from all combatants */
   reapAll() {
-    this.turns.array.forEach((c) => {
+    this.turns.forEach((c) => {
       c.cleanUpAll();
     });
   }
@@ -103,6 +105,10 @@ export class DeadlandsCombat extends Combat {
     return this.combatants.find((c) => c.id === id);
   }
 
+  get hasPreviousTurns() {
+    return this.previousTurns.length > 0;
+  }
+
   /**
    * Get the Combatant who has the next turn.
    * @type {Combatant}
@@ -113,6 +119,14 @@ export class DeadlandsCombat extends Combat {
 
   set initiative(foo) {
     this.initiative = foo;
+  }
+
+  sortCombatants() {
+    this.turns.sort(DeadlandsCombat.#sortCombatants);
+  }
+
+  async sendUpdate() {
+    await this.setFlag('deadlands-classic', 'nonsense', false);
   }
 
   /* -------------------------------------------- */
@@ -242,10 +256,11 @@ export class DeadlandsCombat extends Combat {
         combatant.setHand(previousCombatant.hand);
       }
 
-      this.turns.sort((a, b) => a.initiative - b.initiative);
+      this.sortCombatants();
     }
 
-    const turn = 0;
+    this.offerEndTurn = this.combatant.initiative === -1;
+    const turn = this.previousTurns.length;
 
     // Update the document, passing data through a hook first
     const updateData = { round: this.round, turn };
@@ -279,9 +294,6 @@ export class DeadlandsCombat extends Combat {
    * @returns {Combatant[]}
    */
   async setupTurns() {
-    // Determine the turn order and the current turn
-    this.turns = this.combatants.contents.sort(DeadlandsCombat.#sortCombatants);
-
     const hasPreviousTurns =
       typeof this.flags['deadlands-classic'] !== 'undefined' &&
       typeof this.flags['deadlands-classic'].previousTurns !== 'undefined';
@@ -290,6 +302,13 @@ export class DeadlandsCombat extends Combat {
     this.previousTurns = hasPreviousTurns
       ? await this.getFlag('deadlands-classic', 'previousTurns')
       : [];
+
+    // Determine the turn order and the current turn
+    this.turns = [...this.combatants];
+
+    if (this.roundStarted) {
+      this.sortCombatants();
+    }
 
     // Rebuild the canonical decks. Remove any card that is held elsewhere
     this.turns.forEach((c) => {
@@ -402,12 +421,14 @@ export class DeadlandsCombat extends Combat {
    * @returns {Promise<Combat>}
    */
   async #resetRoundData() {
+    await this.unsetFlag('deadlands-classic', 'previousTurns');
     // No previous turns
     this.previousTurns = [];
 
     // Collect all the cards that are discarded at turn end
     this.turns.forEach((e) => {
       e.cleanUpRound();
+      e.updateInitiative();
     });
 
     // Make sure each deck has exactly 54 cards. following this, All the cards
@@ -429,7 +450,7 @@ export class DeadlandsCombat extends Combat {
 
     this.#storeRoundData();
 
-    this.turns.sort(DeadlandsCombat.#sortCombatants);
+    this.sortCombatants();
   }
 
   /* -------------------------------------------- */
@@ -461,8 +482,8 @@ export class DeadlandsCombat extends Combat {
    * @param {Combatant} b     Some other combatant
    */
   static #sortCombatants(a, b) {
-    const ia = Deck.isCard(a.initiative) ? Math.floor(a.initiative) : -1;
-    const ib = Deck.isCard(b.initiative) ? Math.floor(b.initiative) : -1;
+    const ia = a.initiative;
+    const ib = b.initiative;
 
     if (ib - ia === 0) {
       if (ia !== -1) {

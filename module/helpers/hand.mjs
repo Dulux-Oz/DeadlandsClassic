@@ -104,7 +104,11 @@ export class Hand {
    * Whether we are using the sleeved card to set initiative
    */
   get usingSleeved() {
-    return this.override === this.held;
+    return this.override !== -1 && this.override === this.held;
+  }
+
+  get usingJoker() {
+    return this.override > 51;
   }
 
   purge(card) {

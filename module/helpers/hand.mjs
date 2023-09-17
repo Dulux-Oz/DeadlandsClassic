@@ -153,7 +153,7 @@ export class Hand {
    */
   toggleSleeved() {
     if (this.held > -1) {
-      this.override = this.usingSleeved ? -1 : this.held;
+      this.override = this.override === this.held ? -1 : this.held;
     }
     this.updateInitiative();
   }
@@ -215,7 +215,6 @@ export class Hand {
     } else {
       this.live.push(intCard);
       this.live.sort((a, b) => b - a);
-      this.updateInitiative();
     }
 
     return true;

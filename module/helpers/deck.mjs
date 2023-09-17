@@ -57,9 +57,7 @@ export class Deck {
     const takingLast = this.cards.length <= 0;
     const cardIsBlackJoker = card === 52;
 
-    if (takingLast || cardIsBlackJoker) {
-      this.shuffle = true;
-    }
+    this.shuffle = takingLast || cardIsBlackJoker;
 
     return card;
   }
@@ -80,53 +78,6 @@ export class Deck {
     this.discards = Array.from(new Set([...this.discards, ...cards]));
 
     return cards.length > 0;
-  }
-
-  /**
-   * Hand is an array of cards that are currently in other places.
-   * Make sure that they do not appear in either the cards or discards
-   * of this deck.
-   * @param {*} hand
-   */
-  prune(hand) {
-    const handSet = new Set(Deck.makeCardArray(hand));
-
-    // Remove anything from cards or discards that is in hand
-    this.cards = this.cards.filter((e) => !handSet.has(e));
-    this.discards = this.discards.filter((e) => !handSet.has(e));
-  }
-
-  /**
-   * Hand is an array of cards that are currently in other places.
-   * Make sure that they do not appear in either the cards or discards
-   * of this deck.
-   *
-   * Add any cards that are not in this.cards, this.discards or hand
-   * to this.discards
-   * @param {*} hand
-   */
-  reconcile(hand) {
-    // remove any duplicates in cards or discards
-    this.cards = Array.from(new Set([...this.cards]));
-    this.discards = Array.from(new Set([...this.discards]));
-
-    // Remove any cards from cards and discards that are in the hand
-    this.prune(hand);
-
-    const deckSet = new Set([
-      ...this.cards,
-      ...this.discards,
-      ...Deck.makeCardArray(hand),
-    ]);
-
-    // Add anything missing to this.discards
-    if (deckSet.size !== 54) {
-      this.discards.push(
-        ...Array.from({ length: 54 }, (_, i) => i).filter(
-          (e) => !deckSet.has(e)
-        )
-      );
-    }
   }
 
   /**
@@ -171,42 +122,61 @@ export class Deck {
     return this.cards.length > 0;
   }
 
-  // Turn an array of card integers into a string of comma separated card symbols
-  // e.g. [0, 3, 51] -> '2\u2663,2\u2660,A\u2660'
-  // 2 of clubs; 2 of spades, ace of spades
-  static #makeFieldString(arr) {
-    const symbols = arr.map((x) => (x >= 0 && x <= 53 ? aCards[x].symbol : ''));
-    return symbols.join(',');
-  }
+  /* --------------------------------------------------------------- */
 
   /**
-   * @returns A string representing this deck of cards.
+   * Hand is an array of cards that are currently in other places.
+   * Make sure that they do not appear in either the cards or discards
+   * of this deck.
+   * @param {*} hand
    */
-  toField() {
-    const fields = [Deck.#makeFieldString(this.cards)];
-    fields.push(Deck.#makeFieldString(this.discards));
+  prune(hand) {
+    const handSet = new Set(Deck.makeCardArray(hand));
 
-    return fields.join('|');
+    // Remove anything from cards or discards that is in hand
+    this.cards = this.cards.filter((e) => !handSet.has(e));
+    this.discards = this.discards.filter((e) => !handSet.has(e));
   }
 
+  /* --------------------------------------------------------------- */
+
   /**
-   * @param {*} field
+   * Hand is an array of cards that are currently in other places.
+   * Make sure that they do not appear in either the cards or discards
+   * of this deck.
    *
-   * Turns a string representation back into a deck.
+   * Add any cards that are not in this.cards, this.discards or hand
+   * to this.discards
+   * @param {*} hand
    */
-  fromField(field) {
-    const parts = field.split('|');
+  reconcile(hand) {
+    // remove any duplicates in cards or discards
+    this.cards = this.cards.filter(
+      (item, index) => this.cards.indexOf(item) === index
+    );
 
-    if (typeof parts[0] !== 'undefined' && parts[0] !== '') {
-      this.cards = parts[0].split(',').map((s) => mCardMap.get(s));
+    this.discards = this.discards.filter(
+      (item, index) => this.discards.indexOf(item) === index
+    );
+
+    // Remove any cards from cards and discards that are in the hand
+    this.prune(hand);
+
+    const deckSet = new Set([
+      ...this.cards,
+      ...this.discards,
+      ...Deck.makeCardArray(hand),
+    ]);
+
+    // Add anything missing to this.discards
+    if (deckSet.size !== 54) {
+      this.discards.push(
+        ...Array.from({ length: 54 }, (_, i) => i).filter(
+          (e) => !deckSet.has(e)
+        )
+      );
     }
 
-    if (typeof parts[1] !== 'undefined' && parts[1] !== '') {
-      this.discards = parts[1].split(',').map((s) => mCardMap.get(s));
-    }
-
-    // If the black joker is not available to draw, or there are no cards to
-    // draw, this deck needs shuffled.
-    this.shuffle = this.cards.indexOf(52) === -1 || this.cards.length <= 0;
+    this.shuffle = !this.cards.includes(52);
   }
 }

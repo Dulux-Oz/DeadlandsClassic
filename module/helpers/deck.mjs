@@ -57,8 +57,6 @@ export class Deck {
     const takingLast = this.cards.length <= 0;
     const cardIsBlackJoker = card === 52;
 
-    this.shuffle = takingLast || cardIsBlackJoker;
-
     return card;
   }
 
@@ -72,12 +70,10 @@ export class Deck {
    */
 
   discard(hand) {
-    const cards = Deck.makeCardArray(hand);
+    const arr = Array.from([...this.discards, ...Deck.makeCardArray(hand)]);
 
-    // transition though a set to eliminate dupilcates.
-    this.discards = Array.from(new Set([...this.discards, ...cards]));
-
-    return cards.length > 0;
+    // filter to eliminate dupilcates.
+    this.discards = arr.filter((item, index) => arr.indexOf(item) === index);
   }
 
   /**
@@ -150,6 +146,9 @@ export class Deck {
    * @param {*} hand
    */
   reconcile(hand) {
+    // Remove any cards from cards and discards that are in the hand
+    this.prune(hand);
+
     // remove any duplicates in cards or discards
     this.cards = this.cards.filter(
       (item, index) => this.cards.indexOf(item) === index
@@ -158,9 +157,6 @@ export class Deck {
     this.discards = this.discards.filter(
       (item, index) => this.discards.indexOf(item) === index
     );
-
-    // Remove any cards from cards and discards that are in the hand
-    this.prune(hand);
 
     const deckSet = new Set([
       ...this.cards,
@@ -177,6 +173,7 @@ export class Deck {
       );
     }
 
-    this.shuffle = !this.cards.includes(52);
+    this.shuffle =
+      !this.cards?.includes(52) || this.cards?.includes.length === 0;
   }
 }

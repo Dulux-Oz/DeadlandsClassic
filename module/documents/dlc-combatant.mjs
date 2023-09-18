@@ -188,11 +188,11 @@ export class DeadlandsCombatant extends Combatant {
   }
 
   async cleanUpRound() {
-    const deck = this.isHostile ? this.parent.axis : this.parent.allies;
-    deck.discard(...this.hand.collectForRoundEnd());
-    this.parent.storeRoundData();
+    const cards = this.hand.collectForRoundEnd();
 
     await this.setFlag('deadlands-classic', 'hand', this.hand);
+
+    return cards;
   }
 
   async cleanUpAll() {

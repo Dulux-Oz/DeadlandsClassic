@@ -25,9 +25,6 @@ export class DeadlandsCombat extends Combat {
     if (hasRoundState) {
       const deckRec = this.getFlag('deadlands-classic', 'roundState');
 
-      // guarantee a boolean value
-      this.axis.shuffle = !!deckRec.axisShuffle;
-
       this.axis.cards = deckRec.axisCards.filter(
         (item, index) => deckRec.axisCards.indexOf(item) === index
       );
@@ -35,9 +32,6 @@ export class DeadlandsCombat extends Combat {
       this.axis.discards = deckRec.axisDiscards.filter(
         (item, index) => deckRec.axisDiscards.indexOf(item) === index
       );
-
-      // guarantee a boolean value
-      this.allies.shuffle = !!deckRec.allyShuffle;
 
       this.allies.cards = deckRec.allyCards.filter(
         (item, index) => deckRec.allyCards.indexOf(item) === index
@@ -67,17 +61,21 @@ export class DeadlandsCombat extends Combat {
   reapDiscards(isHostile) {
     // Explicitly non ally, or default to ally
     const adversary = typeof isHostile === 'boolean' && isHostile;
-    const deck = adversary ? this.axis : this.allies;
 
+    const collection = [];
     this.turns.forEach((c) => {
       const { hand } = c;
       if (hand.isHostile === adversary) {
         const cards = hand.collectDiscards();
-        deck.discard(cards);
+        collection.push(...cards);
       }
     });
 
+    const deck = adversary ? this.axis : this.allies;
+    deck.discard(collection);
     deck.recycle();
+
+    this.storeRoundData();
   }
 
   /*
@@ -440,10 +438,8 @@ export class DeadlandsCombat extends Combat {
 
   async storeRoundData() {
     const roundState = {
-      axisShuffle: this.axis.needsShuffled,
       axisCards: this.axis.cards,
       axisDiscards: this.axis.discards,
-      allyShuffle: this.allies.needsShuffled,
       allyCards: this.allies.cards,
       allyDiscards: this.allies.discards,
       roundStarted: this.roundStarted,
@@ -469,17 +465,32 @@ export class DeadlandsCombat extends Combat {
     this.previousTurns = [];
 
     // Collect all the cards that are discarded at turn end
-    this.turns.forEach((e) => {
-      e.cleanUpRound();
-      e.updateInitiative();
+    const allyCards = [];
+    const allyHeld = [];
+
+    const axisCards = [];
+    const axisHeld = [];
+
+    this.turns.forEach((c) => {
+      if (c.isHostile) {
+        axisCards.push(c.cleanUpRound());
+        axisHeld.push(...c.hand.contents);
+      } else {
+        allyCards.push(c.cleanUpRound());
+        allyHeld.push(...c.hand.contents);
+      }
+
+      c.updateInitiative();
     });
 
-    // Make sure each deck has exactly 54 cards. following this, All the cards
-    // not up a combatant's sleeve are in the available or in the discard pile
-    // of the deck itself.
+    this.allies.discard(allyCards);
+    this.axis.discard(axisCards);
 
-    this.#reconcileDeck(true);
-    this.#reconcileDeck(false);
+    // Make the deck consistent with these cards having been drawn
+    // and all other cards either not drawn, or discarded. Deck
+    // should have exactly 54 cards when finished.
+    this.allies.reconcile(allyHeld);
+    this.axis.reconcile(axisHeld);
 
     if (this.axis.needsShuffled) {
       this.axis.recycle();
@@ -494,27 +505,6 @@ export class DeadlandsCombat extends Combat {
     this.storeRoundData();
 
     this.sortCombatants();
-  }
-
-  /* -------------------------------------------- */
-
-  #reconcileDeck(isHostile) {
-    // Explicitly non ally, or default to ally
-    const adversary = typeof isHostile === 'boolean' && isHostile;
-    const deck = adversary ? this.axis : this.allies;
-
-    // Gather up a copy of all the cards that are held by combatants
-    const cards = [];
-    this.turns.forEach((c) => {
-      if (c.hand.isHostile === adversary) {
-        cards.push(...c.hand.contents);
-      }
-    });
-
-    // Make the deck consistent with these cards having been drawn
-    // and all other cards either not drawn, or discarded. Deck
-    // should have exactly 54 cards when finished.
-    deck.reconcile(cards);
   }
 
   /* -------------------------------------------- */

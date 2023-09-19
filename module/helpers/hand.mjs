@@ -5,8 +5,8 @@ export class Hand {
   constructor(isHostile) {
     this.isHostile = !!isHostile;
 
-    this.live = [];
-    this.spent = [];
+    this.cards = [];
+    this.discards = [];
     this.rjoker = false;
     this.bjoker = false;
     this.held = -1;
@@ -24,12 +24,12 @@ export class Hand {
     const hand = new Hand(isHostile);
 
     if (typeof proto !== 'undefined') {
-      if (typeof proto.live === 'object') {
-        hand.live = Array.from(proto.live);
+      if (typeof proto.cards === 'object') {
+        hand.cards = Array.from(proto.cards);
       }
 
-      if (typeof proto.spent === 'object') {
-        hand.spent = Array.from(proto.spent);
+      if (typeof proto.discards === 'object') {
+        hand.discards = Array.from(proto.discards);
       }
 
       if (typeof proto.rjoker === 'boolean') {
@@ -55,7 +55,7 @@ export class Hand {
   }
 
   get contents() {
-    const cards = [...this.live, ...this.spent];
+    const cards = [...this.cards, ...this.discards];
     if (this.rjoker) {
       cards.push(53);
     }
@@ -71,19 +71,19 @@ export class Hand {
     return cards.sort();
   }
 
-  get cards() {
-    return [...this.live];
+  get myCards() {
+    return [...this.cards];
   }
 
-  get discards() {
-    return [...this.spent];
+  get myDiscards() {
+    return [...this.discards];
   }
 
   /**
    * Whether this "hand" has an unused "normal" card available.
    */
   get hasNormal() {
-    return this.live.length > 0;
+    return this.cards.length > 0;
   }
 
   /**
@@ -111,22 +111,6 @@ export class Hand {
     return this.override > 51;
   }
 
-  purge(card) {
-    if (!Deck.isCard(card)) {
-      return false;
-    }
-
-    this.spendAny(card);
-
-    const sInx = this.spent.indexOf(card);
-    const hadDiscard = sInx > -1;
-    if (hadDiscard) {
-      this.spent.splice(sInx, 1);
-    }
-
-    return hadDiscard;
-  }
-
   /**
    * If either joker is active (override value is 52 or 53), initiative is 60.
    * If a sleeved card has been made active (0 <= this.override <= 51), then
@@ -147,7 +131,7 @@ export class Hand {
       this.initiative = 55;
       // if there is a live card,
     } else {
-      this.initiative = this.live.length > 0 ? this.live[0] : -1;
+      this.initiative = this.cards.length > 0 ? this.cards[0] : -1;
     }
   }
 
@@ -210,15 +194,15 @@ export class Hand {
         // For an allied actor, black jokers kill themselves and any sleeved
         // card. Black Jokers do not kill Red jokers.
       } else {
-        this.spent.push(intCard);
+        this.discards.push(intCard);
         if (this.held >= 0) {
-          this.spent.push(this.held);
+          this.discards.push(this.held);
           this.held = -1;
         }
       }
     } else {
-      this.live.push(intCard);
-      this.live.sort((a, b) => b - a);
+      this.cards.push(intCard);
+      this.cards.sort((a, b) => b - a);
     }
 
     return true;
@@ -238,7 +222,7 @@ export class Hand {
     }
 
     // Sleeve the largest active card.
-    this.held = this.live.shift();
+    this.held = this.cards.shift();
 
     this.updateInitiative();
 
@@ -246,19 +230,19 @@ export class Hand {
   }
 
   /**
-   * Move a card from one of the active locations to the used (spent) pile.
+   * Move a card from one of the active locations to the used (discards) pile.
    * This can be used when using a discard to redraw ability, since it
    * doesn't necessarily operate on the highest value card in the quick pile.
-   * Only adds the card to the spent pile if it was in the actor's possesion.
+   * Only adds the card to the discards pile if it was in the actor's possesion.
    */
   spendAny(card) {
     if (this.override === card) {
       this.override = -1;
     }
 
-    const inx = this.live.indexOf(card);
+    const inx = this.cards.indexOf(card);
     if (inx > -1) {
-      this.live.splice(inx, 1);
+      this.cards.splice(inx, 1);
     } else if (this.held === card) {
       this.held = -1;
     } else if (card === 52 && this.bjoker) {
@@ -270,7 +254,7 @@ export class Hand {
       return false;
     }
 
-    this.spent.push(card);
+    this.discards.push(card);
     this.updateInitiative();
     return true;
   }
@@ -279,7 +263,7 @@ export class Hand {
     if (this.override !== -1) {
       this.spendAny(this.override);
     } else if (this.hasNormal) {
-      this.spendAny(this.live[0]);
+      this.spendAny(this.cards[0]);
     }
   }
 
@@ -313,8 +297,8 @@ export class Hand {
   // if the deck needs to be shuffled mid round, only discarded cards should
   // be returned to the deck's discard pile.
   collectDiscards() {
-    const cards = [...this.spent];
-    this.spent = [];
+    const cards = [...this.discards];
+    this.discards = [];
     return cards;
   }
 
@@ -335,7 +319,7 @@ export class Hand {
   collectAll() {
     // Discard all active cards
     while (this.hasNormal) {
-      this.spent.push(this.live.shift());
+      this.discards.push(this.cards.shift());
     }
 
     // get discarded cards and jokers
@@ -343,8 +327,6 @@ export class Hand {
 
     // add in held if it exists
     cards.push(...this.#collectHeld());
-
-    this.override = -1;
 
     return cards;
   }
@@ -359,12 +341,12 @@ export class Hand {
 
   /**
    * This operation creates a string that represents all the cards held.
-   * They are separated into quick, spent and held cards; which are separated by | characters
+   * They are separated into cards, discards and held cards; which are separated by | characters
    */
 
   toField() {
-    const fields = [Hand.#makeFieldString(this.live)];
-    fields.push(Hand.#makeFieldString(this.spent));
+    const fields = [Hand.#makeFieldString(this.cards)];
+    fields.push(Hand.#makeFieldString(this.discards));
 
     const held = [];
 
@@ -393,11 +375,11 @@ export class Hand {
     const parts = field.split('|');
 
     if (parts[0] !== '') {
-      this.live = parts[0].split(',').map((s) => mCardMap.get(s));
+      this.cards = parts[0].split(',').map((s) => mCardMap.get(s));
     }
 
     if (parts[1] !== '') {
-      this.spent = parts[1].split(',').map((s) => mCardMap.get(s));
+      this.discards = parts[1].split(',').map((s) => mCardMap.get(s));
     }
 
     if (parts[2] !== '') {
@@ -411,7 +393,7 @@ export class Hand {
           if (this.isHostile) {
             this.bjoker = true;
           } else {
-            this.spent.push(52);
+            this.discards.push(52);
           }
         } else {
           this.held = mCardMap.get(symbol);

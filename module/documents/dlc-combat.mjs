@@ -6,7 +6,7 @@ export class DeadlandsCombat extends Combat {
     super(data, context);
 
     // Make brand new decks with 54 cards ready to be drawn
-    this.allies = new Deck();
+    this.ally = new Deck();
     this.axis = new Deck();
 
     this.roundStarted = false;
@@ -33,11 +33,11 @@ export class DeadlandsCombat extends Combat {
         (item, index) => deckRec.axisDiscards.indexOf(item) === index
       );
 
-      this.allies.cards = deckRec.allyCards.filter(
+      this.ally.cards = deckRec.allyCards.filter(
         (item, index) => deckRec.allyCards.indexOf(item) === index
       );
 
-      this.allies.discards = deckRec.allyDiscards.filter(
+      this.ally.discards = deckRec.allyDiscards.filter(
         (item, index) => deckRec.allyDiscards.indexOf(item) === index
       );
 
@@ -71,7 +71,7 @@ export class DeadlandsCombat extends Combat {
       }
     });
 
-    const deck = adversary ? this.axis : this.allies;
+    const deck = adversary ? this.axis : this.ally;
     deck.discard(collection);
     deck.recycle();
 
@@ -79,11 +79,25 @@ export class DeadlandsCombat extends Combat {
   }
 
   /*
-   * Collect every card from all combatants */
+   * Collect every card from all combatants
+   */
+
   reapAll() {
+    const allyCards = [];
+    const axisCards = [];
+
     this.turns.forEach((c) => {
-      c.cleanUpAll();
+      if (c.isHostile) {
+        axisCards.push(c.cleanUpAll());
+      } else {
+        allyCards.push(c.cleanUpAll());
+      }
+
+      c.updateInitiative();
     });
+
+    this.ally.discard(allyCards);
+    this.axis.discard(axisCards);
   }
 
   /**
@@ -245,7 +259,10 @@ export class DeadlandsCombat extends Combat {
    * Advance the combat to the next turn
    * @returns {Promise<Combat>}
    */
-  async vamoose(combatant) {
+  async vamoose(combatantId) {
+    const combatant = this.combatants.get(combatantId);
+    if (typeof combatant === 'undefined') return null;
+
     // deep clone does not produce a deep clone. Make a new object from the current data
     // This will not have references to the original arrays in this.combatant.hand
     const priorHand = Hand.fromObject(combatant.hand);
@@ -272,7 +289,7 @@ export class DeadlandsCombat extends Combat {
     const turn = this.previousTurns.length;
 
     // Update the document, passing data through a hook first
-    const updateData = { round, turn: 0 };
+    const updateData = { round, turn };
     const updateOptions = {};
     Hooks.callAll('combatTurn', this, updateData, updateOptions);
     return this.update(updateData, updateOptions);
@@ -358,7 +375,7 @@ export class DeadlandsCombat extends Combat {
 
     // Rebuild the canonical decks. Remove any card that is held elsewhere
     this.turns.forEach((c) => {
-      const deck = c.isHostile ? this.axis : this.allies;
+      const deck = c.isHostile ? this.axis : this.ally;
       deck.prune(c.contents);
     });
 
@@ -440,8 +457,8 @@ export class DeadlandsCombat extends Combat {
     const roundState = {
       axisCards: this.axis.cards,
       axisDiscards: this.axis.discards,
-      allyCards: this.allies.cards,
-      allyDiscards: this.allies.discards,
+      allyCards: this.ally.cards,
+      allyDiscards: this.ally.discards,
       roundStarted: this.roundStarted,
     };
     await this.setFlag('deadlands-classic', 'roundState', roundState);
@@ -483,20 +500,20 @@ export class DeadlandsCombat extends Combat {
       c.updateInitiative();
     });
 
-    this.allies.discard(allyCards);
+    this.ally.discard(allyCards);
     this.axis.discard(axisCards);
 
     // Make the deck consistent with these cards having been drawn
     // and all other cards either not drawn, or discarded. Deck
     // should have exactly 54 cards when finished.
-    this.allies.reconcile(allyHeld);
+    this.ally.reconcile(allyHeld);
     this.axis.reconcile(axisHeld);
 
     if (this.axis.needsShuffled) {
       this.axis.recycle();
     }
-    if (this.allies.needsShuffled) {
-      this.allies.recycle();
+    if (this.ally.needsShuffled) {
+      this.ally.recycle();
     }
 
     this.roundStarted = false;
@@ -505,6 +522,81 @@ export class DeadlandsCombat extends Combat {
     this.storeRoundData();
 
     this.sortCombatants();
+  }
+
+  /*
+   * Look up the combatant and check if there are cards available in its deck.
+   *
+   * If no cards are available, the function collects any discards from
+   * combatants allied to this combatant back to the deck.
+   *
+   * If that doesn't fix the lack of cards, then the function stops
+   * trying to allocate one.
+   */
+
+  async draw(combatantId) {
+    const combatant = this.combatants.get(combatantId);
+    if (typeof combatant === 'undefined') return;
+
+    const deck = combatant.isHostile ? this.axis : this.ally;
+
+    if (!deck.canDraw) {
+      this.reapDiscards(this.isHostile);
+    }
+
+    if (deck.canDraw) {
+      const card = deck.draw();
+      combatant.addCard(card);
+    }
+
+    this.updateCombatData();
+  }
+
+  async sleeveHighest(combatantId) {
+    const combatant = this.combatants.get(combatantId);
+    if (typeof combatant === 'undefined') return;
+
+    combatant.sleeveHighest();
+    this.updateCombatData();
+  }
+
+  async toggleHostility(combatantId) {
+    const combatant = this.combatants.get(combatantId);
+    if (typeof combatant === 'undefined') return;
+
+    // Back to the original deck
+    const deck = combatant.isHostile ? this.axis : this.ally;
+    deck.discard(combatant.contents);
+
+    // change to the other deck
+    combatant.hand.isHostile = !combatant.hand.isHostile;
+    combatant.cleanUpAll();
+
+    this.storeRoundData();
+  }
+
+  async toggleSleeved(combatantId) {
+    const combatant = this.combatants.get(combatantId);
+    if (typeof combatant === 'undefined') return;
+
+    combatant.toggleSleeved();
+    this.updateCombatData();
+  }
+
+  async toggleRedJoker(combatantId) {
+    const combatant = this.combatants.get(combatantId);
+    if (typeof combatant === 'undefined') return;
+
+    combatant.toggleRedJoker();
+    this.updateCombatData();
+  }
+
+  async toggleBlackJoker(combatantId) {
+    const combatant = this.combatants.get(combatantId);
+    if (typeof combatant === 'undefined') return;
+
+    combatant.toggleBlackJoker();
+    this.updateCombatData();
   }
 
   /* -------------------------------------------- */

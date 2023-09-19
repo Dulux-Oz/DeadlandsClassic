@@ -8,55 +8,40 @@ export function logCombatant(combatId, combatantId) {
 // Draw a card
 export function socketDrawCard(combatId, combatantId) {
   const combat = game.combats.get(combatId);
-  const combatant = combat.combatants.get(combatantId);
-
-  return combatant.draw(1);
+  return combat.draw(combatantId);
 }
 
-// End combatant's turn
 export function socketNextTurn(combatId) {
   const combat = game.combats.get(combatId);
-
   return combat.nextTurn();
 }
 
-// Sleeve the highest card
 export function socketSleeveHighest(combatId, combatantId) {
   const combat = game.combats.get(combatId);
-  const combatant = combat.combatants.get(combatantId);
-  return combatant.sleeveHighest();
+  return combat.sleeveHighest(combatantId);
 }
 
-// Toggle the use joker
 export function socketToggleRedJoker(combatId, combatantId) {
   const combat = game.combats.get(combatId);
-  const combatant = combat.combatants.get(combatantId);
-  return combatant.toggleRedJoker();
+  return combat.toggleRedJoker(combatantId);
 }
 
-// Toggle the use joker
 export function socketToggleBlackJoker(combatId, combatantId) {
   const combat = game.combats.get(combatId);
-  const combatant = combat.combatants.get(combatantId);
-  return combatant.toggleBlackJoker();
+  return combat.toggleBlackJoker(combatantId);
 }
 
 export function socketToggleSleeved(combatId, combatantId) {
   const combat = game.combats.get(combatId);
-  const combatant = combat.combatants.get(combatantId);
-  return combatant.toggleSleeved();
+  return combat.toggleSleeved(combatantId);
 }
 
 export function socketToggleHostility(combatId, combatantId) {
   const combat = game.combats.get(combatId);
-  const combatant = combat.combatants.get(combatantId);
-
-  return combatant.toggleHostility();
+  return combat.toggleHostility(combatantId);
 }
 
 export function socketVamoose(combatId, combatantId) {
   const combat = game.combats.get(combatId);
-  const combatant = combat.combatants.get(combatantId);
-
-  return combatant.vamoose();
+  return combat.vamoose(combatantId);
 }

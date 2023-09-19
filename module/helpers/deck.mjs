@@ -54,9 +54,6 @@ export class Deck {
   draw() {
     const card = this.cards.shift();
 
-    const takingLast = this.cards.length <= 0;
-    const cardIsBlackJoker = card === 52;
-
     return card;
   }
 

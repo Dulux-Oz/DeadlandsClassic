@@ -47,6 +47,17 @@ export class DeadlandsCombatant extends Combatant {
     return cards;
   }
 
+  async discardCard(index) {
+    console.log('Reached the combatant');
+    this.hand.discard(index);
+    await this.setFlag('deadlands-classic', 'hand', this.hand);
+  }
+
+  async undiscardCard(index) {
+    this.hand.undiscard(index);
+    await this.setFlag('deadlands-classic', 'hand', this.hand);
+  }
+
   async endTurn() {
     this.hand.spendActive();
     await this.setFlag('deadlands-classic', 'hand', this.hand);

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { aCards, mCardMap } from './cards.mjs';
 import { Deck } from './deck.mjs';
 
@@ -166,6 +167,21 @@ export class Hand {
       this.override = this.override === 52 ? -1 : 52;
     }
     this.updateInitiative();
+  }
+
+  discard(index) {
+    if (index <= this.cards.length) {
+      const card = this.cards.splice(index, 1);
+      this.discards.push(card);
+      this.discards.sort((a, b) => b - a);
+    }
+  }
+
+  undiscard(index) {
+    if (index <= this.discards.length) {
+      const card = this.discards.splice(index, 1);
+      this.add(card);
+    }
   }
 
   /**

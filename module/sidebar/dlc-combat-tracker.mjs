@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+import { aCards } from '../helpers/cards.mjs';
+
 export class DeadlandsCombatTracker extends CombatTracker {
   /** @inheritdoc */
   static get defaultOptions() {
@@ -32,9 +35,14 @@ export class DeadlandsCombatTracker extends CombatTracker {
 
       const { hasPreviousTurns } = this.viewed;
 
+      const redJoker = aCards[53];
+      const blackJoker = aCards[52];
+
       context = foundry.utils.mergeObject(context, {
+        blackJoker,
         hasPreviousTurns,
         offerEndTurn,
+        redJoker,
         roundStarted,
       });
     }
@@ -87,6 +95,68 @@ export class DeadlandsCombatTracker extends CombatTracker {
   }
 
   /* -------------------------------------------- */
+
+  /** @inheritdoc */
+  activateListeners(html) {
+    super.activateListeners(html);
+
+    // Combatant control
+    // eslint-disable-next-line no-underscore-dangle
+    html.find('.combatant-cards').click((ev) => this.#onCombatantCards(ev));
+
+    // eslint-disable-next-line no-underscore-dangle
+    html.find('.combatant-discards').click((ev) => this.#onCombatantCards(ev));
+  }
+
+  /**
+   * Handle a Combatant control toggle
+   * @private
+   * @param {Event} event   The originating mousedown event
+   */
+  async #onCombatantCards(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const card = event.currentTarget;
+
+    const li = card.closest('.combatant-hand');
+    const combat = this.viewed;
+    const c = combat.combatants.get(li.dataset.combatantId);
+
+    const inx = card.dataset.index;
+    const num = card.dataset.cardNumber;
+
+    console.log('Card: ', num, ' is at index: ', inx);
+    console.log(card.dataset);
+
+    // eslint-disable-next-line eqeqeq
+    if (num == 52 || num == 53) {
+      return;
+    }
+
+    // Switch control action
+    // eslint-disable-next-line default-case
+    switch (card.dataset.control) {
+      case 'discardCard':
+        console.log('Delete card', inx);
+        await game['deadlands-classic'].socket.executeAsGM(
+          'socketDiscardCard',
+          combat.id,
+          c.id,
+          inx
+        );
+        break;
+
+      case 'retrieveCard':
+        console.log('Undelete card', inx);
+        await game['deadlands-classic'].socket.executeAsGM(
+          'socketUndiscardCard',
+          combat.id,
+          c.id,
+          inx
+        );
+        break;
+    }
+  }
 
   /* -------------------------------------------- */
 

@@ -4,8 +4,11 @@
   --color-shadow-dark: #000;
   --color-shadow-highlight: #ff6400;
   --color-shadow-primary: #fe6a6a;
-  --combat-card-height: 36px;
+  --combat-card-height: 42px;
+  --combat-card-width: 25px;
   --sidebar-item-height: 48px;
+  --sidebar-card-height: 21px;
+  --sidebar-card-width: 12px;
 }
 
 .directory li.combatant {
@@ -57,19 +60,50 @@
 .card-flexrow {
   display: flex;
   flex-direction: row;
+  flex: 1;
   flex-wrap: wrap;
   justify-content: flex-start;
+  height: var(--combat-card-height);
+  line-height: 28px;
 }
-.combatant-cards img {
+
+.combatant-control {
+  flex: 0 0 20px;
+  height: 20px;
+  float: left;
+  color: var(--color-text-dark-5);
+}
+
+.combatant-toggle {
   display: flex;
   flex-direction: row;
-  flex: 1;
-  justify-content: flex-start;
-  height: var(--combat-card-height);
-  padding: 2px 0px 2px 1px;
   object-fit: scale-down;
   border: none;
-  margin: 5px;
+  height: 20px;
+  column-gap: 5px;
+  line-height: var(--sidebar-card-height);
+}
+
+.combatant-cards {
+  display: flex;
+  flex-direction: row;
+  flex: 0 0 30px;
+  justify-content: flex-start;
+  height: var(--combat-card-height);
+  object-fit: scale-down;
+  border: none;
+  margin: 2px;
+}
+
+.combatant-discards {
+  display: flex;
+  flex-direction: row;
+  flex: 0 0 30px;
+  justify-content: flex-start;
+  height: var(--combat-card-height);
+  object-fit: scale-down;
+  border: none;
+  margin: 2px;
 }
 
 li.combatant .roll {

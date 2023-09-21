@@ -1,12 +1,14 @@
 {
-  "COMBAT.BeginRound": "Begin Round",
-  "COMBAT.EndRound": "End Combat Round",
-  "COMBAT.MakeEnemy": "Make hostile",
-  "COMBAT.MakeFriend": "Make friendly",
-  "COMBAT.Sleeve": "Sleeve highest card",
-  "COMBAT.ToggleJoker": "Toggle use joker",
-  "COMBAT.ToggleSleeved": "Toggle use sleeved card",
-  "COMBAT.Vamoose": "Vamoose!!",
+  "DLC_COMBAT": {
+    "BeginRound": "Begin Round",
+    "EndRound": "End Combat Round",
+    "MakeEnemy": "Make hostile",
+    "MakeFriend": "Make friendly",
+    "Sleeve": "Sleeve highest card",
+    "ToggleJoker": "Toggle use joker",
+    "ToggleSleeved": "Toggle use sleeved card",
+    "Vamoose": "Vamoose!!"
+  },
 
   "deadlands-classic": {
     "title": "Deadlands Classic",

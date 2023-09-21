@@ -5,14 +5,16 @@ import { updateIcons } from './helpers/cards.mjs';
 import { fpPreloadTemplates } from './init/preloads.mjs';
 import { fpCreateGameSettings } from './init/settings.mjs';
 import {
-  logCombatant,
+  socketDiscardCard,
   socketDrawCard,
+  socketLogCombatant,
   socketNextTurn,
   socketSleeveHighest,
   socketToggleBlackJoker,
   socketToggleHostility,
   socketToggleRedJoker,
   socketToggleSleeved,
+  socketUndiscardCard,
   socketVamoose,
 } from './init/socket-functions.mjs';
 import { DeadlandsCombatTracker } from './sidebar/dlc-combat-tracker.mjs';
@@ -71,7 +73,8 @@ Hooks.once('socketlib.ready', () => {
 
   // Socket for socketlib
   socket = socketlib.registerSystem('deadlands-classic');
-  socket.register('logCombatant', logCombatant);
+  socket.register('socketLogCombatant', socketLogCombatant);
+  socket.register('socketDiscardCard', socketDiscardCard);
   socket.register('socketDrawCard', socketDrawCard);
   socket.register('socketNextTurn', socketNextTurn);
   socket.register('socketSleeveHighest', socketSleeveHighest);
@@ -79,5 +82,6 @@ Hooks.once('socketlib.ready', () => {
   socket.register('socketToggleHostility', socketToggleHostility);
   socket.register('socketToggleRedJoker', socketToggleRedJoker);
   socket.register('socketToggleSleeved', socketToggleSleeved);
+  socket.register('socketUndiscardCard', socketUndiscardCard);
   socket.register('socketVamoose', socketVamoose);
 });

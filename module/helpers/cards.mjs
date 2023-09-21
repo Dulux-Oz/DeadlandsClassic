@@ -40,6 +40,7 @@ const suitWord = ['Clubs', 'Diamonds', 'Hearts', 'Spades'];
 
 function makeCards() {
   const cards = [];
+  let index = 0;
 
   for (let r = 0; r < aCardRank.length; r += 1) {
     for (let s = 0; s < aCardSuit.length; s += 1) {
@@ -48,7 +49,9 @@ function makeCards() {
       cards.push({
         symbol,
         name,
+        index,
       });
+      index += 1;
     }
   }
 
@@ -59,12 +62,14 @@ function makeCards() {
   cards.push({
     symbol: 'BJ',
     name: 'The Black Joker',
+    index: 52,
   });
 
   // Red joker in index 53
   cards.push({
     symbol: 'RJ',
     name: 'The Red Joker',
+    index: 53,
   });
 
   return cards;

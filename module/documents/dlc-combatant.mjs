@@ -5,6 +5,8 @@ export class DeadlandsCombatant extends Combatant {
   // eslint-disable-next-line no-useless-constructor
   constructor(data, context) {
     super(data, context);
+
+    this.hand = new Hand();
   }
 
   /*
@@ -13,12 +15,9 @@ export class DeadlandsCombatant extends Combatant {
   prepareDerivedData() {
     super.prepareDerivedData();
 
-    const hasHand =
-      typeof this.flags['deadlands-classic'] !== 'undefined' &&
-      typeof this.flags['deadlands-classic'].hand !== 'undefined';
+    const flag = this.getFlag('deadlands-classic', 'hand');
 
-    if (hasHand) {
-      const flag = this.getFlag('deadlands-classic', 'hand');
+    if (flag !== undefined) {
       this.hand = Hand.fromObject(flag);
     } else {
       this.hand = new Hand();
@@ -48,7 +47,6 @@ export class DeadlandsCombatant extends Combatant {
   }
 
   async discardCard(index) {
-    console.log('Reached the combatant');
     this.hand.discard(index);
     await this.setFlag('deadlands-classic', 'hand', this.hand);
   }

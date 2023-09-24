@@ -18,13 +18,9 @@ export class DeadlandsCombat extends Combat {
   prepareDerivedData() {
     super.prepareDerivedData();
 
-    const hasRoundState =
-      typeof this.flags['deadlands-classic'] !== 'undefined' &&
-      typeof this.flags['deadlands-classic'].roundState !== 'undefined';
+    const deckRec = this.getFlag('deadlands-classic', 'roundState');
 
-    if (hasRoundState) {
-      const deckRec = this.getFlag('deadlands-classic', 'roundState');
-
+    if (deckRec !== undefined) {
       this.axis.cards = deckRec.axisCards.filter(
         (item, index) => deckRec.axisCards.indexOf(item) === index
       );
@@ -44,15 +40,8 @@ export class DeadlandsCombat extends Combat {
       this.roundStarted = !!deckRec.roundStarted;
     }
 
-    const hasPreviousTurns =
-      typeof this.flags['deadlands-classic'] !== 'undefined' &&
-      typeof this.flags['deadlands-classic'].previousTurns !== 'undefined';
-
-    if (hasPreviousTurns) {
-      this.previousTurns = this.getFlag('deadlands-classic', 'previousTurns');
-    } else {
-      this.previousTurns = [];
-    }
+    this.previousTurns =
+      this.getFlag('deadlands-classic', 'previousTurns') ?? [];
   }
 
   /*
@@ -357,14 +346,7 @@ export class DeadlandsCombat extends Combat {
    * @returns {Combatant[]}
    */
   async setupTurns() {
-    const hasPreviousTurns =
-      typeof this.flags['deadlands-classic'] !== 'undefined' &&
-      typeof this.flags['deadlands-classic'].previousTurns !== 'undefined';
-
-    // Guard against getFlag throwing
-    this.previousTurns = hasPreviousTurns
-      ? await this.getFlag('deadlands-classic', 'previousTurns')
-      : [];
+    this.previousTurns = this.flags['deadlands-classic']?.previousTurns ?? [];
 
     // Determine the turn order and the current turn
     this.turns = [...this.combatants];

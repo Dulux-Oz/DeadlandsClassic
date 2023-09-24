@@ -161,6 +161,24 @@ export class DeadlandsCombatant extends Combatant {
   }
 
   /* -------------------------------------------- */
+  /*  Event Handlers                              */
+  /* -------------------------------------------- */
+
+  // eslint-disable-next-line no-underscore-dangle
+  _preCreate(data, options, user) {
+    // eslint-disable-next-line no-underscore-dangle, no-undef
+    super._preCreate(data, options, user);
+
+    const actor = game.actors.get(data.actorId);
+
+    if (actor.type === 'npc') {
+      const hand = new Hand();
+      hand.isHostile = true;
+      this.updateSource({ 'flags.deadlands-classic.hand': hand });
+    }
+  }
+
+  /* -------------------------------------------- */
 
   /**
    * disable the initiative roll for this Combatant.

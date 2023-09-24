@@ -9,6 +9,8 @@ export class DeadlandsCombat extends Combat {
     this.ally = new Deck();
     this.axis = new Deck();
 
+    this.didInterRound = false;
+    this.roundStartedOld = false;
     this.roundStarted = false;
   }
 
@@ -39,6 +41,9 @@ export class DeadlandsCombat extends Combat {
 
       this.roundStarted = !!deckRec.roundStarted;
     }
+
+    this.roundStartedOld =
+      this.getFlag('deadlands-classic', 'roundStartedOld') ?? false;
 
     this.previousTurns =
       this.getFlag('deadlands-classic', 'previousTurns') ?? [];
@@ -126,10 +131,6 @@ export class DeadlandsCombat extends Combat {
     this.turns.sort(DeadlandsCombat.#sortCombatants);
   }
 
-  async sendUpdate() {
-    await this.setFlag('deadlands-classic', 'nonsense', false);
-  }
-
   /* -------------------------------------------- */
 
   /**
@@ -165,6 +166,7 @@ export class DeadlandsCombat extends Combat {
    * After all the cards have been drawn, start this round of combat.
    */
   async startRound() {
+    this.roundStartedOld = false;
     this.roundStarted = true;
 
     this.updateCombatData();
@@ -183,6 +185,7 @@ export class DeadlandsCombat extends Combat {
    * @returns {Promise<Combat>}
    */
   async nextRound() {
+    this.didInterRound = false;
     this.#resetRoundData();
 
     const advanceTime = CONFIG.time.roundTime;
@@ -221,12 +224,10 @@ export class DeadlandsCombat extends Combat {
       hand: priorHand,
     };
 
+    this.roundStartedOld = true;
     this.previousTurns.push(proir);
-    await this.setFlag(
-      'deadlands-classic',
-      'previousTurns',
-      this.previousTurns
-    );
+
+    await this.storeTurnData();
 
     this.combatant.endTurn();
 
@@ -238,7 +239,7 @@ export class DeadlandsCombat extends Combat {
     const turn = this.previousTurns.length;
 
     // Update the document, passing data through a hook first
-    const updateData = { round, turn: 0 };
+    const updateData = { round, turn };
     const updateOptions = {};
     Hooks.callAll('combatTurn', this, updateData, updateOptions);
     return this.update(updateData, updateOptions);
@@ -261,12 +262,10 @@ export class DeadlandsCombat extends Combat {
       hand: priorHand,
     };
 
+    this.roundStartedOld = true;
     this.previousTurns.push(proir);
-    await this.setFlag(
-      'deadlands-classic',
-      'previousTurns',
-      this.previousTurns
-    );
+
+    this.storeTurnData();
 
     combatant.endTurn();
 
@@ -294,11 +293,7 @@ export class DeadlandsCombat extends Combat {
     if (this.previousTurns.length > 0) {
       const previousCombatant = this.previousTurns.pop();
 
-      await this.setFlag(
-        'deadlands-classic',
-        'previousTurns',
-        this.previousTurns
-      );
+      await this.storeTurnData();
 
       const combatant = this.combatants.find(
         (c) => c.id === previousCombatant.id
@@ -364,7 +359,7 @@ export class DeadlandsCombat extends Combat {
     // Update state tracking
     this.current = {
       round: this.round,
-      turn: 0,
+      turn: this.turn,
       combatantId: this.combatant ? this.combatant.id : null,
       tokenId: this.combatant ? this.combatant.tokenId : null,
     };
@@ -377,63 +372,27 @@ export class DeadlandsCombat extends Combat {
   }
 
   /* -------------------------------------------- */
-  /*  Turn Events                                 */
-  /* -------------------------------------------- */
-
-  /**
-   * Manage the execution of Combat lifecycle events.
-   * This method orchestrates the execution of four events in the following order, as applicable:
-   * 1. End Turn
-   * 2. End Round
-   * 3. Begin Round
-   * 4. Begin Turn
-   * Each lifecycle event is an async method, and each is awaited before proceeding.
-   * @param {number} [adjustedTurn]   Optionally, an adjusted turn to commit to the Combat.
-   * @returns {Promise<void>}
-   * @protected
-   */
-  // eslint-disable-next-line no-underscore-dangle
-  async _manageTurnEvents(adjustedTurn) {
-    if (!game.users.activeGM?.isSelf) return;
-
-    // If there is no previous
-    const prior = this.combatants.get(this.previous?.combatantId);
-
-    // Adjust the turn order before proceeding. Used for embedded document workflows
-    if (Number.isNumeric(adjustedTurn))
-      await this.update({ turn: adjustedTurn }, { turnEvents: false });
-    if (!this.started) return;
-
-    // Identify what progressed
-    const advanceRound = this.current.round > (this.previous?.round ?? -1);
-    const advanceTurn = this.current.turn > (this.previous?.turn ?? -1);
-    if (!(advanceTurn || advanceRound)) return;
-
-    // Conclude prior turn
-    // eslint-disable-next-line no-underscore-dangle
-    if (prior) await this._onEndTurn(prior);
-
-    // Conclude prior round
-    // eslint-disable-next-line no-underscore-dangle
-    if (advanceRound && this.previous?.round !== null) await this._onEndRound();
-
-    // Begin new round
-    // eslint-disable-next-line no-underscore-dangle
-    if (advanceRound) await this._onStartRound();
-
-    // Begin a new turn
-    // eslint-disable-next-line no-underscore-dangle
-    await this._onStartTurn(this.combatant);
-  }
-
-  /* -------------------------------------------- */
 
   async #clearRoundData() {
     await this.unsetFlag('deadlands-classic', 'previousTurns');
     await this.unsetFlag('deadlands-classic', 'roundState');
+    await this.unsetFlag('deadlands-classic', 'roundStartedOld');
   }
 
   /* -------------------------------------------- */
+
+  async storeTurnData() {
+    const updateData = {
+      flags: {
+        'deadlands-classic': {
+          previousTurns: this.previousTurns,
+          roundStartedOld: this.roundStartedOld,
+        },
+      },
+    };
+    const updateOptions = {};
+    return this.update(updateData, updateOptions);
+  }
 
   async storeRoundData() {
     const roundState = {
@@ -443,13 +402,18 @@ export class DeadlandsCombat extends Combat {
       allyDiscards: this.ally.discards,
       roundStarted: this.roundStarted,
     };
-    await this.setFlag('deadlands-classic', 'roundState', roundState);
 
-    await this.setFlag(
-      'deadlands-classic',
-      'previousTurns',
-      this.previousTurns
-    );
+    const updateData = {
+      flags: {
+        'deadlands-classic': {
+          roundState,
+          previousTurns: this.previousTurns,
+          roundStartedOld: this.roundStartedOld,
+        },
+      },
+    };
+    const updateOptions = {};
+    return this.update(updateData, updateOptions);
   }
 
   /* -------------------------------------------- */
@@ -498,6 +462,7 @@ export class DeadlandsCombat extends Combat {
       this.ally.recycle();
     }
 
+    this.roundStartedOld = true;
     this.roundStarted = false;
     this.offerEndTurn = false;
 
@@ -601,4 +566,96 @@ export class DeadlandsCombat extends Combat {
 
     return ib - ia;
   }
+
+  /* -------------------------------------------- */
+  /*  Event Handlers                              */
+  /* -------------------------------------------- */
+
+  /**
+   * Manage the execution of Combat lifecycle events.
+   * This method orchestrates the execution of four events in the following order, as applicable:
+   * 1. End Turn
+   * 2. End Round
+   * 3. Begin Round
+   * 4. Begin Turn
+   * Each lifecycle event is an async method, and each is awaited before proceeding.
+   * @param {number} [adjustedTurn]   Optionally, an adjusted turn to commit to the Combat.
+   * @returns {Promise<void>}
+   * @protected
+   */
+  // eslint-disable-next-line no-underscore-dangle
+  async _manageTurnEvents() {
+    if (!game.users.activeGM?.isSelf) return;
+
+    if (!this.started) return;
+
+    // Identify what progressed
+    const advanceRound = this.current.round > (this.previous?.round ?? -1);
+
+    const advanceTurn = this.current.turn > (this.previous?.turn ?? -1);
+
+    const isInterRound =
+      this.roundStartedOld === true && this.roundStarted === false;
+
+    const firstTurn =
+      this.roundStartedOld === false && this.roundStarted === true;
+
+    const normalTurn =
+      this.roundStartedOld === true && this.roundStarted === true;
+
+    const doInterRound = isInterRound && !this.didInterRound;
+
+    /*
+     * Neither round nor turn has advanced. If turn == 0 we are between rounds
+     * and should do the round not started logic.
+     */
+
+    const nothingToDo = !(advanceTurn || advanceRound || doInterRound);
+
+    this.didInterRound = true;
+
+    if (nothingToDo) return;
+
+    // Conclude prior turn
+    if (normalTurn || doInterRound) {
+      const prior = this.combatants.get(this.previous?.combatantId);
+
+      if (prior !== undefined) {
+        // eslint-disable-next-line no-underscore-dangle
+        await this._onEndTurn(prior);
+      }
+    }
+
+    // Conclude prior round
+    if (doInterRound) {
+      if (this.previous?.round !== null) {
+        // eslint-disable-next-line no-underscore-dangle
+        await this._onEndRound();
+      }
+    }
+
+    // Begin new round
+    if (firstTurn) {
+      // eslint-disable-next-line no-underscore-dangle
+      await this._onStartRound();
+    }
+
+    // Begin a new turn
+    if (normalTurn && advanceTurn) {
+      // eslint-disable-next-line no-underscore-dangle
+      await this._onStartTurn(this.combatant);
+    }
+  }
+
+  /* -------------------------------------------- */
+
+  /* global ui */
+
+  /** @inheritdoc */
+  // _onUpdate(data, options, userId)
+  // _onCreateDescendantDocuments sends silly adjustedTurn
+  // _onUpdateDescendantDocuments
+  // _onDeleteDescendantDocuments
+
+  /* -------------------------------------------- */
 }

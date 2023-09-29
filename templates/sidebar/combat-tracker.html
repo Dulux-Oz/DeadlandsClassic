@@ -159,8 +159,9 @@
                         {{/if}}
                     {{else}}
                         {{#if this.owner}}
-                        <a class="combatant-control roll" aria-label="{{localize 'COMBAT.InitiativeRoll'}}" role="button"
-                           data-tooltip="COMBAT.InitiativeRoll" data-control="drawCard"></a>
+                        <a class="combatant-control" aria-label="{{localize 'COMBAT.InitiativeRoll'}}" role="button"
+                           data-tooltip="COMBAT.InitiativeRoll" data-control="drawCard">
+                           <img src="systems/deadlands-classic/icons/svg/card-draw.svg" /></a>
                         {{/if}}
                     {{/if}}
                 </div>
@@ -216,8 +217,8 @@
 
                 {{#if offerEndTurn}}
                     <a class="combat-control center" aria-label="{{localize 'DLC_COMBAT.EndRound'}}" role="button"  data-control="nextRound">{{localize 'DLC_COMBAT.EndRound'}}</a>
-                    {{#if isOverridden}}
-                        <a class="combat-control" aria-label="{{localize 'COMBAT.RoundNext'}}" role="button" data-tooltip="COMBAT.RoundNext" data-control="nextRound"><i class="fas fa-step-forward"></i></a>
+                    {{#if showNextTurn}}
+                        <a class="combat-control" aria-label="{{localize 'COMBAT.TurnNext'}}" role="button" data-tooltip="COMBAT.TurnNext" data-control="nextTurn"><i class="fas fa-step-forward"></i></a>
                     {{/if}}
                 {{else if roundStarted}}
                     <a class="combat-control center" aria-label="{{localize 'COMBAT.End'}}" role="button" data-control="endCombat">{{localize 'COMBAT.End'}}</a>

@@ -17,8 +17,9 @@ import {
   socketUndiscardCard,
   socketVamoose,
 } from './init/socket-functions.mjs';
+import { fpRegisterDataModel } from './sheets/dlc-data-model.mjs';
 import { DeadlandsCombatTracker } from './sidebar/dlc-combat-tracker.mjs';
-import { fpRegisterDataModel } from './dlc-data-model.mjs';
+import { DlcConfig } from './config.mjs';
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -36,6 +37,11 @@ CONFIG.debug.hooks = true;
  * Init hook.
  */
 Hooks.once('init', async () => {
+  CONFIG.DlcConfig = DlcConfig;
+
+  // eslint-disable-next-line no-console
+  console.log(DlcConfig.Ascii);
+
   // eslint-disable-next-line no-console
   console.log('Deadlands Classic | Initalising');
 

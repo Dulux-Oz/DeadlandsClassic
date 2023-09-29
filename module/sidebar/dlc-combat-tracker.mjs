@@ -38,12 +38,16 @@ export class DeadlandsCombatTracker extends CombatTracker {
       const redJoker = aCards[53];
       const blackJoker = aCards[52];
 
+      const nextCombatant = this.viewed.combatant;
+      const showNextTurn = nextCombatant?.isOverridden;
+
       context = foundry.utils.mergeObject(context, {
         blackJoker,
         hasPreviousTurns,
         offerEndTurn,
         redJoker,
         roundStarted,
+        showNextTurn,
       });
     }
 

@@ -1,4 +1,4 @@
-export class cCharacterSheet extends ActorSheet {
+export class BaseActorSheetDlc extends ActorSheet {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['dlc', 'sheet', 'actor'],

@@ -16,11 +16,7 @@ export class Hand {
   }
 
   static fromObject(proto) {
-    const isHostile =
-      typeof proto !== 'undefined' &&
-      typeof proto.isHostile !== 'undefined' &&
-      typeof proto.isHostile === 'boolean' &&
-      proto.isHostile;
+    const isHostile = Boolean(proto?.isHostile);
 
     const hand = new Hand(isHostile);
 

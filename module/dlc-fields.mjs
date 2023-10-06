@@ -171,10 +171,26 @@ export const dlcTrait = (label) => ({
   }),
 });
 
+<<<<<<< HEAD
 // A record of the number of
 export const dlcChip = (label) => ({
   [label]: new fields.SchemaField({
     ...dlcValueType('chip'),
     ...dlcNumberNoMax('value', 0, 0),
+=======
+export const dlcChip = (label) => ({
+  [label]: new fields.SchemaField({
+    ...dlcValueType('chip'),
+    value: new fields.NumberField({
+      required: true,
+      initial: 0,
+      integer: true,
+    }),
+    min: new fields.NumberField({
+      required: true,
+      initial: 0,
+      integer: true,
+    }),
+>>>>>>> ebf7651 (Start defining the data model)
   }),
 });

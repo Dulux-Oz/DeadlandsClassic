@@ -32,23 +32,15 @@ export class BaseActorDataModel extends foundry.abstract.DataModel {
     return aptitudes;
   }
 
-  // makes the datamodel fragment to be incorporated into character models. Can be added to NPC models
-  // with ...makeChips(false). This will add the basic data
-  static makeChips(isActive = true) {
+  static makeChipData() {
     return {
-      ...DLCFields.dlcBoolean('ActiveForChips', isActive), // Does this character interact with the chips and bounty system
+      ...DLCFields.dlcNumberNoMax('careerBounty', 0, 0),
 
-      ...(!isActive
-        ? {}
-        : {
-            ...DLCFields.dlcChip('white'),
-            ...DLCFields.dlcChip('red'),
-            ...DLCFields.dlcChip('blue'),
-            ...DLCFields.dlcChip('green'),
-            ...DLCFields.dlcChip('greenTemp'),
-
-            ...DLCFields.dlcNumberNoMax('careerBounty', 0, 0),
-          }),
+      ...DLCFields.dlcChip('white'),
+      ...DLCFields.dlcChip('red'),
+      ...DLCFields.dlcChip('blue'),
+      ...DLCFields.dlcChip('green'),
+      ...DLCFields.dlcChip('greenTemp'),
     };
   }
 

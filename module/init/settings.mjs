@@ -1,4 +1,4 @@
-export function fpCreateGameSettings() {
+export function createGameSettings() {
   /* global CanonicalCards */
   game.settings.register('deadlands-classic', 'game-world', {
     name: 'deadlands-classic.settings.game-world.name',

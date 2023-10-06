@@ -36,6 +36,22 @@
       "Spirit": "spi",
       "Strength": "str",
       "Vigor": "vig"
+    },
+
+    "sheet": {
+      "actor": {
+        "aptitudes": "Aptitudes",
+        "bio": "Biography",
+        "biodata": "Bio-Data",
+        "chips": "Chips",
+        "combat": "Combat",
+        "edges": "Edges",
+        "gear": "Inventory",
+        "main": "Main",
+        "notes": "Notes",
+        "spells": "Spells"
+      },
+      "chip": { "name": "Chip Management" }
     }
   },
 

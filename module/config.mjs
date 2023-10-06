@@ -1,4 +1,4 @@
-export const DlcConfig = {
+export const dlcConfig = {
   Ascii:
     '\n\n' +
     '  -------------------------------------------------\n' +
@@ -180,4 +180,4 @@ export const DlcConfig = {
   },
 };
 
-export default DlcConfig;
+export default dlcConfig;

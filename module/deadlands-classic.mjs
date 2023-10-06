@@ -1,14 +1,16 @@
 // import modules
+import { registerDataModel } from './data/dlc-data-model.mjs';
 import { DeadlandsCombat } from './documents/dlc-combat.mjs';
 import { DeadlandsCombatant } from './documents/dlc-combatant.mjs';
 import { CanonicalCards } from './helpers/canonicalcards.mjs';
-import { fpPreloadTemplates } from './init/preloads.mjs';
-import { fpCreateGameSettings } from './init/settings.mjs';
 import { registerSocketFunctions } from './init/socket-functions.mjs';
-import { fpRegisterDataModel } from './sheets/dlc-data-model.mjs';
+import { preloadTemplates } from './init/preloads.mjs';
+import { createGameSettings } from './init/settings.mjs';
+import { registerSheets } from './sheets/dlc-sheets.mjs';
+import { DeadlandsActorDirectory } from './sidebar/dlc-actors-directory.mjs';
 import { DeadlandsCombatTracker } from './sidebar/dlc-combat-tracker.mjs';
 import { DlcSocketManager } from './sockets/dlc-socket-manager.mjs';
-import { DlcConfig } from './config.mjs';
+import { dlcConfig } from './config.mjs';
 
 /* -------------------------------------------- */
 /*  Foundry VTT Initialization                  */
@@ -26,10 +28,10 @@ CONFIG.debug.hooks = true;
  * Init hook.
  */
 Hooks.once('init', async () => {
-  CONFIG.DlcConfig = DlcConfig;
+  CONFIG.dlcConfig = dlcConfig;
 
   // eslint-disable-next-line no-console
-  console.log(DlcConfig.Ascii);
+  console.log(dlcConfig.Ascii);
 
   // eslint-disable-next-line no-console
   console.log('Deadlands Classic | Initalising');
@@ -40,6 +42,7 @@ Hooks.once('init', async () => {
 
   // Define custom ui classes
   CONFIG.ui.combat = DeadlandsCombatTracker;
+  CONFIG.ui.actors = DeadlandsActorDirectory;
 
   /* -------------------------------------------- */
 
@@ -56,9 +59,11 @@ Hooks.once('init', async () => {
 
   /* -------------------------------------------- */
 
-  fpRegisterDataModel();
-  fpCreateGameSettings();
-  await fpPreloadTemplates();
+  registerDataModel();
+  registerSheets();
+  createGameSettings();
+  await preloadTemplates();
+
 
   globalThis.CanonicalCards = new CanonicalCards();
 });

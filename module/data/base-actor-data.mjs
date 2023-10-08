@@ -32,15 +32,23 @@ export class BaseActorDataModel extends foundry.abstract.DataModel {
     return aptitudes;
   }
 
-  static makeChipData() {
+  // makes the datamodel fragment to be incorporated into character models. Can be added to NPC models
+  // with ...makeChips(false). This will add the basic data
+  static makeChips(isActive = true) {
     return {
-      ...DLCFields.dlcNumberNoMax('careerBounty', 0, 0),
+      ...DLCFields.dlcBoolean('ActiveForChips', isActive), // Does this character interact with the chips and bounty system
 
-      ...DLCFields.dlcChip('white'),
-      ...DLCFields.dlcChip('red'),
-      ...DLCFields.dlcChip('blue'),
-      ...DLCFields.dlcChip('green'),
-      ...DLCFields.dlcChip('greenTemp'),
+      ...(!isActive
+        ? {}
+        : {
+            ...DLCFields.dlcChip('white'),
+            ...DLCFields.dlcChip('red'),
+            ...DLCFields.dlcChip('blue'),
+            ...DLCFields.dlcChip('green'),
+            ...DLCFields.dlcChip('greenTemp'),
+
+            ...DLCFields.dlcNumberNoMax('careerBounty', 0, 0),
+          }),
     };
   }
 
@@ -57,6 +65,21 @@ export class BaseActorDataModel extends foundry.abstract.DataModel {
       ...DLCFields.dlcTrait(dlcConfig.traits[7]),
       ...DLCFields.dlcTrait(dlcConfig.traits[8]),
       ...DLCFields.dlcTrait(dlcConfig.traits[9]),
+    };
+  }
+
+  static makeWoundLocations() {
+    return {
+      ...DLCFields.dlcNumber('head', 0, 0, 5),
+      ...DLCFields.dlcNumber('guts', 0, 0, 5),
+      ...DLCFields.dlcNumber('left arm', 0, 0, 5),
+      ...DLCFields.dlcNumber('right arm', 0, 0, 5),
+      ...DLCFields.dlcNumber('left leg', 0, 0, 5),
+      ...DLCFields.dlcNumber('right leg', 0, 0, 5),
+
+      // max Wind and max strain are derived attributes
+      ...DLCFields.dlcNumberNoLimit('currentWind', 0),
+      ...DLCFields.dlcNumberNoLimit('currentStrain', 0),
     };
   }
 }

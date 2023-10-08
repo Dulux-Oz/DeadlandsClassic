@@ -8,17 +8,12 @@ export class NPCDataModel extends BaseActorDataModel {
     return {
       ...this.makeTraits(),
       ...this.makeAptitudes(),
-
-      ...DLCFields.dlcNumber('Wind', 10, 0, 10),
-      ...DLCFields.dlcNumber('Strain', 10, 0, 10),
+      ...this.makeWoundLocations(),
 
       Biography: new fields.HTMLField(),
       Notes: new fields.HTMLField(),
 
-      ActiveForChips: new fields.BooleanField({
-        required: true,
-        initial: false,
-      }),
+      ...this.makeChips(false),
     };
   }
 }

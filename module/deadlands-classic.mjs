@@ -4,21 +4,10 @@ import { DeadlandsCombatant } from './documents/dlc-combatant.mjs';
 import { updateIcons } from './helpers/cards.mjs';
 import { fpPreloadTemplates } from './init/preloads.mjs';
 import { fpCreateGameSettings } from './init/settings.mjs';
-import {
-  socketDiscardCard,
-  socketDrawCard,
-  socketLogCombatant,
-  socketNextTurn,
-  socketSleeveHighest,
-  socketToggleBlackJoker,
-  socketToggleHostility,
-  socketToggleRedJoker,
-  socketToggleSleeved,
-  socketUndiscardCard,
-  socketVamoose,
-} from './init/socket-functions.mjs';
+import { registerSocketFunctions } from './init/socket-functions.mjs';
 import { fpRegisterDataModel } from './sheets/dlc-data-model.mjs';
 import { DeadlandsCombatTracker } from './sidebar/dlc-combat-tracker.mjs';
+import { DlcSocketManager } from './sockets/dlc-socket-manager.mjs';
 import { DlcConfig } from './config.mjs';
 
 /* -------------------------------------------- */
@@ -52,10 +41,20 @@ Hooks.once('init', async () => {
   // Define custom ui classes
   CONFIG.ui.combat = DeadlandsCombatTracker;
 
+  /* -------------------------------------------- */
+
+  /* global dlcSocketManager */
+  window.dlcSocketManager = new DlcSocketManager();
+  socket = dlcSocketManager.registerSystem('deadlands-classic');
+
   if (!Array.isArray(globalThis.game['deadlands-classic'])) {
     game['deadlands-classic'] = {};
     game['deadlands-classic'].socket = socket;
   }
+
+  registerSocketFunctions(socket);
+
+  /* -------------------------------------------- */
 
   fpRegisterDataModel();
   fpCreateGameSettings();
@@ -74,20 +73,20 @@ Hooks.once('ready', async () => {
   console.log('Deadlands Classic | Readying');
 });
 
-Hooks.once('socketlib.ready', () => {
-  /* global socketlib */
-
-  // Socket for socketlib
-  socket = socketlib.registerSystem('deadlands-classic');
-  socket.register('socketLogCombatant', socketLogCombatant);
-  socket.register('socketDiscardCard', socketDiscardCard);
-  socket.register('socketDrawCard', socketDrawCard);
-  socket.register('socketNextTurn', socketNextTurn);
-  socket.register('socketSleeveHighest', socketSleeveHighest);
-  socket.register('socketToggleBlackJoker', socketToggleBlackJoker);
-  socket.register('socketToggleHostility', socketToggleHostility);
-  socket.register('socketToggleRedJoker', socketToggleRedJoker);
-  socket.register('socketToggleSleeved', socketToggleSleeved);
-  socket.register('socketUndiscardCard', socketUndiscardCard);
-  socket.register('socketVamoose', socketVamoose);
-});
+// Hooks.once('socketlib.ready', () => {
+//   /* global socketlib */
+//
+//   // Socket for socketlib
+//   socket = socketlib.registerSystem('deadlands-classic');
+//   socket.register('socketLogCombatant', socketLogCombatant);
+//   socket.register('socketDiscardCard', socketDiscardCard);
+//   socket.register('socketDrawCard', socketDrawCard);
+//   socket.register('socketNextTurn', socketNextTurn);
+//   socket.register('socketSleeveHighest', socketSleeveHighest);
+//   socket.register('socketToggleBlackJoker', socketToggleBlackJoker);
+//   socket.register('socketToggleHostility', socketToggleHostility);
+//   socket.register('socketToggleRedJoker', socketToggleRedJoker);
+//   socket.register('socketToggleSleeved', socketToggleSleeved);
+//   socket.register('socketUndiscardCard', socketUndiscardCard);
+//   socket.register('socketVamoose', socketVamoose);
+// });

@@ -2,10 +2,15 @@ import { dlcConfig } from './config.mjs';
 
 const { fields } = foundry.data;
 
-export const dlcSetting = () => ({
-  bUsedInWW: new fields.BooleanField({ initial: true }),
-  bUsedInHE: new fields.BooleanField({ initial: false }),
-  bUsedInLC: new fields.BooleanField({ initial: false }),
+/* --------------------------------------------------- */
+/* Basic building blocks
+/* --------------------------------------------------- */
+
+export const dlcBoolean = (label, initial = true, required = true) => ({
+  [label]: new fields.BooleanField({
+    initial,
+    required,
+  }),
 });
 
 export const dlcConcentrations = (choices) => ({
@@ -87,7 +92,18 @@ export const dlcValueType = (type) => ({
   ),
 });
 
-// An standard aptitude which has no concentrations
+/* --------------------------------------------------- */
+/* Components
+/* --------------------------------------------------- */
+
+// Which games modes is this used in
+export const dlcSetting = () => ({
+  ...dlcBoolean('bUsedInWW'), // Wasted west
+  ...dlcBoolean('bUsedInHE'), // Hell on Earth
+  ...dlcBoolean('bUsedInLC'), // Lost Colony
+});
+
+// A standard aptitude which has no concentrations
 export const dlcAptitude = (label, trait, defaultRanks) => ({
   [label]: new fields.SchemaField({
     ...dlcValueType('aptitude'),
@@ -155,18 +171,10 @@ export const dlcTrait = (label) => ({
   }),
 });
 
+// A record of the number of
 export const dlcChip = (label) => ({
   [label]: new fields.SchemaField({
     ...dlcValueType('chip'),
-    value: new fields.NumberField({
-      required: true,
-      initial: 0,
-      integer: true,
-    }),
-    min: new fields.NumberField({
-      required: true,
-      initial: 0,
-      integer: true,
-    }),
+    ...dlcNumberNoMax('value', 0, 0),
   }),
 });

@@ -210,49 +210,14 @@ export class DeadlandsCombat extends Combat {
 
   /* -------------------------------------------- */
 
-  /**
-   * Advance the combat to the next turn
-   * @returns {Promise<Combat>}
+  /*
+   * This method removes the highest card on a combatant. If the second parameter is false,
+   * the card will be sleeved, otherwise it goes to discards. The function stores a copy
+   * of the combatant's hand to previous turns so this can be undone, then updates the
+   * combat.
    */
-  async nextTurn() {
-    // deep clone does not produce a deep clone. Make a new object from the current data
-    // This will not have references to the original arrays in this.combatant.hand
-    const priorHand = Hand.fromObject(this.combatant.hand);
 
-    const proir = {
-      id: this.combatant.id,
-      hand: priorHand,
-    };
-
-    this.roundStartedOld = true;
-    this.previousTurns.push(proir);
-
-    await this.storeTurnData();
-
-    this.combatant.endTurn();
-
-    this.sortCombatants();
-
-    this.offerEndTurn = this.combatant.initiative === -1;
-
-    const { round } = this;
-    const turn = this.previousTurns.length;
-
-    // Update the document, passing data through a hook first
-    const updateData = { round, turn };
-    const updateOptions = {};
-    Hooks.callAll('combatTurn', this, updateData, updateOptions);
-    return this.update(updateData, updateOptions);
-  }
-
-  /**
-   * Advance the combat to the next turn
-   * @returns {Promise<Combat>}
-   */
-  async vamoose(combatantId) {
-    const combatant = this.combatants.get(combatantId);
-    if (typeof combatant === 'undefined') return null;
-
+  async #moveActiveCardToHistory(combatant, endTurn = true) {
     // deep clone does not produce a deep clone. Make a new object from the current data
     // This will not have references to the original arrays in this.combatant.hand
     const priorHand = Hand.fromObject(combatant.hand);
@@ -265,10 +230,18 @@ export class DeadlandsCombat extends Combat {
     this.roundStartedOld = true;
     this.previousTurns.push(proir);
 
-    this.storeTurnData();
+    await this.storeTurnData();
 
-    combatant.endTurn();
+    if (endTurn) {
+      combatant.endTurn();
+    } else {
+      combatant.sleeveHighest();
+    }
 
+    return this.#updateCombatState();
+  }
+
+  #updateCombatState() {
     this.sortCombatants();
 
     this.offerEndTurn = this.combatant.initiative === -1;
@@ -286,34 +259,56 @@ export class DeadlandsCombat extends Combat {
   /* -------------------------------------------- */
 
   /**
+   * Advance the combat to the next turn
+   */
+  async nextTurn() {
+    // eslint-disable-next-line no-return-await
+    return await this.#moveActiveCardToHistory(this.combatant);
+  }
+
+  /**
+   * Let any combatant use their highest card to vamoose
+   */
+  async vamoose(combatantId) {
+    const combatant = this.combatants.get(combatantId);
+    if (typeof combatant === 'undefined') return null;
+
+    // eslint-disable-next-line no-return-await
+    return await this.#moveActiveCardToHistory(combatant);
+  }
+
+  /*
+   * Only the acting combatant can sleeve a card.
+   */
+  async sleeveHighest() {
+    // eslint-disable-next-line no-return-await
+    return await this.#moveActiveCardToHistory(this.combatant, false);
+  }
+
+  /* -------------------------------------------- */
+
+  /**
    * Rewind the combat to the previous turn
    * @returns {Promise<Combat>}
    */
   async previousTurn() {
-    if (this.previousTurns.length > 0) {
-      const previousCombatant = this.previousTurns.pop();
-
-      await this.storeTurnData();
-
-      const combatant = this.combatants.find(
-        (c) => c.id === previousCombatant.id
-      );
-
-      if (typeof combatant !== 'undefined') {
-        combatant.setHand(previousCombatant.hand);
-      }
-
-      this.sortCombatants();
+    if (this.previousTurns.length <= 0) {
+      return null;
     }
 
-    this.offerEndTurn = this.combatant.initiative === -1;
-    const turn = this.previousTurns.length;
+    const previousCombatant = this.previousTurns.pop();
 
-    // Update the document, passing data through a hook first
-    const updateData = { round: this.round, turn };
-    const updateOptions = {};
-    Hooks.callAll('combatTurn', this, updateData, updateOptions);
-    return this.update(updateData, updateOptions);
+    await this.storeTurnData();
+
+    const combatant = this.combatants.find(
+      (c) => c.id === previousCombatant.id
+    );
+
+    if (typeof combatant !== 'undefined') {
+      combatant.setHand(previousCombatant.hand);
+    }
+
+    return this.#updateCombatState();
   }
 
   /* -------------------------------------------- */
@@ -496,14 +491,6 @@ export class DeadlandsCombat extends Combat {
       combatant.addCard(card);
     }
 
-    this.updateCombatData();
-  }
-
-  async sleeveHighest(combatantId) {
-    const combatant = this.combatants.get(combatantId);
-    if (typeof combatant === 'undefined') return;
-
-    combatant.sleeveHighest();
     this.updateCombatData();
   }
 

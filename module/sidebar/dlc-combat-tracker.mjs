@@ -244,8 +244,7 @@ export class DeadlandsCombatTracker extends CombatTracker {
       case 'sleeveHighest':
         await game['deadlands-classic'].socket.executeAsGM(
           'socketSleeveHighest',
-          combat.id,
-          c.id
+          combat.id
         );
         break;
 

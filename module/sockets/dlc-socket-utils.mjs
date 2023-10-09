@@ -19,6 +19,5 @@ export function isResponseSenderValid(senderId, recipients) {
   if (recipients === RecipientTypes.One_GM && game.users.get(senderId).isGM) {
     return true;
   }
-  if (recipients instanceof Array && recipients.includes(senderId)) return true;
-  return false;
+  return recipients instanceof Array && recipients.includes(senderId);
 }

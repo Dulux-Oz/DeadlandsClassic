@@ -12,6 +12,11 @@
   },
 
   "DLC": {
+    "SIDEBAR": {
+      "AllocateChips": "Allocate Chips",
+      "ChipManager": "Chip Manager",
+      "UseChips": "Toggle participation in the chip pot"
+    },
     "traitName": {
       "Cognition": "Cognition",
       "Deftness": "Deftness",

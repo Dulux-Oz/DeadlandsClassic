@@ -1,5 +1,9 @@
 import * as dlcFields from '../dlc-fields.mjs';
 
+/* This class is intended for the Marshall's chips, which are in a world level setting.
+ * The players' chip records are in their character data.
+ */
+
 export class dlcChips extends foundry.abstract.DataModel {
   static defineSchema() {
     const { fields } = foundry.data;

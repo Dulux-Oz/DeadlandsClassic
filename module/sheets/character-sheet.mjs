@@ -34,13 +34,20 @@ export class BaseActorSheetDlc extends ActorSheet {
 
     const aptitudes = {};
     const chips = {};
-    const concentrations = {};
     const traits = {};
     const unclassified = {};
 
     const actor = this.document.toObject(false);
     const actorSystem = actor.system;
     const keys = Object.keys(actorSystem);
+
+    const validChips = new Map([
+      ['white', true],
+      ['red', true],
+      ['blue', true],
+      ['green', true],
+      ['temporaryGreen', true],
+    ]);
 
     // eslint-disable-next-line no-restricted-syntax, guard-for-in
     for (const key of keys.values()) {
@@ -61,6 +68,8 @@ export class BaseActorSheetDlc extends ActorSheet {
             // There is no default case, the document validation has restriced
             // this value.
           }
+        } else if (key in validChips) {
+          chips[key] = slot;
         } else {
           unclassified[key] = slot;
         }

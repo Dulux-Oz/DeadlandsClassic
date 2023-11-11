@@ -13,7 +13,7 @@ export class CharacterDataModel extends BaseActorDataModel {
       Biography: new fields.HTMLField(),
       Notes: new fields.HTMLField(),
 
-      ...this.makeChips(),
+      ...this.makeChipData(true),
     };
   }
 }

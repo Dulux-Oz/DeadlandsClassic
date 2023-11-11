@@ -2,7 +2,6 @@ import { Hand } from '../helpers/hand.mjs';
 
 /* global CanonicalCards */
 export class DeadlandsCombatant extends Combatant {
-  // eslint-disable-next-line no-useless-constructor
   constructor(data, context) {
     super(data, context);
 

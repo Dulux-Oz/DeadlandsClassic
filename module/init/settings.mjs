@@ -1,3 +1,5 @@
+import { dlcChips } from '../data/chips.mjs';
+
 export function createGameSettings() {
   /* global CanonicalCards */
   game.settings.register('deadlands-classic', 'game-world', {
@@ -46,5 +48,51 @@ export function createGameSettings() {
     config: true,
     type: Boolean,
     default: false,
+  });
+
+  game.settings.register('deadlands-classic', 'white-chips', {
+    name: 'White Chips',
+    hint: 'How many white chips exist in the pot',
+    scope: 'world',
+    config: true,
+    type: Number,
+    default: 50,
+  });
+
+  game.settings.register('deadlands-classic', 'red-chips', {
+    name: 'Red Chips',
+    hint: 'How many red chips exist in the pot',
+    scope: 'world',
+    config: true,
+    type: Number,
+    default: 25,
+  });
+
+  game.settings.register('deadlands-classic', 'blue-chips', {
+    name: 'Blue Chips',
+    hint: 'How many blue chips exist in the pot',
+    scope: 'world',
+    config: true,
+    type: Number,
+    default: 10,
+  });
+
+  game.settings.register('deadlands-classic', 'green-chips', {
+    name: 'Green Chips',
+    hint: 'How many green chips exist',
+    scope: 'world',
+    config: true,
+    type: Number,
+    range: { min: 0, max: 20, step: 1 },
+    default: 0,
+  });
+
+  game.settings.register('deadlands-classic', 'marshall-chips', {
+    name: "Marshall's Chips",
+    hint: 'Chips held by the Marshall',
+    scope: 'world',
+    config: false,
+    type: dlcChips,
+    default: { chips: { white: 0, red: 0, blue: 0 } },
   });
 }

@@ -1,3 +1,5 @@
+import { Chips } from '../helpers/chips.mjs';
+
 function socketLogCombatant(combatId, combatantId, index) {
   const combat = game.combats.get(combatId);
   const combatant = combat.combatants.get(combatantId);
@@ -59,6 +61,36 @@ function socketVamoose(combatId, combatantId) {
   return combat.vamoose(combatantId);
 }
 
+function socketDrawChipActor(actorId) {
+  const chip = Chips.randomDraw(true);
+  const actor = game.actors.get(actorId);
+
+  actor.grantChip(chip);
+}
+
+function socketGrantChipActor(actorId, chip) {
+  if (!(chip in Chips.type)) return;
+  const actor = game.actors.get(actorId);
+
+  actor.grantChip(chip);
+}
+
+function socketDrawChipMarshal() {
+  const chip = Chips.randomDraw(false);
+
+  const marshal = game.settings.get('deadlands-classic', 'marshall-chips');
+
+  if (chip === Chips.type.White) {
+    marshal.chips.white += 1;
+  } else if (chip === Chips.type.Red) {
+    marshal.chips.red += 1;
+  } else if (chip === Chips.type.Blue) {
+    marshal.chips.blue += 1;
+  }
+
+  game.settings.set('deadlands-classic', 'marshall-chips');
+}
+
 export function registerSocketFunctions(socket) {
   socket.register('socketLogCombatant', socketLogCombatant);
   socket.register('socketDiscardCard', socketDiscardCard);
@@ -71,4 +103,7 @@ export function registerSocketFunctions(socket) {
   socket.register('socketToggleSleeved', socketToggleSleeved);
   socket.register('socketUndiscardCard', socketUndiscardCard);
   socket.register('socketVamoose', socketVamoose);
+  socket.register('socketDrawChipActor', socketDrawChipActor);
+  socket.register('socketGrantChipActor', socketGrantChipActor);
+  socket.register('socketDrawChipMarshal', socketDrawChipMarshal);
 }

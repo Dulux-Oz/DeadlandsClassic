@@ -32,15 +32,17 @@ export class BaseActorDataModel extends foundry.abstract.DataModel {
     return aptitudes;
   }
 
-  static makeChipData() {
+  static makeChipData(hasChips) {
     return {
+      ...DLCFields.dlcBoolean('hasChips', hasChips),
+
       ...DLCFields.dlcNumberNoMax('careerBounty', 0, 0),
 
       ...DLCFields.dlcChip('white'),
       ...DLCFields.dlcChip('red'),
       ...DLCFields.dlcChip('blue'),
       ...DLCFields.dlcChip('green'),
-      ...DLCFields.dlcChip('greenTemp'),
+      ...DLCFields.dlcChip('temporaryGreen'),
     };
   }
 

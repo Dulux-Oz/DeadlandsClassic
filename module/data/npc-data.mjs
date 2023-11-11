@@ -13,7 +13,7 @@ export class NPCDataModel extends BaseActorDataModel {
       Biography: new fields.HTMLField(),
       Notes: new fields.HTMLField(),
 
-      ...this.makeChips(false),
+      ...this.makeChipData(false),
     };
   }
 }

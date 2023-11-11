@@ -1,0 +1,54 @@
+<section class="{{cssClass}} directory flexcol" id="{{cssId}}" data-tab="{{tabName}}">
+
+  <header class="chip-manager-header">
+      <div class="flexrow">
+        <h3 class="chip-manager noborder">{{localize 'DLC.SIDEBAR.ChipManager'}}</h3>
+      </div>
+  </header>
+
+  <form>
+    <div class="chip-row">
+      <label class="chip-label" for="white">White</label>
+      <input class="chip-box" type="number" id="white" name="white" value="0" maxlength="2">
+    </div>
+    <div class="chip-row">
+      <label class="chip-label" for="red">Red</label>
+      <input class="chip-box" type="number" id="red" name="red" value="0" maxlength="2">
+    </div>
+    <div class="chip-row">
+      <label class="chip-label" for="blue">Blue</label>
+      <input class="chip-box" type="number" id="blue" name="blue" value="0" maxlength="2">
+    </div>
+    <div class="chip-row">
+      <label class="chip-label" for="green">Green</label>
+      <input class="chip-box" type="number" id="green" name="green" value="0" maxlength="2">
+    </div>
+    <div class="chip-row">
+      <label class="chip-label" for="tGreen">Temp Green</label>
+      <input class="chip-box" type="number" id="tGreen" name="tGreen" value="0" maxlength="2">
+    </div>
+    <ol id="chip-manager" class="directory-list">
+      {{#each posse as |actor id|}}
+        <div class="flexcol">
+          <li class="document chip-actor flexrow" data-actor-id="{{actor.id}}" data-index={{@index}}>
+            <img class="thumbnail" src="{{actor.img}}" data-src="{{actor.img}}" alt="{{actor.name}}"/>
+            <div class="token-name"><h4>{{actor.name}}</h4></div>
+            <input class="token-box" type="checkbox" name="{{actor.id}}" value="checked">
+          </li>
+        </div>
+      {{/each}}
+    </ol>
+    <input class="chip-allocate" type="submit" value="submit">
+  </form>
+
+  <nav id="chip-controls" class="flexrow" data-tooltip-direction="UP">
+    <a 
+    class="chip-control center" 
+    role="button"
+    data-control="allocateChips">
+      {{localize 'DLC.SIDEBAR.AllocateChips'}}
+    </a>
+  </nav>
+
+
+</section>

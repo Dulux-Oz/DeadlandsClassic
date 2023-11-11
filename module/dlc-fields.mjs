@@ -46,12 +46,16 @@ export const dlcNumber = (
   initial = 1,
   initialMin = 0,
   initialMax = 10,
+  required = true,
+  integer = true,
   ...options
 ) => ({
-  [label]: new fields.SchemaField({
-    ...dlcNumberComponent('value', initial, { options }),
-    ...dlcNumberComponent('min', initialMin),
-    ...dlcNumberComponent('max', initialMax),
+  [label]: new fields.NumberField({
+    initial,
+    required,
+    integer,
+    min: initialMin,
+    max: initialMax,
   }),
 });
 
@@ -59,11 +63,15 @@ export const dlcNumberNoMax = (
   label,
   initial = 1,
   initialMin = 0,
+  required = true,
+  integer = true,
   ...options
 ) => ({
-  [label]: new fields.SchemaField({
-    ...dlcNumberComponent('value', initial, { options }),
-    ...dlcNumberComponent('min', initialMin),
+  [label]: new fields.NumberField({
+    initial,
+    required,
+    integer,
+    min: initialMin,
   }),
 });
 
@@ -71,17 +79,29 @@ export const dlcNumberNoMin = (
   label,
   initial = 1,
   initialMax = 10,
+  required = true,
+  integer = true,
   ...options
 ) => ({
-  [label]: new fields.SchemaField({
-    ...dlcNumberComponent('value', initial, { options }),
-    ...dlcNumberComponent('max', initialMax),
+  [label]: new fields.NumberField({
+    initial,
+    required,
+    integer,
+    max: initialMax,
   }),
 });
 
-export const dlcNumberNoLimit = (label, initial = 1, ...options) => ({
-  [label]: new fields.SchemaField({
-    ...dlcNumberComponent('value', initial, { options }),
+export const dlcNumberNoLimit = (
+  label,
+  initial = 1,
+  required = true,
+  integer = true,
+  ...options
+) => ({
+  [label]: new fields.NumberField({
+    initial,
+    required,
+    integer,
   }),
 });
 
@@ -158,6 +178,8 @@ export const dlcVariableAptitude = (label, defaultRanks) => ({
   }),
 });
 
+/* --------------------------------------------------- */
+
 // After d12, traits go to d12 + 2, d12 + 4, etc. The dieBoost is this plus
 export const dlcTrait = (label) => ({
   [label]: new fields.SchemaField({
@@ -171,10 +193,73 @@ export const dlcTrait = (label) => ({
   }),
 });
 
+/* --------------------------------------------------- */
+
 // A record of the number of a given chip color
-export const dlcChip = (label) => ({
-  [label]: new fields.SchemaField({
-    ...dlcValueType('chip'),
-    ...dlcNumberNoMax('value', 0, 0),
+export const dlcChip = (
+  label,
+  initial = 0,
+  initialMin = 0,
+  required = true,
+  integer = true,
+  ...options
+) => ({
+  [label]: new fields.NumberField({
+    initial,
+    required,
+    integer,
+    min: initialMin,
+  }),
+});
+
+/* --------------------------------------------------- */
+
+export const dlcCharModLevel = () => ({
+  new: fields.SchemaField({
+    name: new fields.StringField({ required: true, blank: false }),
+    ...dlcNumber('level', 1, 1, 5), // The level this represents
+    ...dlcNumberNoMax('cost', 1, 1), // How much this level costs in bounty
+    effect: new fields.HTMLField(),
+  }),
+});
+
+export const dlcCharMod = () => ({
+  new: fields.SchemaField({
+    name: new fields.StringField({ required: true, blank: false }),
+    blurb: new fields.HTMLField(),
+    capstone: new fields.HTMLField(),
+
+    ...dlcNumberNoMax('level', 0, 0), // Current level
+    ...dlcNumber('startLevel', 0, 0, 5), // start level
+    ...dlcBoolean('hasCapstone', false),
+
+    levels: new fields.SetField(dlcCharModLevel),
+  }),
+});
+
+export const dlcCharModSingle = () => ({
+  new: fields.SchemaField({
+    name: new fields.StringField({ required: true, blank: false }),
+    blurb: new fields.HTMLField(),
+    effect: new fields.HTMLField(),
+
+    ...dlcNumber('cost', 1, 1, 5), // start level
+    ...dlcNumberNoMax('level', 0, 0), // Current level
+    ...dlcNumber('startLevel', 0, 0, 5), // start level
+  }),
+});
+
+export const dlcCharModSingleCapstone = () => ({
+  new: fields.SchemaField({
+    name: new fields.StringField({ required: true, blank: false }),
+    blurb: new fields.HTMLField(),
+    effect: new fields.HTMLField(),
+
+    ...dlcNumber('cost', 1, 1, 5), // start level
+    ...dlcNumberNoMax('level', 0, 0), // Current level
+    ...dlcNumber('startLevel', 0, 0, 5), // start level
+
+    ...dlcBoolean('hasCapstone', false),
+    capstone: new fields.HTMLField(),
   }),
 });

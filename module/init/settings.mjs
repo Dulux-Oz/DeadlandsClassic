@@ -1,4 +1,5 @@
 export function fpCreateGameSettings() {
+  /* global CanonicalCards */
   game.settings.register('deadlands-classic', 'game-world', {
     name: 'deadlands-classic.settings.game-world.name',
     hint: 'deadlands-classic.settings.game-world.hint',
@@ -24,5 +25,26 @@ export function fpCreateGameSettings() {
       old: 'Old School',
       mod: 'Modern',
     },
+    onchange: (value) => {
+      CanonicalCards.updateIcons();
+    },
+  });
+
+  game.settings.register('deadlands-classic', 'wildBlack', {
+    name: 'Wild black',
+    hint: "Marshal's Black joker is wild",
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: false,
+  });
+
+  game.settings.register('deadlands-classic', 'wildRed', {
+    name: 'Wild red',
+    hint: "Marshal's Red joker is wild",
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: false,
   });
 }

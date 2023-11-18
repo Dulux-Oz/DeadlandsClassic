@@ -1,8 +1,7 @@
 /* eslint-disable no-console */
-import { aCards, mCardMap } from './cards.mjs';
-import { Deck } from './deck.mjs';
 
 export class Hand {
+  /* global CanonicalCards */
   constructor(isHostile) {
     this.isHostile = !!isHostile;
 
@@ -53,12 +52,13 @@ export class Hand {
 
   get contents() {
     const cards = [...this.cards, ...this.discards];
+
     if (this.rjoker) {
-      cards.push(53);
+      cards.push(CanonicalCards.rJokerIndex);
     }
 
     if (this.bjoker) {
-      cards.push(52);
+      cards.push(CanonicalCards.bJokerIndex);
     }
 
     if (this.hasSleeved) {
@@ -104,28 +104,50 @@ export class Hand {
     return this.override !== -1 && this.override === this.held;
   }
 
+  get usingRedJoker() {
+    return (
+      this.override !== this.held &&
+      this.override === CanonicalCards.rJokerIndex
+    );
+  }
+
+  get usingBlackJoker() {
+    return (
+      this.override !== this.held &&
+      this.override === CanonicalCards.bJokerIndex
+    );
+  }
+
   get usingJoker() {
-    return this.override > 51;
+    return this.usingRedJoker || this.usingBlackJoker;
   }
 
   /**
-   * If either joker is active (override value is 52 or 53), initiative is 60.
-   * If a sleeved card has been made active (0 <= this.override <= 51), then
-   * initiative is 55.
+   *
+   * If a sleeved card has been made active, then initiative is 54. If the Marshal's
+   * Jokers are not wild, they can be sleeved and if used in this way they get sleeved
+   * initiative, not joker initiative.
+   *
+   * If an unsleeved joker is active, initiative is 55. Player's red joker or Marshal's
+   * wild joker.
+   *
    * If there is a live card, the highest value is the initiative.
-   * Otherwise initiative is -1, i.e. this combatant is no longer participating
-   * in this round of combat.
+   *
+   * Otherwise initiative is -1, i.e. this combatant is no longer participating in
+   * this round of combat.
    *
    * It is possible for a sleeved card or joker to be present, which the player
    * has not chosen to activate.
    */
   updateInitiative() {
-    // joker is present and active.
-    if (this.override > 51) {
-      this.initiative = 60;
-      // sleeved card has been made active
-    } else if (this.override > -1) {
+    // Non-wild jokers can be held
+    if (this.override === this.held && this.override > -1) {
+      this.initiative = 54;
+
+      // joker is present and active.
+    } else if (this.override >= CanonicalCards.smallestJokerIndex) {
       this.initiative = 55;
+
       // if there is a live card,
     } else {
       this.initiative = this.cards.length > 0 ? this.cards[0] : -1;
@@ -149,7 +171,8 @@ export class Hand {
    */
   toggleRedJoker() {
     if (this.rjoker) {
-      this.override = this.override === 53 ? -1 : 53;
+      const overridden = this.override === CanonicalCards.rJokerIndex;
+      this.override = overridden ? -1 : CanonicalCards.rJokerIndex;
     }
     this.updateInitiative();
   }
@@ -160,7 +183,8 @@ export class Hand {
    */
   toggleBlackJoker() {
     if (this.bjoker) {
-      this.override = this.override === 52 ? -1 : 52;
+      const overridden = this.override === CanonicalCards.bJokerIndex;
+      this.override = overridden ? -1 : CanonicalCards.bJokerIndex;
     }
     this.updateInitiative();
   }
@@ -182,40 +206,50 @@ export class Hand {
 
   /**
    * Add a card to this hand.
-   * @param {*} card - integer in the range 0 .. 53
+   * @param {*} card is an integer representing a card
    * @returns true if the card was valid.
    */
   add(card) {
-    if (!Deck.isCard(card)) {
+    if (!CanonicalCards.isCard(card)) {
       return false;
     }
 
     const intCard = Math.floor(card);
 
-    // The Red joker is always added
-    if (intCard === 53 && !this.rjoker) {
-      this.rjoker = true;
-
-      // The Black joker
-    } else if (intCard === 52) {
-      // For a hostile actor, black jokers are just jokers
-
-      if (this.isHostile && !this.bjoker) {
-        this.bjoker = true;
-
-        // For an allied actor, black jokers kill themselves and any sleeved
-        // card. Black Jokers do not kill Red jokers.
-      } else {
-        this.discards.push(intCard);
-        if (this.held >= 0) {
-          this.discards.push(this.held);
-          this.held = -1;
+    if (CanonicalCards.isJoker(intCard)) {
+      if (this.isHostile) {
+        if (intCard === CanonicalCards.rJokerIndex) {
+          if (game.settings.get('deadlands-classic', 'wildRed')) {
+            this.rjoker = true;
+            return true;
+          }
+        } else if (game.settings.get('deadlands-classic', 'wildBlack')) {
+          this.bjoker = true;
+          return true;
         }
+        this.cards.push(intCard);
+        this.cards.sort((a, b) => b - a);
+        return true;
       }
-    } else {
-      this.cards.push(intCard);
-      this.cards.sort((a, b) => b - a);
+
+      // Non-hostile player got a Red joker
+      if (intCard === CanonicalCards.rJokerIndex) {
+        this.rjoker = true;
+        return true;
+      }
+
+      // Non-hostile player got a black joker
+      this.discards.push(intCard);
+      if (this.held >= 0) {
+        this.discards.push(this.held);
+        this.held = -1;
+      }
+
+      return true;
     }
+
+    this.cards.push(intCard);
+    this.cards.sort((a, b) => b - a);
 
     return true;
   }
@@ -257,9 +291,9 @@ export class Hand {
       this.cards.splice(inx, 1);
     } else if (this.held === card) {
       this.held = -1;
-    } else if (card === 52 && this.bjoker) {
+    } else if (card === CanonicalCards.bJokerIndex && this.bjoker) {
       this.bjoker = false;
-    } else if (card === 53 && this.rjoker) {
+    } else if (card === CanonicalCards.rJokerIndex && this.rjoker) {
       this.rjoker = false;
     } else {
       // card value is not present
@@ -283,12 +317,12 @@ export class Hand {
     const cards = [];
 
     if (this.rjoker) {
-      cards.push(53);
+      cards.push(CanonicalCards.rJokerIndex);
       this.rjoker = false;
     }
 
     if (this.bjoker) {
-      cards.push(52);
+      cards.push(CanonicalCards.bJokerIndex);
       this.bjoker = false;
     }
 
@@ -341,77 +375,5 @@ export class Hand {
     cards.push(...this.#collectHeld());
 
     return cards;
-  }
-
-  // Turn an array of card integers into a string of comma separated card symbols
-  // e.g. [0, 3, 51] -> '2\u2663,2\u2660,A\u2660'
-  // 2 of clubs; 2 of spades, ace of spades
-  static #makeFieldString(arr) {
-    const symbols = arr.map((x) => (x >= 0 && x <= 53 ? aCards[x].symbol : ''));
-    return symbols.join(',');
-  }
-
-  /**
-   * This operation creates a string that represents all the cards held.
-   * They are separated into cards, discards and held cards; which are separated by | characters
-   */
-
-  toField() {
-    const fields = [Hand.#makeFieldString(this.cards)];
-    fields.push(Hand.#makeFieldString(this.discards));
-
-    const held = [];
-
-    if (this.rjoker) {
-      held.push(53);
-    }
-
-    if (this.bjoker) {
-      held.push(52);
-    }
-
-    if (this.hasSleeved) {
-      held.push(this.held);
-    }
-
-    fields.push(Hand.#makeFieldString(held));
-
-    return fields.join('|');
-  }
-
-  fromField(field) {
-    // return this hand to an empty condition. Can throw these away as we're about
-    // to populate the data from 'field'.
-    this.collectAll();
-
-    const parts = field.split('|');
-
-    if (parts[0] !== '') {
-      this.cards = parts[0].split(',').map((s) => mCardMap.get(s));
-    }
-
-    if (parts[1] !== '') {
-      this.discards = parts[1].split(',').map((s) => mCardMap.get(s));
-    }
-
-    if (parts[2] !== '') {
-      const held = parts[2].split(',');
-      while (held.length > 0) {
-        const symbol = held.pop();
-
-        if (symbol === aCards[53].symbol) {
-          this.rjoker = true;
-        } else if (symbol === aCards[52].symbol) {
-          if (this.isHostile) {
-            this.bjoker = true;
-          } else {
-            this.discards.push(52);
-          }
-        } else {
-          this.held = mCardMap.get(symbol);
-        }
-      }
-    }
-    this.updateInitiative();
   }
 }

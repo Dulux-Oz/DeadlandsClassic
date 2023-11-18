@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-import { aCards } from '../helpers/cards.mjs';
 
 export class DeadlandsCombatTracker extends CombatTracker {
+  /* global CanonicalCards */
   /** @inheritdoc */
   static get defaultOptions() {
     return foundry.utils.mergeObject(
@@ -20,23 +20,14 @@ export class DeadlandsCombatTracker extends CombatTracker {
   async getData(options = {}) {
     let context = await super.getData(options);
 
+    const roundStarted = !!this.viewed?.roundStarted;
+    const offerEndTurn = !!this.viewed?.offerEndTurn;
+
     if (this.viewed !== null && typeof this.viewed !== 'undefined') {
-      const roundStarted =
-        this.viewed.roundStarted != null &&
-        typeof this.viewed.roundStarted !== 'undefined'
-          ? !!this.viewed.roundStarted
-          : false;
-
-      const offerEndTurn =
-        this.viewed.offerEndTurn != null &&
-        typeof this.viewed.offerEndTurn !== 'undefined'
-          ? !!this.viewed.offerEndTurn
-          : false;
-
       const { hasPreviousTurns } = this.viewed;
 
-      const redJoker = aCards[53];
-      const blackJoker = aCards[52];
+      const redJoker = CanonicalCards.cardByIndex(CanonicalCards.rJokerIndex);
+      const blackJoker = CanonicalCards.cardByIndex(CanonicalCards.bJokerIndex);
 
       const nextCombatant = this.viewed.combatant;
       const showNextTurn = nextCombatant?.isOverridden;
@@ -60,10 +51,12 @@ export class DeadlandsCombatTracker extends CombatTracker {
       element.cards = combatant.cards; // array of integers
       element.cardObjects = combatant.cardObjects; // array of card objects
 
-      // It's our turn, we are not using an override, we have normal card and no sleeved card.
+      // It's our turn, we are not using an override, we have a normal card and no sleeved card.
       element.canSleeve =
         index === 0 &&
-        !combatant.isOverridden &&
+        !combatant.isUsingSleeved &&
+        !combatant.isUsingRedJoker &&
+        !combatant.isUsingBlackJoker &&
         !combatant.hasSleeved &&
         !!combatant.hasNormal;
 
@@ -73,11 +66,33 @@ export class DeadlandsCombatTracker extends CombatTracker {
       element.hasBlackJoker = !!combatant.hasBlackJoker;
       element.hasNormal = !!combatant.hasNormal;
       element.hasRedJoker = !!combatant.hasRedJoker;
-      element.hasSleeved = !!combatant.hasSleeved;
+
+      element.showBlackControl =
+        !!combatant.hasBlackJoker &&
+        !combatant.isUsingRedJoker &&
+        !combatant.isUsingSleeved;
+
+      element.showRedControl =
+        !!combatant.hasRedJoker &&
+        !combatant.isUsingBlackJoker &&
+        !combatant.isUsingSleeved;
+
+      element.showSleeveControl =
+        element.canSleeve &&
+        !combatant.isUsingRedJoker &&
+        !combatant.isUsingBlackJoker;
+
+      element.showUseSleeveControl =
+        !!combatant.hasSleeved &&
+        !combatant.isUsingRedJoker &&
+        !combatant.isUsingBlackJoker;
+
+      element.showVamoose = !!combatant.hasNormal || !combatant.isOverridden;
 
       element.isHostile = !!combatant.isHostile;
-      element.isOverridden = !!combatant.isOverridden;
-      element.isUsingJoker = !!combatant.isUsingJoker;
+      element.isUsingSleeved = !!combatant.isUsingSleeved;
+      element.isUsingRedJoker = !!combatant.isUsingRedJoker;
+      element.isUsingBlackJoker = !!combatant.isUsingBlackJoker;
 
       element.usingSleeved = combatant.usingSleeved;
 
@@ -85,14 +100,14 @@ export class DeadlandsCombatTracker extends CombatTracker {
 
       element.showControl =
         (combatant?.players?.includes(game.user) || game.user.isGM) &&
-        this.viewed.roundStarted;
+        roundStarted;
 
-      element.showDiscards = !this.viewed.roundStarted;
+      element.showDiscards = !roundStarted;
 
       // It's always the first entry that's active in deadlands classic
       element.active = index === 0;
       element.hasRolled = false;
-      element.roundStarted = this.viewed.roundStarted;
+      element.roundStarted = roundStarted;
     }
 
     return context;
@@ -120,22 +135,38 @@ export class DeadlandsCombatTracker extends CombatTracker {
   async #onCombatantCards(event) {
     event.preventDefault();
     event.stopPropagation();
+
+    // No discarding or retrieving cards mid round
+    if (this.viewed?.roundStarted) {
+      return;
+    }
+
     const card = event.currentTarget;
+    const num = Number(card.dataset.cardNumber);
 
     const li = card.closest('.combatant-hand');
     const combat = this.viewed;
-    const c = combat.combatants.get(li.dataset.combatantId);
+    const combatant = combat.combatants.get(li.dataset.combatantId);
+
+    const isFriend = !combatant.isHostile;
+    const wildRed =
+      num === CanonicalCards.rJokerIndex &&
+      game.settings.get('deadlands-classic', 'wildRed');
+    const wildBlack =
+      num === CanonicalCards.bJokerIndex &&
+      game.settings.get('deadlands-classic', 'wildBlack');
+
+    const ignore = isFriend || wildRed || wildBlack;
+
+    // If the card clicked is a joker, ignore this
+    if (CanonicalCards.isJoker(num) && ignore) {
+      return;
+    }
 
     const inx = card.dataset.index;
-    const num = card.dataset.cardNumber;
 
     console.log('Card: ', num, ' is at index: ', inx);
     console.log(card.dataset);
-
-    // eslint-disable-next-line eqeqeq
-    if (num == 52 || num == 53) {
-      return;
-    }
 
     // Switch control action
     // eslint-disable-next-line default-case
@@ -145,7 +176,7 @@ export class DeadlandsCombatTracker extends CombatTracker {
         await game['deadlands-classic'].socket.executeAsGM(
           'socketDiscardCard',
           combat.id,
-          c.id,
+          combatant.id,
           inx
         );
         break;
@@ -155,7 +186,7 @@ export class DeadlandsCombatTracker extends CombatTracker {
         await game['deadlands-classic'].socket.executeAsGM(
           'socketUndiscardCard',
           combat.id,
-          c.id,
+          combatant.id,
           inx
         );
         break;

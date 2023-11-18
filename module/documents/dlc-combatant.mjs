@@ -1,6 +1,6 @@
-import { aCards } from '../helpers/cards.mjs';
 import { Hand } from '../helpers/hand.mjs';
 
+/* global CanonicalCards */
 export class DeadlandsCombatant extends Combatant {
   // eslint-disable-next-line no-useless-constructor
   constructor(data, context) {
@@ -102,7 +102,7 @@ export class DeadlandsCombatant extends Combatant {
     if (this.isDefeated) {
       return [];
     }
-    return this.cards.map((c) => aCards[c]);
+    return this.cards.map((c) => CanonicalCards.cardByIndex(c));
   }
 
   get contents() {
@@ -114,7 +114,7 @@ export class DeadlandsCombatant extends Combatant {
   }
 
   get discardObjects() {
-    return this.discards.map((c) => aCards[c]);
+    return this.discards.map((c) => CanonicalCards.cardByIndex(c));
   }
 
   get hasNormal() {
@@ -145,11 +145,21 @@ export class DeadlandsCombatant extends Combatant {
   }
 
   get isOverridden() {
-    return this.hand.usingJoker || this.hand.usingSleeved;
+    return (
+      this.isUsingBlackJoker || this.isUsingRedJoker || this.isUsingSleeved
+    );
   }
 
-  get isUsingJoker() {
-    return this.hand.usingJoker;
+  get isUsingSleeved() {
+    return this.hand.usingSleeved;
+  }
+
+  get isUsingRedJoker() {
+    return this.hand.usingRedJoker;
+  }
+
+  get isUsingBlackJoker() {
+    return this.hand.usingBlackJoker;
   }
 
   get roundStarted() {

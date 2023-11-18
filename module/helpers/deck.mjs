@@ -1,6 +1,5 @@
-import { aCards, mCardMap } from './cards.mjs';
-
 export class Deck {
+  /* global CanonicalCards */
   constructor() {
     const cards = Array.from({ length: 54 }, (_, i) => i);
 
@@ -14,24 +13,16 @@ export class Deck {
     this.shuffle = false;
   }
 
-  static isCard(card) {
-    if (Number.isNaN(card)) {
-      return false;
-    }
-
-    const intCard = Math.floor(card);
-
-    return intCard >= 0 && intCard <= 53;
-  }
-
-  static makeCardArray(hand) {
+  // eslint-disable-next-line class-methods-use-this
+  makeCardArray(hand) {
     if (typeof hand === 'undefined') {
       return [];
     }
+
     if (hand.constructor === Array) {
-      return hand.filter((c) => Deck.isCard(c));
+      return hand.filter((c) => CanonicalCards.isCard(c));
     }
-    if (Deck.isCard(hand)) {
+    if (CanonicalCards.isCard(hand)) {
       return [hand];
     }
     return [];
@@ -58,7 +49,7 @@ export class Deck {
   }
 
   /**
-   * @param {*} hand - A card (integer in range 0 .. 53), or an array of cards
+   * @param {*} hand - A card, or an array of cards
    * @returns boolean indication of whether any cards were returned to the
    * deck's discard pile.
    *
@@ -67,7 +58,7 @@ export class Deck {
    */
 
   discard(hand) {
-    const arr = Array.from([...this.discards, ...Deck.makeCardArray(hand)]);
+    const arr = Array.from([...this.discards, ...this.makeCardArray(hand)]);
 
     // filter to eliminate dupilcates.
     this.discards = arr.filter((item, index) => arr.indexOf(item) === index);
@@ -124,7 +115,7 @@ export class Deck {
    * @param {*} hand
    */
   prune(hand) {
-    const handSet = new Set(Deck.makeCardArray(hand));
+    const handSet = new Set(this.makeCardArray(hand));
 
     // Remove anything from cards or discards that is in hand
     this.cards = this.cards.filter((e) => !handSet.has(e));
@@ -158,7 +149,7 @@ export class Deck {
     const deckSet = new Set([
       ...this.cards,
       ...this.discards,
-      ...Deck.makeCardArray(hand),
+      ...this.makeCardArray(hand),
     ]);
 
     // Add anything missing to this.discards
@@ -171,6 +162,7 @@ export class Deck {
     }
 
     this.shuffle =
-      !this.cards?.includes(52) || this.cards?.includes.length === 0;
+      !this.cards?.includes(CanonicalCards.bJokerIndex) ||
+      this.cards?.includes.length === 0;
   }
 }

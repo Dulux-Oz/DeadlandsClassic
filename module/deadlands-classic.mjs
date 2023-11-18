@@ -1,7 +1,7 @@
 // import modules
 import { DeadlandsCombat } from './documents/dlc-combat.mjs';
 import { DeadlandsCombatant } from './documents/dlc-combatant.mjs';
-import { updateIcons } from './helpers/cards.mjs';
+import { CanonicalCards } from './helpers/canonicalcards.mjs';
 import { fpPreloadTemplates } from './init/preloads.mjs';
 import { fpCreateGameSettings } from './init/settings.mjs';
 import { registerSocketFunctions } from './init/socket-functions.mjs';
@@ -60,7 +60,7 @@ Hooks.once('init', async () => {
   fpCreateGameSettings();
   await fpPreloadTemplates();
 
-  updateIcons();
+  globalThis.CanonicalCards = new CanonicalCards();
 });
 
 Hooks.once('setup', async () => {

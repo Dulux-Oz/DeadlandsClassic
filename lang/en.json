@@ -1,4 +1,43 @@
 {
+  "DLC_COMBAT": {
+    "BeginRound": "Begin Round",
+    "EndRound": "End Combat Round",
+    "MakeEnemy": "Make hostile",
+    "MakeFriend": "Make friendly",
+    "Sleeve": "Sleeve highest card",
+    "ToggleJoker": "Toggle use joker",
+    "ToggleSleeved": "Toggle use sleeved card",
+    "Vamoose": "Vamoose!!"
+  },
+
+  "DLC": {
+    "traitName": {
+      "Cognition": "Cognition",
+      "Deftness": "Deftness",
+      "Knowledge": "Knowledge",
+      "Mien": "Mien",
+      "Nimbleness": "Nimbleness",
+      "Quickness": "Quickness",
+      "Smarts": "Smarts",
+      "Spirit": "Spirit",
+      "Strength": "Strength",
+      "Vigor": "Vigor"
+    },
+
+    "traitAbbreviation": {
+      "Cognition": "cog",
+      "Deftness": "def",
+      "Knowledge": "kno",
+      "Mien": "mie",
+      "Nimbleness": "nim",
+      "Quickness": "qui",
+      "Smarts": "sma",
+      "Spirit": "spi",
+      "Strength": "str",
+      "Vigor": "vig"
+    }
+  },
+
   "deadlands-classic": {
     "title": "Deadlands Classic",
     "description": "A Game System for running games of Deadlands Classic: Weird West, Deadlands Classic: Hell On Earth, and/or Deadlands Classic: Lost Colony via Foundry VTT.",
@@ -20,6 +59,7 @@
           "aptitudes": "Aptitudes",
           "bio": "Biography",
           "biodata": "Bio-Data",
+          "chips": "Chips",
           "combat": "Combat",
           "edges": "Edges",
           "gear": "Inventory",

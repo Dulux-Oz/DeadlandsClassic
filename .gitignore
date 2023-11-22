@@ -1,2 +1,4 @@
 .htmlhintrc
 *.log
+*~
+node_modules/

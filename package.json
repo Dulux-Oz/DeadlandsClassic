@@ -2,7 +2,7 @@
   "name": "deadlands-classic",
   "version": "0.1.0",
   "scripts": {
-    "lint:eslint:check": "npx eslint scripts/ --ext .js ",
+    "lint:eslint:check": "npx eslint **/*.mjs",
     "lint:prettier:check": "npx prettier . --check --ignore-unknown",
     "lint:prettier:write": "npx prettier . --write --ignore-unknown",
     "build:styles": "",
@@ -26,7 +26,7 @@
     "typescript": "^5.1.6"
   },
   "lint-staged": {
-    "*.js": [
+    "*.mjs": [
       "npm run lint:eslint:check --"
     ],
     "**/*": [

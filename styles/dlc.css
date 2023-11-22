@@ -1,5 +1,130 @@
 /* @haxxx: apparently its best practice to use class, etc, definitions with a prefix so as to avoid name-space issues. I suggest "dlc".  -MJB - 20230702 */
 
+:root {
+  --color-shadow-dark: #000;
+  --color-shadow-highlight: #ff6400;
+  --color-shadow-primary: #fe6a6a;
+  --combat-card-height: 42px;
+  --combat-card-width: 25px;
+  --sidebar-item-height: 48px;
+  --sidebar-card-height: 21px;
+  --sidebar-card-width: 12px;
+}
+
+.directory li.combatant {
+  line-height: var(--sidebar-item-height);
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+}
+
+.directory li.combatant h3,
+.directory li.combatant h4 {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.directory li.combatant img {
+  flex: 0 0 var(--sidebar-item-height);
+  height: var(--sidebar-item-height);
+  width: var(--sidebar-item-height);
+  object-fit: scale-down;
+  object-position: 50% 0;
+  border: none;
+}
+
+.directory li.combatant .token-image {
+  margin: 0;
+  height: var(--sidebar-item-height);
+  width: var(--sidebar-item-height);
+  flex: 0 0 24px;
+  line-height: 28px;
+  margin: 0 0 2px;
+}
+.directory li.combatant .token-name {
+  flex: 1;
+  overflow: hidden;
+  margin: 0 5px;
+  text-shadow: 1px 1px 4px var(--color-shadow-dark);
+}
+.directory li.combatant .token-name h4 {
+  flex: 0 0 24px;
+  line-height: 28px;
+  margin: 0 0 2px;
+}
+.directory li.combatant .token-name .hostile {
+  flex: 0 0 24px;
+  line-height: 28px;
+  margin: 0 0 2px;
+  color: crimson;
+}
+.card-flexrow {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  height: var(--combat-card-height);
+  line-height: 28px;
+}
+
+.combatant-control {
+  flex: 0 0 20px;
+  height: 20px;
+  float: left;
+  color: var(--color-text-dark-5);
+}
+
+.combatant-toggle {
+  display: flex;
+  flex-direction: row;
+  object-fit: scale-down;
+  border: none;
+  height: 20px;
+  column-gap: 5px;
+  line-height: var(--sidebar-card-height);
+}
+
+.combatant-cards {
+  display: flex;
+  flex-direction: row;
+  flex: 0 0 30px;
+  justify-content: flex-start;
+  height: var(--combat-card-height);
+  object-fit: scale-down;
+  border: none;
+  margin: 2px;
+}
+
+.combatant-discards {
+  display: flex;
+  flex-direction: row;
+  flex: 0 0 30px;
+  justify-content: flex-start;
+  height: var(--combat-card-height);
+  object-fit: scale-down;
+  border: none;
+  margin: 2px;
+}
+
+li.combatant .roll {
+  display: block;
+  width: 40px;
+  height: var(--sidebar-item-height);
+  background: url(../icons/svg/d20.svg) no-repeat 50% 50%;
+  background-size: 32px;
+  margin: 0 0.5em;
+}
+li.combatant .roll:hover {
+  background-image: url(../icons/svg/d20-highlight.svg);
+}
+
+.chip-entry {
+  display: grid;
+  grid-template-columns: 180px 40px;
+  gap: 10px;
+  padding: 10px;
+}
+
 .dlc {
 }
 .dlc .sheet-header {
@@ -39,6 +164,8 @@
 .dlc .sheet-body .bio {
 }
 .dlc .sheet-body .biodata {
+}
+.sheet-body .chips {
 }
 .dlc .sheet-body .combat {
 }

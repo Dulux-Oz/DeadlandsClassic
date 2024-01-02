@@ -5,7 +5,8 @@
     "MakeEnemy": "Make hostile",
     "MakeFriend": "Make friendly",
     "Sleeve": "Sleeve highest card",
-    "ToggleJoker": "Toggle use joker",
+    "ToggleRedJoker": "Toggle use red joker",
+    "ToggleBlackJoker": "Toggle use black joker",
     "ToggleSleeved": "Toggle use sleeved card",
     "Vamoose": "Vamoose!!"
   },

@@ -94,40 +94,35 @@
                             {{/each}}
                         </div>
 
-                        {{#if this.hasBlackJoker}}
-                            {{#if ../user.isGM}}
-                                <a class="combatant-control" aria-label="{{localize 'DLC_COMBAT.ToggleJoker'}}" role="button"
-                                 data-tooltip="DLC_COMBAT.ToggleJoker" data-control="toggleBlackJoker">
-                                 <img src="../icons/svg/card-joker.svg" />
-                                </a>
-                            {{/if}}
-                        {{/if}}
-
                         {{#if this.showControl}}
 
-                            {{#if this.hasRedJoker}}
-                            <a class="combatant-control" aria-label="{{localize 'DLC_COMBAT.ToggleJoker'}}" role="button" data-tooltip="DLC_COMBAT.ToggleJoker" data-control="toggleRedJoker">
-                                <img src="../icons/svg/card-joker.svg" />
+                            {{#if this.showBlackControl}}
+                            <a class="combatant-control {{#unless this.isUsingRedJoker}}active{{/unless}}" aria-label="{{localize 'DLC_COMBAT.ToggleJoker'}}" role="button"  data-tooltip="DLC_COMBAT.ToggleBlackJoker" data-control="toggleBlackJoker">
+                                <i class="fas fa-skull-crossbones"></i>
                             </a>
                             {{/if}}
 
-                            {{#if this.canSleeve}}
-                                <a class="combatant-control {{#if this.canSleeve}}active{{/if}}" aria-label="{{localize 'DLC_COMBAT.Sleeve'}}" role="button" data-tooltip="DLC_COMBAT.Sleeve" data-control="sleeveHighest">
-                                    <i class="fas fa-hand-holding"></i>
-                                </a>
-                            {{else if this.hasSleeved}}
-
-                               <a class="combatant-control active" aria-label="{{localize 'DLC_COMBAT.ToggleSleeved'}}" role="button" data-tooltip="DLC_COMBAT.ToggleSleeved" data-control="toggleSleeved">
-                                   {{#if this.usingSleeved}}
-                                       <i class="fas fa-thumbs-down"></i>
-                                   {{else}}
-                                       <i class="fas fa-hand-holding-heart"></i>
-                                   {{/if}}
-                               </a>
-
+                            {{#if this.showRedControl}}
+                            <a class="combatant-control {{#unless this.isUsingBlackJoker}}active{{/unless}}" aria-label="{{localize 'DLC_COMBAT.ToggleJoker'}}" role="button" data-tooltip="DLC_COMBAT.ToggleRedJoker" data-control="toggleRedJoker">
+                                <i class="fas fa-j"></i>
+                            </a>
                             {{/if}}
 
-                            {{#if this.hasNormal}}
+                            {{#if this.showSleeveControl}}
+                                <a class="combatant-control active" aria-label="{{localize 'DLC_COMBAT.Sleeve'}}" role="button" data-tooltip="DLC_COMBAT.Sleeve" data-control="sleeveHighest">
+                                    <i class="fas fa-hand-holding"></i>
+                                </a>
+                            {{else if showUseSleeveControl}}
+                                <a class="combatant-control active" aria-label="{{localize 'DLC_COMBAT.ToggleSleeved'}}" role="button" data-tooltip="DLC_COMBAT.ToggleSleeved" data-control="toggleSleeved">
+                                    {{#if this.usingSleeved}}
+                                        <i class="fas fa-thumbs-down"></i>
+                                    {{else}}
+                                        <i class="fas fa-hand-holding-heart"></i>
+                                    {{/if}}
+                                </a>
+                            {{/if}}
+
+                            {{#if this.showVamoose}}
                             <a class="combatant-control active" aria-label="{{localize 'DLC_COMBAT.Vamoose'}}" role="button" data-tooltip="DLC_COMBAT.Vamoose" data-control="vamoose">
                                 <i class="fas fa-person-running"></i>
                             </a>
@@ -147,9 +142,11 @@
                 <div class="token-initiative">
                     {{#if this.roundStarted}}
                         {{#if this.isFriend}}
-                            {{#if this.isUsingJoker}}
-                                <a class="combatant-control" role="button""><img src={{toplevel.redJoker.icon}} /></i></a>
-                            {{else if this.isOverridden}}
+                            {{#if this.isUsingRedJoker}}
+                                <a class="combatant-control" role="button""><img src={{toplevel.redJoker.icon}} /></a>
+                            {{else if this.isUsingBlackJoker}}
+                                <a class="combatant-control" role="button""><img src={{toplevel.blackJoker.icon}} /></a>
+                            {{else if this.isUsingSleeved}}
                                 <a class="combatant-control" role="button""><i class="fas fa-hand-holding-heart"></i></a>
                             {{else}}
                                 {{#each this.cardObjects as | card |}}
@@ -199,10 +196,9 @@
                         {{/each}}
                     </div>
                     {{/if}}
+                </li>
                 {{/if}}
 
-                </li>
-            </div>
         {{/each}}
         {{/with}}
     </ol>

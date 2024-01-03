@@ -9,7 +9,7 @@ export class DeadlandsActorDirectory extends ActorDirectory {
     const options = super._getEntryContextOptions();
     return [
       {
-        name: 'DLC.SIDEBAR.UseChips',
+        name: 'DLC.sidebar.UseChips',
         icon: '<i class="fas fa-circle"></i>',
         condition: (li) => true,
         callback: (li) => {

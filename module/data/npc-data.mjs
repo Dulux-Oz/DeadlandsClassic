@@ -1,4 +1,3 @@
-import * as DLCFields from '../dlc-fields.mjs';
 import { BaseActorDataModel } from './base-actor-data.mjs';
 
 const { fields } = foundry.data;

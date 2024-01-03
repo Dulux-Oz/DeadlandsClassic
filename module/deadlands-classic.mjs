@@ -8,11 +8,11 @@ import { DeadlandsCombat } from './documents/dlc-combat.mjs';
 import { DeadlandsCombatant } from './documents/dlc-combatant.mjs';
 import { CanonicalCards } from './helpers/canonicalcards.mjs';
 import { Chips } from './helpers/chips.mjs';
-import { addChipsTab } from './init/chip-tab.mjs';
+import { addChipTab } from './init/add-chip-tab.mjs';
 import { preloadTemplates } from './init/preloads.mjs';
+import { registerActorSheets } from './init/register-actor-sheets.mjs';
 import { createGameSettings } from './init/settings.mjs';
 import { registerSocketFunctions } from './init/socket-functions.mjs';
-import { registerSheets } from './sheets/dlc-sheets.mjs';
 import { ChipManager } from './sidebar/chip-manager.mjs';
 import { DeadlandsActorDirectory } from './sidebar/dlc-actors-directory.mjs';
 import { DeadlandsCombatTracker } from './sidebar/dlc-combat-tracker.mjs';
@@ -79,10 +79,9 @@ Hooks.once('init', async () => {
   CONFIG.Item.dataModels.hindrance = TweakData;
   CONFIG.Item.dataModels.weapon = ItemData;
 
-  registerSheets();
+  registerActorSheets();
   createGameSettings();
   await preloadTemplates();
-
 
   globalThis.CanonicalCards = new CanonicalCards();
 });
@@ -100,5 +99,5 @@ Hooks.once('ready', async () => {
 
 Hooks.on('renderSidebar', async (app, html) => {
   // add the partyTab
-  addChipsTab(app, html);
+  addChipTab(app, html);
 });

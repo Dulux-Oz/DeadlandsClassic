@@ -81,9 +81,9 @@
                         {{#unless this.roundStarted}}
                             {{#if ../user.isGM}}
                                 {{#if this.isHostile}}
-                                <a class="combatant-control" aria-label="{{localize 'DLC_COMBAT.MakeFriend'}}" role="button" data-tooltip="DLC_COMBAT.MakeFriend" data-control="toggleHostility"><i class="fas fa-square-check"></i></a>
+                                <a class="combatant-control" aria-label="{{localize 'DLC.combat.MakeFriend'}}" role="button" data-tooltip="DLC.combat.MakeFriend" data-control="toggleHostility"><i class="fas fa-square-check"></i></a>
                                 {{else}}
-                                <a class="combatant-control" aria-label="{{localize 'DLC_COMBAT.MakeEnemy'}}" role="button" data-tooltip="DLC_COMBAT.MakeEnemy" data-control="toggleHostility"><i class="fas fa-square-xmark"></i></a>
+                                <a class="combatant-control" aria-label="{{localize 'DLC.combat.MakeEnemy'}}" role="button" data-tooltip="DLC.combat.MakeEnemy" data-control="toggleHostility"><i class="fas fa-square-xmark"></i></a>
                                 {{/if}}
                             {{/if}}
                         {{/unless}}
@@ -97,23 +97,23 @@
                         {{#if this.showControl}}
 
                             {{#if this.showBlackControl}}
-                            <a class="combatant-control {{#unless this.isUsingRedJoker}}active{{/unless}}" aria-label="{{localize 'DLC_COMBAT.ToggleJoker'}}" role="button"  data-tooltip="DLC_COMBAT.ToggleBlackJoker" data-control="toggleBlackJoker">
+                            <a class="combatant-control {{#unless this.isUsingRedJoker}}active{{/unless}}" aria-label="{{localize 'DLC.combat.ToggleJoker'}}" role="button"  data-tooltip="DLC.combat.ToggleBlackJoker" data-control="toggleBlackJoker">
                                 <i class="fas fa-skull-crossbones"></i>
                             </a>
                             {{/if}}
 
                             {{#if this.showRedControl}}
-                            <a class="combatant-control {{#unless this.isUsingBlackJoker}}active{{/unless}}" aria-label="{{localize 'DLC_COMBAT.ToggleJoker'}}" role="button" data-tooltip="DLC_COMBAT.ToggleRedJoker" data-control="toggleRedJoker">
+                            <a class="combatant-control {{#unless this.isUsingBlackJoker}}active{{/unless}}" aria-label="{{localize 'DLC.combat.ToggleJoker'}}" role="button" data-tooltip="DLC.combat.ToggleRedJoker" data-control="toggleRedJoker">
                                 <i class="fas fa-j"></i>
                             </a>
                             {{/if}}
 
                             {{#if this.showSleeveControl}}
-                                <a class="combatant-control active" aria-label="{{localize 'DLC_COMBAT.Sleeve'}}" role="button" data-tooltip="DLC_COMBAT.Sleeve" data-control="sleeveHighest">
+                                <a class="combatant-control active" aria-label="{{localize 'DLC.combat.Sleeve'}}" role="button" data-tooltip="DLC.combat.Sleeve" data-control="sleeveHighest">
                                     <i class="fas fa-hand-holding"></i>
                                 </a>
                             {{else if showUseSleeveControl}}
-                                <a class="combatant-control active" aria-label="{{localize 'DLC_COMBAT.ToggleSleeved'}}" role="button" data-tooltip="DLC_COMBAT.ToggleSleeved" data-control="toggleSleeved">
+                                <a class="combatant-control active" aria-label="{{localize 'DLC.combat.ToggleSleeved'}}" role="button" data-tooltip="DLC.combat.ToggleSleeved" data-control="toggleSleeved">
                                     {{#if this.usingSleeved}}
                                         <i class="fas fa-thumbs-down"></i>
                                     {{else}}
@@ -123,7 +123,7 @@
                             {{/if}}
 
                             {{#if this.showVamoose}}
-                            <a class="combatant-control active" aria-label="{{localize 'DLC_COMBAT.Vamoose'}}" role="button" data-tooltip="DLC_COMBAT.Vamoose" data-control="vamoose">
+                            <a class="combatant-control active" aria-label="{{localize 'DLC.combat.Vamoose'}}" role="button" data-tooltip="DLC.combat.Vamoose" data-control="vamoose">
                                 <i class="fas fa-person-running"></i>
                             </a>
                             {{/if}}
@@ -212,7 +212,7 @@
                 {{/if}}
 
                 {{#if offerEndTurn}}
-                    <a class="combat-control center" aria-label="{{localize 'DLC_COMBAT.EndRound'}}" role="button"  data-control="nextRound">{{localize 'DLC_COMBAT.EndRound'}}</a>
+                    <a class="combat-control center" aria-label="{{localize 'DLC.combat.EndRound'}}" role="button"  data-control="nextRound">{{localize 'DLC.combat.EndRound'}}</a>
                     {{#if showNextTurn}}
                         <a class="combat-control" aria-label="{{localize 'COMBAT.TurnNext'}}" role="button" data-tooltip="COMBAT.TurnNext" data-control="nextTurn"><i class="fas fa-arrow-right"></i></a>
                     {{/if}}
@@ -222,7 +222,7 @@
                     <a class="combat-control" aria-label="{{localize 'COMBAT.RoundNext'}}" role="button" data-tooltip="COMBAT.RoundNext" data-control="nextRound"><i class="fas fa-step-forward"></i></a>
                 {{else}}
                     <a class="combat-control" aria-label="{{localize 'COMBAT.End'}}" role="button" data-control="endCombat">{{localize 'COMBAT.End'}}</a>
-                    <a class="combat-control" aria-label="{{localize 'DLC_COMBAT.BeginRound'}}" role="button"  data-control="startRound">{{localize 'DLC_COMBAT.BeginRound'}}</a>
+                    <a class="combat-control" aria-label="{{localize 'DLC.combat.BeginRound'}}" role="button"  data-control="startRound">{{localize 'DLC.combat.BeginRound'}}</a>
                 {{/if}}
             {{else}}
             <a class="combat-control center" aria-label="{{localize 'COMBAT.Begin'}}" role="button"  data-control="startCombat">{{localize 'COMBAT.Begin'}}</a>

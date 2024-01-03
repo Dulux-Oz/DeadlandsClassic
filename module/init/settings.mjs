@@ -3,29 +3,29 @@ import { dlcChips } from '../data/chips.mjs';
 export function createGameSettings() {
   /* global CanonicalCards */
   game.settings.register('deadlands-classic', 'game-world', {
-    name: 'deadlands-classic.settings.game-world.name',
-    hint: 'deadlands-classic.settings.game-world.hint',
+    name: 'DLC.settings.game-world.name',
+    hint: 'DLC.settings.game-world.hint',
     scope: 'world',
     config: true,
     type: String,
     default: 'WW',
     choices: {
-      WW: 'deadlands-classic.game-world.ww',
-      HE: 'deadlands-classic.game-world.he',
-      LC: 'deadlands-classic.game-world.lc',
+      WW: 'DLC.settings.game-world.ww',
+      HE: 'DLC.settings.game-world.he',
+      LC: 'DLC.settings.game-world.lc',
     },
   });
 
   game.settings.register('deadlands-classic', 'deckStyle', {
-    name: 'Deck Style',
-    hint: 'Classic deadlands or modern cards for initiative,',
+    name: 'DLC.settings.deck-style.name',
+    hint: 'DLC.settings.deck-style.hint',
     scope: 'client',
     config: true,
     type: String,
     default: 'old',
     choices: {
-      old: 'Old School',
-      mod: 'Modern',
+      old: 'DLC.settings.deck-style.old',
+      mod: 'DLC.settings.deck-style.mod',
     },
     onchange: (value) => {
       CanonicalCards.updateIcons();
@@ -33,8 +33,8 @@ export function createGameSettings() {
   });
 
   game.settings.register('deadlands-classic', 'wildBlack', {
-    name: 'Wild black',
-    hint: "Marshal's Black joker is wild",
+    name: 'DLC.settings.wild-black.name',
+    hint: 'DLC.settings.wild-black.hint',
     scope: 'world',
     config: true,
     type: Boolean,
@@ -42,8 +42,8 @@ export function createGameSettings() {
   });
 
   game.settings.register('deadlands-classic', 'wildRed', {
-    name: 'Wild red',
-    hint: "Marshal's Red joker is wild",
+    name: 'DLC.settings.wild-red.name',
+    hint: 'DLC.settings.wild-red.hint',
     scope: 'world',
     config: true,
     type: Boolean,
@@ -51,8 +51,8 @@ export function createGameSettings() {
   });
 
   game.settings.register('deadlands-classic', 'white-chips', {
-    name: 'White Chips',
-    hint: 'How many white chips exist in the pot',
+    name: 'DLC.settings.chips-white.name',
+    hint: 'DLC.settings.chips-white.hint',
     scope: 'world',
     config: true,
     type: Number,
@@ -60,8 +60,8 @@ export function createGameSettings() {
   });
 
   game.settings.register('deadlands-classic', 'red-chips', {
-    name: 'Red Chips',
-    hint: 'How many red chips exist in the pot',
+    name: 'DLC.settings.chips-red.name',
+    hint: 'DLC.settings.chips-red.hint',
     scope: 'world',
     config: true,
     type: Number,
@@ -69,8 +69,8 @@ export function createGameSettings() {
   });
 
   game.settings.register('deadlands-classic', 'blue-chips', {
-    name: 'Blue Chips',
-    hint: 'How many blue chips exist in the pot',
+    name: 'DLC.settings.chips-blue.name',
+    hint: 'DLC.settings.chips-blue.hint',
     scope: 'world',
     config: true,
     type: Number,
@@ -78,8 +78,8 @@ export function createGameSettings() {
   });
 
   game.settings.register('deadlands-classic', 'green-chips', {
-    name: 'Green Chips',
-    hint: 'How many green chips exist',
+    name: 'DLC.settings.chips-green.name',
+    hint: 'DLC.settings.chips-green.hint',
     scope: 'world',
     config: true,
     type: Number,
@@ -88,8 +88,8 @@ export function createGameSettings() {
   });
 
   game.settings.register('deadlands-classic', 'marshall-chips', {
-    name: "Marshall's Chips",
-    hint: 'Chips held by the Marshall',
+    name: 'DLC.settings.chips-marshal.name',
+    hint: 'DLC.settings.chips-marshal.hint',
     scope: 'world',
     config: false,
     type: dlcChips,

@@ -4,7 +4,7 @@
  * @param {*} app
  * @param {*} html
  */
-export function addChipsTab(app, html) {
+export function addChipTab(app, html) {
   if (!game.user.isGM) return;
 
   // Calculate new tab width

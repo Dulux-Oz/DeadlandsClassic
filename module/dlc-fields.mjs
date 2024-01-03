@@ -218,7 +218,6 @@ export const dlcCharModLevel = () => ({
   new: fields.SchemaField({
     name: new fields.StringField({ required: true, blank: false }),
     ...dlcNumber('level', 1, 1, 5), // The level this represents
-    ...dlcNumberNoMax('cost', 1, 1), // How much this level costs in bounty
     effect: new fields.HTMLField(),
   }),
 });

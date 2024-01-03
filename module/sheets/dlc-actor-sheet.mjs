@@ -1,6 +1,6 @@
 import { dlcConfig } from '../config.mjs';
 
-export class BaseActorSheetDlc extends ActorSheet {
+export class DLCActorSheet extends ActorSheet {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['dlc', 'sheet', 'actor'],

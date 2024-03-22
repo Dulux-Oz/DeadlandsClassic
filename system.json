@@ -29,13 +29,14 @@
       "url": ""
     }
   ],
-  "version": "0.0.2",
+  "version": "0.0.3",
   "compatibility": {
     "minimum": "11",
     "verified": "11"
   },
   "templateVersion": 1,
   "esmodules": ["module/deadlands-classic.mjs"],
+
   "styles": ["styles/dlc.css"],
   "languages": [
     {
@@ -48,8 +49,8 @@
   "socket": true,
   "gridDistance": 2,
   "gridUnits": "yrd",
-  "url": "https://github.com/Ampersandrew/deadlands-classic",
-  "manifest": "https://raw.githubusercontent.com/Ampersandrew/deadlands-classic/CombatTracker/system.json",
-  "download": "https://github.com/Ampersandrew/deadlands-classic/releases/download/0.1/deadlands_classic.zip",
+  "url": "https://github.com/Dulux-Oz/deadlands-classic",
+  "manifest": "https://raw.githubusercontent.com/Dulux-Oz/deadlands-classic/master/system.json",
+  "download": "https://github.com/Dulux-Oz/deadlands-classic/releases/download/0.1/deadlands_classic.zip",
   "license": "TBD"
 }

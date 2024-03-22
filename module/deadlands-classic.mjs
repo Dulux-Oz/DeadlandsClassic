@@ -1,8 +1,11 @@
 // import modules
 import { CharacterDataModel } from './data/character-data.mjs';
-import { ItemData } from './data/item.mjs';
+import { CharacterModModel } from './data/character-mod.mjs';
+import { GunDataModel } from './data/gun-data.mjs';
+import { MeleeDataModel } from './data/melee-data.mjs';
+import { MiscItemDataModel } from './data/misc-item-data.mjs';
 import { NPCDataModel } from './data/npc-data.mjs';
-import { TweakData } from './data/tweak.mjs';
+import { OtherRangedDataModel } from './data/other-ranged-data.mjs';
 import { DeadlandsActor } from './documents/dlc-actor.mjs';
 import { DeadlandsCombat } from './documents/dlc-combat.mjs';
 import { DeadlandsCombatant } from './documents/dlc-combatant.mjs';
@@ -56,8 +59,8 @@ Hooks.once('init', async () => {
   /* -------------------------------------------- */
 
   /* global dlcSocketManager */
-  window.dlcSocketManager = new DlcSocketManager();
-  socket = dlcSocketManager.registerSystem('deadlands-classic');
+  globalThis.DlcSocketManager = new DlcSocketManager();
+  socket = globalThis.DlcSocketManager.registerSystem('deadlands-classic');
 
   if (!Array.isArray(globalThis.game['deadlands-classic'])) {
     game['deadlands-classic'] = {};
@@ -75,15 +78,19 @@ Hooks.once('init', async () => {
 
   CONFIG.Actor.dataModels.character = CharacterDataModel;
   CONFIG.Actor.dataModels.npc = NPCDataModel;
-  CONFIG.Item.dataModels.edge = TweakData;
-  CONFIG.Item.dataModels.hindrance = TweakData;
-  CONFIG.Item.dataModels.weapon = ItemData;
+  CONFIG.Item.dataModels.edge = CharacterModModel;
+  CONFIG.Item.dataModels.gun = GunDataModel;
+  CONFIG.Item.dataModels.hindrance = CharacterModModel;
+  CONFIG.Item.dataModels.melee = MeleeDataModel;
+  CONFIG.Item.dataModels.miscItem = MiscItemDataModel;
+  CONFIG.Item.dataModels.otherRanged = OtherRangedDataModel;
 
   registerActorSheets();
   createGameSettings();
-  await preloadTemplates();
 
   globalThis.CanonicalCards = new CanonicalCards();
+
+  await preloadTemplates();
 });
 
 Hooks.once('setup', async () => {

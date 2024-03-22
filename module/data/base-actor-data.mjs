@@ -1,7 +1,7 @@
 import { dlcConfig } from '../config.mjs';
-import * as DLCFields from '../dlc-fields.mjs';
+import * as dlcFields from './dlc-fields.mjs';
 
-export class BaseActorDataModel extends foundry.abstract.DataModel {
+export class BaseActorDataModel extends foundry.abstract.TypeDataModel {
   static makeAptitudes() {
     let aptitudes = {};
     // eslint-disable-next-line no-restricted-syntax
@@ -10,7 +10,7 @@ export class BaseActorDataModel extends foundry.abstract.DataModel {
       if (value.concentrations.length > 0) {
         aptitudes = {
           ...aptitudes,
-          ...DLCFields.dlcConcentrationAptitude(
+          ...dlcFields.concentrationAptitude(
             key,
             value.trait,
             ranks,
@@ -20,12 +20,12 @@ export class BaseActorDataModel extends foundry.abstract.DataModel {
       } else if (value.trait === 'Special') {
         aptitudes = {
           ...aptitudes,
-          ...DLCFields.dlcVariableAptitude(key, ranks),
+          ...dlcFields.variableAptitude(key, ranks),
         };
       } else {
         aptitudes = {
           ...aptitudes,
-          ...DLCFields.dlcAptitude(key, value.trait, ranks),
+          ...dlcFields.aptitude(key, value.trait, ranks),
         };
       }
     }
@@ -34,46 +34,46 @@ export class BaseActorDataModel extends foundry.abstract.DataModel {
 
   static makeChipData(hasChips) {
     return {
-      ...DLCFields.dlcBoolean('hasChips', hasChips),
+      ...dlcFields.boolean('hasChips', hasChips),
 
-      ...DLCFields.dlcNumberNoMax('careerBounty', 0, 0),
+      ...dlcFields.integerNoMax('careerBounty', 0, 0),
 
-      ...DLCFields.dlcChip('white'),
-      ...DLCFields.dlcChip('red'),
-      ...DLCFields.dlcChip('blue'),
-      ...DLCFields.dlcChip('green'),
-      ...DLCFields.dlcChip('temporaryGreen'),
+      ...dlcFields.chip('white'),
+      ...dlcFields.chip('red'),
+      ...dlcFields.chip('blue'),
+      ...dlcFields.chip('green'),
+      ...dlcFields.chip('temporaryGreen'),
     };
   }
 
   static makeTraits() {
     return {
-      ...DLCFields.dlcTrait(dlcConfig.traits[0]),
-      ...DLCFields.dlcTrait(dlcConfig.traits[1]),
-      ...DLCFields.dlcTrait(dlcConfig.traits[2]),
-      ...DLCFields.dlcTrait(dlcConfig.traits[3]),
-      ...DLCFields.dlcTrait(dlcConfig.traits[4]),
+      ...dlcFields.trait(dlcConfig.traits[0]),
+      ...dlcFields.trait(dlcConfig.traits[1]),
+      ...dlcFields.trait(dlcConfig.traits[2]),
+      ...dlcFields.trait(dlcConfig.traits[3]),
+      ...dlcFields.trait(dlcConfig.traits[4]),
 
-      ...DLCFields.dlcTrait(dlcConfig.traits[5]),
-      ...DLCFields.dlcTrait(dlcConfig.traits[6]),
-      ...DLCFields.dlcTrait(dlcConfig.traits[7]),
-      ...DLCFields.dlcTrait(dlcConfig.traits[8]),
-      ...DLCFields.dlcTrait(dlcConfig.traits[9]),
+      ...dlcFields.trait(dlcConfig.traits[5]),
+      ...dlcFields.trait(dlcConfig.traits[6]),
+      ...dlcFields.trait(dlcConfig.traits[7]),
+      ...dlcFields.trait(dlcConfig.traits[8]),
+      ...dlcFields.trait(dlcConfig.traits[9]),
     };
   }
 
   static makeWoundLocations() {
     return {
-      ...DLCFields.dlcNumber('head', 0, 0, 5),
-      ...DLCFields.dlcNumber('guts', 0, 0, 5),
-      ...DLCFields.dlcNumber('left arm', 0, 0, 5),
-      ...DLCFields.dlcNumber('right arm', 0, 0, 5),
-      ...DLCFields.dlcNumber('left leg', 0, 0, 5),
-      ...DLCFields.dlcNumber('right leg', 0, 0, 5),
+      ...dlcFields.integer('head', 0, 0, 5),
+      ...dlcFields.integer('guts', 0, 0, 5),
+      ...dlcFields.integer('left arm', 0, 0, 5),
+      ...dlcFields.integer('right arm', 0, 0, 5),
+      ...dlcFields.integer('left leg', 0, 0, 5),
+      ...dlcFields.integer('right leg', 0, 0, 5),
 
       // max Wind and max strain are derived attributes
-      ...DLCFields.dlcNumberNoLimit('currentWind', 0),
-      ...DLCFields.dlcNumberNoLimit('currentStrain', 0),
+      ...dlcFields.integerNoLimit('currentWind', 0),
+      ...dlcFields.integerNoLimit('currentStrain', 0),
     };
   }
 }

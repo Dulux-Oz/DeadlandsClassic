@@ -1,4 +1,4 @@
-import { dlcChips } from '../data/chips.mjs';
+import { ChipDataModel } from '../data/chip-data.mjs';
 
 export function createGameSettings() {
   /* global CanonicalCards */
@@ -92,7 +92,7 @@ export function createGameSettings() {
     hint: 'DLC.settings.chips-marshal.hint',
     scope: 'world',
     config: false,
-    type: dlcChips,
+    type: ChipDataModel,
     default: { chips: { white: 0, red: 0, blue: 0 } },
   });
 }

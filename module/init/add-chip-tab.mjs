@@ -34,7 +34,7 @@ export function addChipTab(app, html) {
   icon.setAttribute('class', `fas fa-yin-yang`);
   tab.append(icon);
 
-  // Add Chip Manager tab to sidebar before itemss if it's not already there
+  // Add Chip Manager tab to sidebar before items if it's not already there
   if (!document.querySelector("#sidebar-tabs > [data-tab='chips']")) {
     document.querySelector("#sidebar-tabs > [data-tab='items']").before(tab);
   }

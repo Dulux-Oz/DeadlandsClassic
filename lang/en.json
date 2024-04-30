@@ -1,5 +1,50 @@
 {
   "DLC": {
+    "app": {
+      "AllocateChips": "Allocate Chips",
+      "ChipAllocator": "Chip Allocator",
+      "ChooseTraits": "You must set each trait with a unique card.",
+      "SetTraits": "Set Traits",
+      "UseMandatory": "You must use all jokers and all twos."
+    },
+
+    "archtypes": {
+      "buffaloGirl": "Buffalo girl",
+      "cayoteBrave": "Cayote brave",
+      "cowpoke": "Cowpoke",
+      "custom": "Retrieve the manually edited values",
+      "gambler": "Gambler",
+      "guacho": "Guacho",
+      "gunslinger": "Gunslinger",
+      "huckster": "Huckster",
+      "kid": "Kid",
+      "madScientist": "Mad Scientist",
+      "manInBlack": "Man-in-Black",
+      "muckraker": "Muckraker",
+      "nun": "Nun",
+      "ponyExpressRider": "Pony Express Rider",
+      "preacher": "Preacher",
+      "prospector": "Prospector",
+      "saloonGal": "Saloon Gal",
+      "sheriff": "Sheriff",
+      "shyster": "Shyster",
+      "siouxShaman": "Sioux Shaman",
+      "soldier": "Soldier",
+      "spy": "Spy",
+      "texasRanger": "Texas Ranger"
+    },
+
+    "arcaneFlavour": {
+      "none": "Not Arcane",
+      "blessed": "Blessed",
+      "huckster": "Huckster",
+      "madScientist": "Mad scientist",
+      "shaman": "Shaman",
+      "harrowed": "Harrowed",
+      "isArcane": "Is this an arcane power",
+      "grantsArcane": "Does this grant an arcane background"
+    },
+
     "combat": {
       "BeginRound": "Begin Round",
       "EndRound": "End Combat Round",
@@ -10,6 +55,45 @@
       "ToggleBlackJoker": "Toggle use black joker",
       "ToggleSleeved": "Toggle use sleeved card",
       "Vamoose": "Vamoose!!"
+    },
+
+    "item": {
+      "Setting": "Active in Game system",
+      "UpdateEdgeMessage": "Update the Edge"
+    },
+
+    "modification": {
+      "Setting": "Active in Game system",
+      "one": "Turn on Level one",
+      "two": "Turn on Level two",
+      "three": "Turn on Level three",
+      "four": "Turn on Level four",
+      "five": "Turn on Level five",
+      "capstone": "Turn on Capstone",
+      "cost": "Bounty cost",
+      "startCost": "Creation points cost",
+      "grantsArcane": "This Edge gives the character an arcane background",
+      "isArcane": "This edge has an arcane background prerequisite"
+    },
+
+    "modificationTab": {
+      "configure": "Configure the Edge",
+      "blurb": "Description",
+      "one": "1",
+      "two": "2",
+      "three": "3",
+      "four": "4",
+      "five": "5",
+      "capstone": "Capstone"
+    },
+
+    "modificationTabConfigure": {
+      "one": "Set the values of level one",
+      "two": "Set the values of level two",
+      "three": "Set the values of level three",
+      "four": "Set the values of level four",
+      "five": "Set the values of level five",
+      "capstone": "Set the values of the capstone"
     },
 
     "settings": {
@@ -56,29 +140,43 @@
       }
     },
 
-    "sheet": {
+    "sheet-type": {
+      "character": "Player Character",
+      "edge": "Edge",
+      "npc": "Non-Player Character"
+    },
+
+    "sidebar": {
+      "ChipAllocator": "Chip Allocator",
+      "ChipPot": "Chips in Pot",
+      "DrawMarshalChip": "Draw a chip for the Marshal",
+      "EditItem": "Edit",
+      "MarshalsChips": "Marshal's Chips",
+      "SetTraits": "Set character's traits",
+      "UseChips": "Toggle participation in the chip pot",
+      "UseMarshalBlue": "Use chip",
+      "UseMarshalRed": "Use chip",
+      "UseMarshalWhite": "Use chip"
+    },
+
+    "tab": {
+      "apt-create": "Initial Aptitudes",
+      "apt-improve": "Improve Aptitudes",
       "aptitudes": "Aptitudes",
       "bio": "Biography",
       "biodata": "Bio-Data",
       "chips": "Chips",
       "combat": "Combat",
+      "edge-create": "Creation Edges",
+      "edge-improve": "Improvement Edges",
       "edges": "Edges",
       "gear": "Inventory",
       "main": "Main",
       "notes": "Notes",
       "spells": "Spells",
-      "chip": { "name": "Chip Management" }
-    },
-
-    "sheet-type": {
-      "character": "Player Character",
-      "npc": "Non-Player Character"
-    },
-
-    "sidebar": {
-      "AllocateChips": "Allocate Chips",
-      "ChipManager": "Chip Manager",
-      "UseChips": "Toggle participation in the chip pot"
+      "trait-create": "Initial Traits",
+      "trait-improve": "Improve Traits",
+      "traits": "Traits"
     },
 
     "traitAbbreviation": {

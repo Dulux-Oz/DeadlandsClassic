@@ -41,13 +41,13 @@ export class DLCActorSheet extends ActorSheet {
     const actorSystem = actor.system;
     const keys = Object.keys(actorSystem);
 
-    const validChips = new Map([
-      ['white', true],
-      ['red', true],
-      ['blue', true],
-      ['green', true],
-      ['temporaryGreen', true],
-    ]);
+    const validChips = {
+      white: 0,
+      red: 0,
+      blue: 0,
+      green: 0,
+      temporaryGreen: 0,
+    };
 
     // eslint-disable-next-line no-restricted-syntax, guard-for-in
     for (const key of keys.values()) {
@@ -60,9 +60,6 @@ export class DLCActorSheet extends ActorSheet {
               break;
             case 'aptitude':
               aptitudes[key] = slot;
-              break;
-            case 'chip':
-              chips[key] = slot;
               break;
             default:
             // There is no default case, the document validation has restriced
@@ -81,8 +78,7 @@ export class DLCActorSheet extends ActorSheet {
       const value = aptitudes[key];
       const trait = actorSystem[value.trait];
       value.die = trait?.dieSize ?? 4;
-      value.totalRanks =
-        value.defaultRanks.value + value.ranks.value + value.startRanks.value;
+      value.totalRanks = value.defaultRanks + value.ranks + value.startRanks;
       value.show = value.totalRanks !== 0;
 
       const confEntry = dlcConfig.aptitudes[key];

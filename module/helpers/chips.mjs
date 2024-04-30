@@ -15,7 +15,7 @@ export class Chips {
   static randomDraw(includeGreen) {
     const { white, red, blue, green } = game.chips.available;
 
-    const available = white + red + blue + includeGreen ? green : 0;
+    const available = white + red + blue + (includeGreen ? green : 0);
     const picked = Deck.getRandomInteger(1, available);
 
     let pick = Chips.type.NoChip;
@@ -45,7 +45,7 @@ export class Chips {
     const maxBlue = game.settings.get('deadlands-classic', 'blue-chips');
     const maxGreen = game.settings.get('deadlands-classic', 'green-chips');
 
-    const marshal = game.settings.get('deadlands-classic', 'marshall-chips');
+    const marshal = game.settings.get('deadlands-classic', 'marshal-chips');
 
     let { white, red, blue } = marshal.chips;
     let green = 0;

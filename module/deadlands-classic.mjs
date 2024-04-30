@@ -62,7 +62,7 @@ Hooks.once('init', async () => {
   globalThis.DlcSocketManager = new DlcSocketManager();
   socket = globalThis.DlcSocketManager.registerSystem('deadlands-classic');
 
-  if (!Array.isArray(globalThis.game['deadlands-classic'])) {
+  if (!('deadlands-classic' in globalThis.game)) {
     game['deadlands-classic'] = {};
     game['deadlands-classic'].socket = socket;
   }
@@ -71,7 +71,7 @@ Hooks.once('init', async () => {
 
   /* -------------------------------------------- */
 
-  if (!Array.isArray(globalThis.game.chips)) {
+  if (!('chips' in globalThis.game)) {
     game.chips = {};
     game.chips.apps = {};
   }

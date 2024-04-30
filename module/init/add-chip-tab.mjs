@@ -7,19 +7,15 @@
 export function addChipTab(app, html) {
   if (!game.user.isGM) return;
 
+  const computedWidth = Math.floor(
+    parseInt(getComputedStyle(html[0]).getPropertyValue('--sidebar-width'), 10)
+     /
+    (document.querySelector('#sidebar-tabs').childElementCount + 1)
+  )
   // Calculate new tab width
   html[0]
     .querySelector('#sidebar-tabs')
-    .style.setProperty(
-      '--sidebar-tab-width',
-      `${Math.floor(
-        parseInt(
-          getComputedStyle(html[0]).getPropertyValue('--sidebar-width'),
-          10
-        ) /
-          (document.querySelector('#sidebar-tabs').childElementCount + 1)
-      )}px`
-    );
+    .style.setProperty('--sidebar-tab-width', `${computedWidth}px`);
 
   const tab = document.createElement('a');
   tab.classList.add('item');

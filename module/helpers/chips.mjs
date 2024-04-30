@@ -29,7 +29,7 @@ export class Chips {
     } else if (picked <= white + red + blue) {
       game.chips.available.blue -= 1;
       pick = Chips.type.Blue;
-    } else {
+    } else if (includeGreen) {
       game.chips.available.green -= 1;
       pick = Chips.type.Green;
     }

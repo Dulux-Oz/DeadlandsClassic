@@ -1,28 +1,84 @@
 {
-  "DLC_COMBAT": {
-    "BeginRound": "Begin Round",
-    "EndRound": "End Combat Round",
-    "MakeEnemy": "Make hostile",
-    "MakeFriend": "Make friendly",
-    "Sleeve": "Sleeve highest card",
-    "ToggleRedJoker": "Toggle use red joker",
-    "ToggleBlackJoker": "Toggle use black joker",
-    "ToggleSleeved": "Toggle use sleeved card",
-    "Vamoose": "Vamoose!!"
-  },
-
   "DLC": {
-    "traitName": {
-      "Cognition": "Cognition",
-      "Deftness": "Deftness",
-      "Knowledge": "Knowledge",
-      "Mien": "Mien",
-      "Nimbleness": "Nimbleness",
-      "Quickness": "Quickness",
-      "Smarts": "Smarts",
-      "Spirit": "Spirit",
-      "Strength": "Strength",
-      "Vigor": "Vigor"
+    "combat": {
+      "BeginRound": "Begin Round",
+      "EndRound": "End Combat Round",
+      "MakeEnemy": "Make hostile",
+      "MakeFriend": "Make friendly",
+      "Sleeve": "Sleeve highest card",
+      "ToggleRedJoker": "Toggle use red joker",
+      "ToggleBlackJoker": "Toggle use black joker",
+      "ToggleSleeved": "Toggle use sleeved card",
+      "Vamoose": "Vamoose!!"
+    },
+
+    "settings": {
+      "chips-blue": {
+        "name": "Blue Chips",
+        "hint": "How many blue chips exist in the pot."
+      },
+      "chips-green": {
+        "name": "Green Chips",
+        "hint": "How many green chips exist in the pot."
+      },
+      "chips-marshal": {
+        "name": "Marshal's Chips",
+        "hint": "Chips held by the Marshal."
+      },
+      "chips-red": {
+        "name": "Red Chips",
+        "hint": "How many red chips exist in the pot."
+      },
+      "chips-white": {
+        "name": "White Chips",
+        "hint": "How many white chips exist in the pot."
+      },
+      "deck-style": {
+        "name": "Deck Style",
+        "hint": "Classic deadlands or modern cards for initiative.",
+        "old": "Old School",
+        "mod": "Modern"
+      },
+      "game-world": {
+        "name": "Game World",
+        "hint": "Which Deadlands Classic Game is being played: Weird West, Hell On Earth, or Lost Colony.",
+        "he": "Hell On Earth",
+        "lc": "Lost Colony",
+        "ww": "Weird West"
+      },
+      "wild-black": {
+        "name": "Wild black",
+        "hint": "Marshal's Black joker is wild"
+      },
+      "wild-red": {
+        "name": "Wild red",
+        "hint": "Marshal's Red joker is wild"
+      }
+    },
+
+    "sheet": {
+      "aptitudes": "Aptitudes",
+      "bio": "Biography",
+      "biodata": "Bio-Data",
+      "chips": "Chips",
+      "combat": "Combat",
+      "edges": "Edges",
+      "gear": "Inventory",
+      "main": "Main",
+      "notes": "Notes",
+      "spells": "Spells",
+      "chip": { "name": "Chip Management" }
+    },
+
+    "sheet-type": {
+      "character": "Player Character",
+      "npc": "Non-Player Character"
+    },
+
+    "sidebar": {
+      "AllocateChips": "Allocate Chips",
+      "ChipManager": "Chip Manager",
+      "UseChips": "Toggle participation in the chip pot"
     },
 
     "traitAbbreviation": {
@@ -36,55 +92,19 @@
       "Spirit": "spi",
       "Strength": "str",
       "Vigor": "vig"
-    }
-  },
+    },
 
-  "deadlands-classic": {
-    "title": "Deadlands Classic",
-    "description": "A Game System for running games of Deadlands Classic: Weird West, Deadlands Classic: Hell On Earth, and/or Deadlands Classic: Lost Colony via Foundry VTT.",
-    "game-world": {
-      "he": "Hell On Earth",
-      "lc": "Lost Colony",
-      "ww": "Weird West"
-    },
-    "settings": {
-      "game-world": {
-        "name": "Game World",
-        "hint": "Which Deadlands Classic Game is being played: Weird West, Hell On Earth, or Lost Colony."
-      }
-    },
-    "sheets": {
-      "actor-sheet": {
-        "character": "Character",
-        "tabs": {
-          "aptitudes": "Aptitudes",
-          "bio": "Biography",
-          "biodata": "Bio-Data",
-          "chips": "Chips",
-          "combat": "Combat",
-          "edges": "Edges",
-          "gear": "Inventory",
-          "main": "Main",
-          "notes": "Notes",
-          "spells": "Spells"
-        }
-      },
-      "types": {
-        "character": "Player Character",
-        "npc": "Non-Player Character"
-      }
-    },
-    "traits": {
-      "cog": "Cognition",
-      "def": "Deftness",
-      "kno": "Knowledge",
-      "mie": "Mien",
-      "nim": "Nimbleness",
-      "qui": "Quickness",
-      "sma": "Smarts",
-      "spi": "Spirit",
-      "str": "Strength",
-      "vig": "Vigor"
+    "traitName": {
+      "Cognition": "Cognition",
+      "Deftness": "Deftness",
+      "Knowledge": "Knowledge",
+      "Mien": "Mien",
+      "Nimbleness": "Nimbleness",
+      "Quickness": "Quickness",
+      "Smarts": "Smarts",
+      "Spirit": "Spirit",
+      "Strength": "Strength",
+      "Vigor": "Vigor"
     }
   }
 }

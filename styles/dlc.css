@@ -6,9 +6,10 @@
   --color-shadow-primary: #fe6a6a;
   --combat-card-height: 42px;
   --combat-card-width: 25px;
-  --sidebar-item-height: 48px;
   --sidebar-card-height: 21px;
   --sidebar-card-width: 12px;
+  --sidebar-item-height: 48px;
+  --sidebar-img-height: 36px;
 }
 
 .directory li.combatant {
@@ -57,6 +58,7 @@
   margin: 0 0 2px;
   color: crimson;
 }
+
 .card-flexrow {
   display: flex;
   flex-direction: row;
@@ -124,6 +126,228 @@ li.combatant .roll:hover {
   gap: 10px;
   padding: 10px;
 }
+
+/* ----------------------------------------- */
+/*  Chip Manager                             */
+/* ----------------------------------------- */
+
+.directory li.chip-actor {
+  line-height: var(--sidebar-item-height);
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+}
+
+.directory li.chip-actor h3,
+.directory li.chip-actor h4 {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.directory li.chip-actor img {
+  flex: 0 0 var(--sidebar-item-height);
+  height: var(--sidebar-item-height);
+  width: var(--sidebar-item-height);
+  object-fit: scale-down;
+  object-position: 50% 0;
+  border: none;
+}
+
+.directory li.chip-actor .token-image {
+  margin: 0;
+  height: var(--sidebar-img-height);
+  width: var(--sidebar-img-height);
+  flex: 0 0 24px;
+  line-height: 28px;
+  margin: 0 0 2px;
+}
+
+.chips-sidebar .chip-manager-header {
+  --control-width: 24px;
+  flex: 0 0 calc(var(--sidebar-header-height) * 2px);
+  line-height: var(--sidebar-header-height);
+  font-size: var(--font-size-20);
+  text-align: center;
+  border-bottom: 2px groove var(--color-border-dark-4);
+}
+.chips-sidebar .chip-manager-header h3 {
+  flex: 2;
+  margin: 0;
+  font-size: var(--font-size-16);
+  text-align: center;
+}
+
+.chips-sidebar li.chip-actor .token-name {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  overflow: hidden;
+  margin: 0 5px;
+  text-shadow: 1px 1px 4px var(--color-shadow-dark);
+}
+.chips-sidebar li.chip-actor .token-name h4 {
+  line-height: 28px;
+  margin: 0 0 2px;
+}
+.chips-sidebar li.chip-actor .token-name {
+  display: flex;
+  flex: 1;
+  align-items: center;
+}
+.chips-sidebar .token-box {
+  display: flex;
+  flex: 1;
+  padding: 0.5em;
+  align-self: center;
+}
+
+.chips-sidebar .chip-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow: hidden;
+  margin: 0 5px;
+  color: var(--color-text-light-0);
+}
+.chips-sidebar .chip-label {
+  display: flex;
+  flex: 6;
+  padding: 0.5em;
+  color: var(--color-text-light-1);
+  justify-content: flex-start;
+}
+.chips-sidebar .chip-box {
+  display: flex;
+  flex: 1;
+  padding: 0.5em;
+  color: var(--color-text-light-0);
+  align-content: flex-start;
+  text-align: right;
+}
+
+.chips-sidebar #combat-controls {
+  margin: 0;
+  border-top: 2px groove var(--color-border-dark-4);
+  padding-top: 4px;
+}
+.chips-sidebar #combat-controls a {
+  flex: 1;
+  font-size: var(--font-size-20);
+  text-align: center;
+  line-height: var(--sidebar-header-height);
+}
+.chips-sidebar #combat-controls a.center {
+  flex: 3;
+}
+
+/*.chips-sidebar .chip-manager-header a.combat-button {
+  font-size: var(--font-size-14);
+  flex: 0 0 var(--control-width);
+  color: var(--color-text-light-6);
+}
+.chips-sidebar .chip-manager-header a.combat-button.combat-cycle {
+  font-size: var(--font-size-24);
+}
+.chips-sidebar .chip-manager-header a.combat-button[disabled] {
+  visibility: hidden;
+}
+.chips-sidebar .chip-manager-header nav.encounters h4 {
+  flex: 1;
+  margin: 0;
+  font-size: var(--font-size-14);
+  color: var(--color-text-light-5);
+  text-align: center;
+}
+.chips-sidebar .chip-manager-header div.encounter-controls h3 {
+  flex: 2;
+  margin: 0;
+  font-size: var(--font-size-16);
+  text-align: center;
+}
+.chips-sidebar .chip-manager-header div.encounter-controls .encounter-title {
+  margin-left: var(--control-width);
+}
+.chips-sidebar #chip-manager {
+  height: calc(100% - (var(--sidebar-header-height) * 3px - 2px));
+  padding: 1px 0;
+}*/
+
+/*
+.chips-sidebar li.chip-actor .token-name .combatant-controls {
+  flex: 0 0 20px;
+  font-size: var(--font-size-14);
+  line-height: 20px;
+}
+.chips-sidebar li.chip-actor .token-name .combatant-control {
+  flex: 0 0 20px;
+  height: 20px;
+  float: left;
+  color: var(--color-text-dark-5);
+}
+.chips-sidebar li.chip-actor .token-name .combatant-control.active {
+  color: var(--color-text-light-1);
+}
+.chips-sidebar li.chip-actor .token-name .token-effects {
+  height: 20px;
+  overflow: hidden;
+}
+.chips-sidebar li.chip-actor .token-name img.token-effect {
+  width: 16px;
+  height: 16px;
+  margin: 1px 0;
+  border: none;
+  border-radius: 0;
+}
+.chips-sidebar li.chip-actor .token-resource {
+  flex: 0 0 32px;
+  color: var(--color-text-light-4);
+  text-align: center;
+  border-right: 1px solid var(--color-border-dark-2);
+}
+.chips-sidebar li.chip-actor .token-initiative {
+  flex: 0 0 48px;
+  text-align: center;
+}
+.chips-sidebar li.chip-actor .token-initiative .initiative {
+  font-size: var(--font-size-14);
+  text-shadow: 1px 1px 4px var(--color-shadow-dark);
+}
+.chips-sidebar li.chip-actor .roll {
+  display: block;
+  width: 40px;
+  height: var(--sidebar-item-height);
+  background: url(../icons/svg/d20.svg) no-repeat 50% 50%;
+  background-size: 32px;
+  margin: 0 0.5em;
+}
+.chips-sidebar li.chip-actor .roll:hover {
+  background-image: url(../icons/svg/d20-highlight.svg);
+}
+.chips-sidebar li.chip-actor.hover,
+.chips-sidebar li.chip-actor:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+.chips-sidebar li.chip-actor.active {
+  background: rgba(255, 255, 255, 0.1);
+}
+.chips-sidebar li.chip-actor.active .initiative {
+  font-weight: bold;
+}
+.chips-sidebar li.chip-actor.hidden {
+  color: var(--color-text-light-7);
+}
+.chips-sidebar li.chip-actor.hidden img {
+  opacity: 0.3;
+}
+.chips-sidebar li.chip-actor.hidden.flexrow {
+  display: flex;
+}
+.chips-sidebar li.chip-actor.defeated {
+  color: #b32019;
+}
+.chips-sidebar li.chip-actor.defeated img {
+  opacity: 0.3;
+  transform: scale(0.75);
+}*/
 
 .dlc {
 }

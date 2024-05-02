@@ -10,6 +10,19 @@ export class Chips {
     TemporaryGreen: 5,
   };
 
+  static colour = {
+    NoChip: 'None',
+    White: 'white',
+    Red: 'red',
+    Blue: 'blue',
+    Green: 'green',
+    TemporaryGreen: 'temporary green',
+  };
+
+  static getColour(type) {
+    return this.colour(type);
+  }
+
   // Choose a randomn chip from those available in the pot. The Marshall can't get green
   // chips, so we need to distinguish if those are avaialble.
   static randomDraw(includeGreen) {
@@ -35,6 +48,29 @@ export class Chips {
     }
 
     return pick;
+  }
+
+  static addToChipCollection(chip, collection) {
+    const newCollection = foundry.utils.deepClone(collection);
+    switch (chip) {
+      case Chips.type.White:
+        newCollection.white += 1;
+        break;
+      case Chips.type.Red:
+        newCollection.red += 1;
+        break;
+      case Chips.type.Blue:
+        newCollection.blue += 1;
+        break;
+      case Chips.type.Green:
+        newCollection.green += 1;
+        break;
+      case Chips.type.TemporaryGreen:
+        newCollection.temporaryGreen += 1;
+        break;
+      default:
+    }
+    return newCollection;
   }
 
   static buildCurrentChipPool() {

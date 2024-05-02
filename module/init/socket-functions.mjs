@@ -1,29 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { Chips } from '../helpers/chips.mjs';
 
-function _addToChipCollection(chip, collection) {
-  const newCollection = collection.toObject();
-  switch (chip) {
-    case Chips.type.White:
-      newCollection.white += 1;
-      break;
-    case Chips.type.Red:
-      newCollection.red += 1;
-      break;
-    case Chips.type.Blue:
-      newCollection.blue += 1;
-      break;
-    case Chips.type.Green:
-      newCollection.green += 1;
-      break;
-    case Chips.type.TemporaryGreen:
-      newCollection.temporaryGreen += 1;
-      break;
-    default:
-  }
-  return newCollection;
-}
-
 function _chatMessage(
   speaker = ChatMessage.getSpeaker(),
   title = 'Message',
@@ -144,7 +121,7 @@ async function socketDrawChipActor(actorId, num = 1) {
 
   for (let step = 0; step < num; step += 1) {
     const chip = Chips.randomDraw(true);
-    chipobject = _addToChipCollection(chip, chipobject);
+    chipobject = Chips.addToChipCollection(chip, chipobject);
   }
 
   // Adding the randomly drawn chip.
@@ -170,6 +147,34 @@ async function socketDrawChipMarshal() {
   await game.settings.set('deadlands-classic', 'marshal-chips', newMarshal);
 }
 
+async function socketConvertChipActor(actorId, chip) {
+  const actor = game.actors.get(actorId);
+  actor.convertChip(chip);
+}
+
+async function socketConsumeGreenChipActor(actorId) {
+  const actor = game.actors.get(actorId);
+
+  if (actor.system.green < 1) {
+    _chatMessage(
+      actor.name,
+      actor.name,
+      'Attempted to consume a Green chip, but none was available!'
+    );
+    return;
+  }
+
+  actor.useChip(Chips.type.Green);
+  const gChips = game.settings.get('deadlands-classic', 'green-chips');
+  await game.settings.set('deadlands-classic', 'green-chips', gChips - 1);
+  _chatMessage(actor.name, actor.name, 'Consumed a Green chip');
+}
+
+async function socketUseChipActor(actorId, chip) {
+  const actor = game.actors.get(actorId);
+  actor.useChip(chip);
+}
+
 export function registerSocketFunctions(socket) {
   socket.register('socketLogCombatant', socketLogCombatant);
   socket.register('socketDiscardCard', socketDiscardCard);
@@ -183,6 +188,9 @@ export function registerSocketFunctions(socket) {
   socket.register('socketUndiscardCard', socketUndiscardCard);
   socket.register('socketVamoose', socketVamoose);
   socket.register('socketAddChipsActor', socketAddChipsActor);
+  socket.register('socketConvertChipActor', socketConvertChipActor);
+  socket.register('socketConsumeGreenChipActor', socketConsumeGreenChipActor);
   socket.register('socketDrawChipActor', socketDrawChipActor);
   socket.register('socketDrawChipMarshal', socketDrawChipMarshal);
+  socket.register('socketUseChipActor', socketUseChipActor);
 }

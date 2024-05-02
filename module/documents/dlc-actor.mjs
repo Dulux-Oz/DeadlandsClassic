@@ -1,4 +1,6 @@
+/* eslint-disable no-underscore-dangle */
 import { Chips } from '../helpers/chips.mjs';
+import * as utility from '../helpers/dlc-utilities.mjs';
 import { NumberString } from '../helpers/number-string.mjs';
 
 export class DeadlandsActor extends Actor {
@@ -7,43 +9,85 @@ export class DeadlandsActor extends Actor {
     super(data, context);
   }
 
-  async removeSingleChip(type, addBounty) {
-    const actorData = this.system.toObject();
+  /* -------------------------------------------- */
+  /*  Removing chips                              */
+  /* -------------------------------------------- */
 
-    let { white, red, blue, green, temporaryGreen, careerBounty } = actorData;
+  _hasChip(chip) {
+    return (
+      (chip === Chips.type.White && this.system.white > 0) ||
+      (chip === Chips.type.Red && this.system.red > 0) ||
+      (chip === Chips.type.Blue && this.system.blue > 0) ||
+      (chip === Chips.type.Green && this.system.green > 0) ||
+      (chip === Chips.type.TemporaryGreen && this.system.temporaryGreen > 0)
+    );
+  }
 
-    if (type === Chips.type.White && white > 0) {
-      white -= 1;
-    } else if (type === Chips.type.Red && red > 0) {
-      red -= 1;
-    } else if (type === Chips.type.Blue && blue > 0) {
-      blue -= 1;
-    } else if (type === Chips.type.Green && green > 0) {
-      green -= 1;
-    } else if (type === Chips.type.TemporaryGreen && temporaryGreen > 0) {
-      temporaryGreen -= 1;
+  async _updateForChipRemoval(type, addBounty) {
+    const actorData = this.toObject();
+
+    if (type === Chips.type.White && actorData.system.white > 0) {
+      actorData.system.white -= 1;
+    } else if (type === Chips.type.Red && actorData.system.red > 0) {
+      actorData.system.red -= 1;
+    } else if (type === Chips.type.Blue && actorData.system.blue > 0) {
+      actorData.system.blue -= 1;
+    } else if (type === Chips.type.Green && actorData.system.green > 0) {
+      actorData.system.green -= 1;
+    } else if (
+      type === Chips.type.TemporaryGreen &&
+      actorData.system.temporaryGreen > 0
+    ) {
+      actorData.system.temporaryGreen -= 1;
     } else {
       // eslint-disable-next-line no-param-reassign
       addBounty = false;
     }
 
     if (addBounty) {
-      careerBounty += type;
+      actorData.system.careerBounty += type;
     }
 
-    const data = { white, red, blue, green, temporaryGreen, careerBounty };
-
     const updateOptions = {};
-    return this.update(data, updateOptions);
+    return this.update(actorData, updateOptions);
   }
 
-  async useChip(type) {
-    this.removeSingleChip(type, false);
+  _checkRemoval(chip, action, convert, reportAction) {
+    const speaker = this.name;
+    const title = this.name;
+    let message = '';
+
+    if (!this._hasChip(chip)) {
+      const colour = Chips.getColour(chip);
+      message = `${title} attempted to ${action} a ${colour} chip, but none was available.`;
+    } else {
+      this._updateForChipRemoval(chip, convert);
+
+      const chipobject = Chips.addToChipCollection(chip, {
+        white: 0,
+        red: 0,
+        blue: 0,
+        green: 0,
+        temporaryGreen: 0,
+      });
+
+      message = DeadlandsActor.#makeReport(reportAction, chipobject);
+    }
+
+    utility.chatMessage(speaker, title, message);
   }
 
-  async convertChip(type) {
-    this.removeSingleChip(type, true);
+  async useChip(chip) {
+    this._checkRemoval(chip, 'use', false, 'Used');
   }
+
+  async convertChip(chip) {
+    this._checkRemoval(chip, 'convert', true, 'Converted');
+  }
+
+  /* -------------------------------------------- */
+  /*  Making report strings                       */
+  /* -------------------------------------------- */
 
   static #makeSub(count, string) {
     const suffix = count > 1 ? 's' : '';
@@ -86,6 +130,10 @@ export class DeadlandsActor extends Actor {
 
     return report;
   }
+
+  /* -------------------------------------------- */
+  /*  Adding chips                                */
+  /* -------------------------------------------- */
 
   async addMultipleChips({
     white = 0,
@@ -187,53 +235,5 @@ export class DeadlandsActor extends Actor {
 
     this.update(localAct, {});
     return chatStr;
-  }
-
-  async addChip(type) {
-    // Convert a Chip if necessary to have 10 or fewer
-
-    let { white, red, blue, green, temporaryGreen, careerBounty } = this.system;
-
-    let convert = Chips.NoChip;
-
-    const total = white + red + blue + green + temporaryGreen;
-
-    if (total > 9) {
-      if (white > 0) {
-        convert = Chips.type.White;
-        white -= 1;
-      } else if (red > 0) {
-        convert = Chips.type.Red;
-        red -= 1;
-      } else if (blue > 0) {
-        convert = Chips.type.Blue;
-        blue -= 1;
-      } else if (temporaryGreen > 0) {
-        convert = Chips.type.Green;
-        green -= 1;
-      } else {
-        convert = Chips.type.TemporaryGreen;
-        temporaryGreen -= 1;
-      }
-
-      careerBounty += convert;
-    }
-
-    if (type === Chips.type.White) {
-      white += 1;
-    } else if (type === Chips.type.Red) {
-      red += 1;
-    } else if (type === Chips.type.Blue) {
-      blue += 1;
-    } else if (type === Chips.type.Green) {
-      green += 1;
-    } else if (type === Chips.type.TemporaryGreen) {
-      temporaryGreen += 1;
-    }
-
-    const data = { white, red, blue, green, temporaryGreen, careerBounty };
-
-    const updateOptions = {};
-    return this.update(data, updateOptions);
   }
 }

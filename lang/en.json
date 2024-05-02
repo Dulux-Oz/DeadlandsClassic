@@ -45,6 +45,23 @@
       "grantsArcane": "Does this grant an arcane background"
     },
 
+    "character": {
+      "useWhite": "Use white chip",
+      "convertWhite": "Convert white chip to bounty",
+      "useRed": "Use red chip",
+      "convertRed": "Convert red chip to bounty",
+      "useBlue": "Use blue chip",
+      "convertBlue": "Convert blue chip to bounty",
+      "useGreen": "Use green chip",
+      "convertGreen": "Convert green chip to bounty",
+      "consumeGreen": "Use and consume green chip",
+      "useTemporaryGreen": "Use temporary green chip",
+      "convertTemporaryGreen": "Convert temporary green chip to bounty",
+      "consumeChip": "Consume",
+      "convertChip": "Convert",
+      "useChip": "Use"
+    },
+
     "combat": {
       "BeginRound": "Begin Round",
       "EndRound": "End Combat Round",

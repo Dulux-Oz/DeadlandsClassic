@@ -121,10 +121,9 @@ li.combatant .roll:hover {
 }
 
 .chip-entry {
-  display: grid;
+  display: flex;
+  flex: 0 0 calc(var(--sidebar-header-height) * 2px);
   grid-template-columns: 180px 40px;
-  gap: 10px;
-  padding: 10px;
 }
 
 /* ----------------------------------------- */
@@ -155,13 +154,18 @@ li.combatant .roll:hover {
   text-align: right;
 }
 
+.chip-button {
+  flex: 0 0 calc(var(--sidebar-header-height) * 2px);
+}
+
 .chip-button-narrow {
   width: 100px;
   flex: 0 0 calc(var(--sidebar-header-height) * 2px);
 }
 
-.chip-button {
-  flex: 0 0 calc(var(--sidebar-header-height) * 2px);
+.chip-button-narrow-character {
+  width: 100px;
+  flex: 0 0 calc(var(--sidebar-header-height) * 1.5px);
 }
 
 .chip-quantity {
@@ -171,12 +175,30 @@ li.combatant .roll:hover {
   justify-content: flex-start;
 }
 
+.chip-quantity-character {
+  flex: 0 0 calc(var(--sidebar-header-height) * 1px);
+  padding: 0.75em;
+  color: var(--color-text-dark-1);
+  justify-content: flex-start;
+  vertical-align: middle;
+}
+
 .chip-label {
   display: flex;
-  flex: 6;
-  padding: 0.5em;
+  padding: 0.75em;
   color: var(--color-text-light-1);
+  justify-content: first baseline;
+  width: 300px;
+}
+
+.chip-label-character {
+  display: flex;
+  flex: 0 0 calc(var(--sidebar-header-height) * 2px);
+  padding: 0.75em;
+  color: var(--color-text-dark-1);
   justify-content: flex-start;
+  vertical-align: middle;
+  width: 130px;
 }
 
 .chip-row {

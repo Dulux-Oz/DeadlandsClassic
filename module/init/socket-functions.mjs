@@ -127,7 +127,7 @@ async function socketDrawChipActor(actorId, num = 1) {
   // Adding the randomly drawn chip.
   const message = await actor.addMultipleChips(chipobject);
 
-  _chatMessage(ChatMessage.getSpeaker(), 'Chips drawn', message);
+  _chatMessage(ChatMessage.getSpeaker(), actor.name, message);
 }
 
 async function socketDrawChipMarshal() {

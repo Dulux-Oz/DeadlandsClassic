@@ -224,6 +224,22 @@ export class DLCActorSheet extends ActorSheet {
           this.document.id
         );
         break;
+
+      case 'drawOne':
+        await game['deadlands-classic'].socket.executeAsGM(
+          'socketDrawChipActor',
+          this.document.id,
+          1
+        );
+        break;
+
+      case 'drawThree':
+        await game['deadlands-classic'].socket.executeAsGM(
+          'socketDrawChipActor',
+          this.document.id,
+          3
+        );
+        break;
     }
     this.render();
   }

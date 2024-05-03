@@ -46,6 +46,8 @@
     },
 
     "character": {
+      "drawOne": "Draw one chip",
+      "drawThree": "Draw three chips",
       "useWhite": "Use white chip",
       "convertWhite": "Convert white chip to bounty",
       "useRed": "Use red chip",

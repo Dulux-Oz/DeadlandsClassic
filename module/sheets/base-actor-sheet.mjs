@@ -1,11 +1,11 @@
 import { dlcConfig } from '../config.mjs';
 import { Chips } from '../helpers/chips.mjs';
 
-export class DLCActorSheet extends ActorSheet {
+export class DLCBaseActorSheet extends ActorSheet {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['dlc', 'sheet', 'actor'],
-      template: 'systems/deadlands-classic/templates/dlc-character-sheet.html',
+      template: 'systems/deadlands-classic/templates/actor-sheet/pc-sheet.html',
       width: 660,
       height: 800,
       tabs: [

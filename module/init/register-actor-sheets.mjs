@@ -1,4 +1,4 @@
-import { DLCActorSheet } from '../sheets/dlc-actor-sheet.mjs';
+import { DLCActorSheet } from '../sheets/actor-sheet.mjs';
 
 export function registerActorSheets() {
   Actors.registerSheet('deadlands-classic', DLCActorSheet, {

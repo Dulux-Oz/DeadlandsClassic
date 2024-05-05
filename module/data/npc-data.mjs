@@ -9,8 +9,8 @@ export class NPCDataModel extends BaseActorDataModel {
       ...this.makeAptitudes(),
       ...this.makeWoundLocations(),
 
-      Biography: new fields.HTMLField(),
-      Notes: new fields.HTMLField(),
+      biography: new fields.HTMLField(),
+      notes: new fields.HTMLField(),
 
       ...this.makeChipData(false),
     };

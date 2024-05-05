@@ -1,7 +1,7 @@
 {
   "id": "deadlands-classic",
   "title": "Deadlands Classic",
-  "description": "A Foundry VTT Game System for playing Deadlands Classic, Deadlands Hell On Earth Classic, and (hopefully) Deadlands Lost Colony Classic.<br />For Foundry Virtual Tabletop v11.304+.",
+  "description": "A Foundry VTT Game System for playing Deadlands Classic, Deadlands Hell On Earth Classic, and Deadlands Lost Colony Classic.",
   "authors": [
     {
       "name": "Andrew",
@@ -45,10 +45,40 @@
       "path": "lang/en.json"
     }
   ],
+
+  "documentTypes": {
+    "Actor": {
+      "types": ["character", "npc"],
+      "htmlFields": ["biography", "notes"]
+    },
+    "Item": {
+      "types": [
+        "edge",
+        "hindrance",
+        "spellLike",
+        "gun",
+        "otherRanged",
+        "melee",
+        "miscItem"
+      ],
+      "htmlFields": [
+        "blurb",
+        "description",
+        "notes",
+        "one.text",
+        "two.text",
+        "three.text",
+        "four.text",
+        "five.text",
+        "capstone.text"
+      ]
+    }
+  },
+
   "packs": [],
   "socket": true,
-  "gridDistance": 2,
-  "gridUnits": "yrd",
+  "grid.distance": 2,
+  "grid.units": "yrd",
   "url": "https://github.com/Dulux-Oz/deadlands-classic",
   "manifest": "https://raw.githubusercontent.com/Dulux-Oz/deadlands-classic/master/system.json",
   "download": "https://github.com/Dulux-Oz/deadlands-classic/releases/download/0.1/deadlands_classic.zip",

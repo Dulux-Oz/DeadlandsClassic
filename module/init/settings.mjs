@@ -87,7 +87,7 @@ export function createGameSettings() {
     default: 0,
   });
 
-  game.settings.register('deadlands-classic', 'marshall-chips', {
+  game.settings.register('deadlands-classic', 'marshal-chips', {
     name: 'DLC.settings.chips-marshal.name',
     hint: 'DLC.settings.chips-marshal.hint',
     scope: 'world',

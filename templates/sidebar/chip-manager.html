@@ -2,53 +2,67 @@
 
   <header class="chip-manager-header">
       <div class="flexrow">
-        <h3 class="chip-manager noborder">{{localize 'DLC.sidebar.ChipManager'}}</h3>
+        <h3 class="chip-manager noborder">{{localize 'DLC.sidebar.ChipPot'}}</h3>
       </div>
   </header>
 
-  <form>
-    <div class="chip-row">
-      <label class="chip-label" for="white">White</label>
-      <input class="chip-box" type="number" id="white" name="white" value="0" maxlength="2">
-    </div>
-    <div class="chip-row">
-      <label class="chip-label" for="red">Red</label>
-      <input class="chip-box" type="number" id="red" name="red" value="0" maxlength="2">
-    </div>
-    <div class="chip-row">
-      <label class="chip-label" for="blue">Blue</label>
-      <input class="chip-box" type="number" id="blue" name="blue" value="0" maxlength="2">
-    </div>
-    <div class="chip-row">
-      <label class="chip-label" for="green">Green</label>
-      <input class="chip-box" type="number" id="green" name="green" value="0" maxlength="2">
-    </div>
-    <div class="chip-row">
-      <label class="chip-label" for="tGreen">Temp Green</label>
-      <input class="chip-box" type="number" id="tGreen" name="tGreen" value="0" maxlength="2">
-    </div>
-    <ol id="chip-manager" class="directory-list">
-      {{#each posse as |actor id|}}
-        <div class="flexcol">
-          <li class="document chip-actor flexrow" data-actor-id="{{actor.id}}" data-index={{@index}}>
-            <img class="thumbnail" src="{{actor.img}}" data-src="{{actor.img}}" alt="{{actor.name}}"/>
-            <div class="token-name"><h4>{{actor.name}}</h4></div>
-            <input class="token-box" type="checkbox" name="{{actor.id}}" value="checked">
-          </li>
-        </div>
-      {{/each}}
-    </ol>
-    <input class="chip-allocate" type="submit" value="submit">
-  </form>
+  <div class="chip-row">
+    <label class="chip-label" for="white">White</label>
+    <span class="right">{{chips.white}}</span>
+  </div>
 
-  <nav id="chip-controls" class="flexrow" data-tooltip-direction="UP">
-    <a 
-    class="chip-control center" 
-    role="button"
-    data-control="allocateChips">
-      {{localize 'DLC.sidebar.AllocateChips'}}
-    </a>
-  </nav>
+  <div class="chip-row">
+    <label class="chip-label" for="red">Red</label>
+    <span class="right">{{chips.red}}</span>
+  </div>
 
+  <div class="chip-row">
+    <label class="chip-label" for="blue">Blue</label>
+    <span class="right">{{chips.blue}}</span>
+  </div>
+
+  <div class="chip-row">
+    <label class="chip-label" for="green">Green</label>
+    <span class="right">{{chips.green}}</span>
+  </div>
+
+  <div class="chip-manager-header flexrow">
+    <h3 class="chip-manager noborder">{{localize 'DLC.sidebar.MarshalsChips'}}</h3>
+  </div>
+
+  <div class="chip-row">
+    <label class="chip-label" for="white">White</label>
+    <span class="chip-quantity">{{chips.marshalWhite}}</span>
+
+    {{#if chips.hasWhite}}
+      <button class="chip-control chip-button-narrow right"  role="button" data-control="useMarshalWhite"> {{localize 'DLC.sidebar.UseMarshalWhite'}}</button>
+    {{/if}}
+  </div>
+
+  <div class="chip-row">
+    <label class="chip-label" for="red">Red</label>
+    <span class="chip-quantity">{{chips.marshalRed}}</span>
+
+    {{#if chips.hasRed}}
+      <button class="chip-control chip-button-narrow right"  role="button" data-control="useMarshalRed"> {{localize 'DLC.sidebar.UseMarshalRed'}} </button>
+    {{/if}}
+  </div>
+
+  <div class="chip-row">
+    <label class="chip-label" for="blue">Blue</label>
+    <span class="chip-quantity">{{chips.marshalBlue}}</span>
+
+    {{#if chips.hasBlue}}
+      <button class="chip-control chip-button-narrow right"  role="button" data-control="useMarshalBlue"> {{localize 'DLC.sidebar.UseMarshalBlue'}} </button>
+    {{/if}}
+  </div>
+
+  <div class="chip-manager-header flexrow">
+    <h3 class="chip-manager noborder"> &nbsp; </h3>
+  </div>
+
+  <button class="chip-control chip-button "  role="button" data-control="drawChip"> {{localize 'DLC.sidebar.DrawMarshalChip'}} </button>
+
+  <button class="chip-control chip-button "  role="button" data-control="chipAllocator"> {{localize 'DLC.sidebar.ChipAllocator'}} </button>
 
 </section>

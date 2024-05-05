@@ -1,0 +1,47 @@
+<section class="{{cssClass}} directory flexcol" id="{{cssId}}" data-tab="{{tabName}}">
+
+  <header class="chip-allocator-header">
+      <div class="flexrow">
+        <h3 class="chip-allocator noborder">{{localize 'DLC.app.ChipAllocator'}}</h3>
+      </div>
+  </header>
+
+  <form>
+    <div class="chip-row">
+      <label class="chip-label-character" for="white">White</label>
+      <input class="chip-box" type="number" name="white" value="0" maxlength="2">
+    </div>
+    <div class="chip-row">
+      <label class="chip-label-character" for="red">Red</label>
+      <input class="chip-box" type="number" name="red" value="0" maxlength="2">
+    </div>
+    <div class="chip-row">
+      <label class="chip-label-character" for="blue">Blue</label>
+      <input class="chip-box" type="number" name="blue" value="0" maxlength="2">
+    </div>
+    <div class="chip-row">
+      <label class="chip-label-character" for="green">Green</label>
+      <input class="chip-box" type="number" name="green" value="0" maxlength="2">
+    </div>
+    <div class="chip-row">
+      <label class="chip-label-character" for="tGreen">Temp Green</label>
+      <input class="chip-box" type="number" name="temporaryGreen" value="0" maxlength="2">
+    </div>
+    <ol class="directory-list">
+      {{#each posse as |actor|}}
+        <div class="flexcol">
+          <li class="document chip-actor flexrow" data-actor-id="{{actor.id}}" data-index={{@index}}>
+            <img class="thumbnail" src="{{actor.img}}" data-src="{{actor.img}}" alt="{{actor.name}}"/>
+            <div class="token-name"><h4>{{actor.name}}</h4></div>
+            <input class="token-box" type="checkbox" name="{{actor.id}}" value="checked">
+          </li>
+        </div>
+      {{/each}}
+    </ol>
+    
+    <input type="submit" value={{localize 'DLC.app.AllocateChips'}} />
+
+</form>
+
+
+</section>

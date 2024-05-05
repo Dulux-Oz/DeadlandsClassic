@@ -10,12 +10,25 @@ export class Chips {
     TemporaryGreen: 5,
   };
 
+  static colour = {
+    NoChip: 'None',
+    White: 'white',
+    Red: 'red',
+    Blue: 'blue',
+    Green: 'green',
+    TemporaryGreen: 'temporary green',
+  };
+
+  static getColour(type) {
+    return this.colour(type);
+  }
+
   // Choose a randomn chip from those available in the pot. The Marshall can't get green
   // chips, so we need to distinguish if those are avaialble.
   static randomDraw(includeGreen) {
     const { white, red, blue, green } = game.chips.available;
 
-    const available = white + red + blue + includeGreen ? green : 0;
+    const available = white + red + blue + (includeGreen ? green : 0);
     const picked = Deck.getRandomInteger(1, available);
 
     let pick = Chips.type.NoChip;
@@ -37,6 +50,29 @@ export class Chips {
     return pick;
   }
 
+  static addToChipCollection(chip, collection) {
+    const newCollection = foundry.utils.deepClone(collection);
+    switch (chip) {
+      case Chips.type.White:
+        newCollection.white += 1;
+        break;
+      case Chips.type.Red:
+        newCollection.red += 1;
+        break;
+      case Chips.type.Blue:
+        newCollection.blue += 1;
+        break;
+      case Chips.type.Green:
+        newCollection.green += 1;
+        break;
+      case Chips.type.TemporaryGreen:
+        newCollection.temporaryGreen += 1;
+        break;
+      default:
+    }
+    return newCollection;
+  }
+
   static buildCurrentChipPool() {
     const isPc = game.actors.filter((actor) => actor.system.hasChips);
 
@@ -45,7 +81,7 @@ export class Chips {
     const maxBlue = game.settings.get('deadlands-classic', 'blue-chips');
     const maxGreen = game.settings.get('deadlands-classic', 'green-chips');
 
-    const marshal = game.settings.get('deadlands-classic', 'marshall-chips');
+    const marshal = game.settings.get('deadlands-classic', 'marshal-chips');
 
     let { white, red, blue } = marshal.chips;
     let green = 0;

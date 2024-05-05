@@ -70,7 +70,6 @@ Hooks.once('init', async () => {
   registerSocketFunctions(socket);
 
   /* -------------------------------------------- */
-
   if (!('chips' in globalThis.game)) {
     game.chips = {};
     game.chips.apps = {};
@@ -96,12 +95,12 @@ Hooks.once('init', async () => {
 Hooks.once('setup', async () => {
   // eslint-disable-next-line no-console
   console.log('Deadlands Classic | Setting Up');
+  Chips.buildCurrentChipPool();
 });
 
 Hooks.once('ready', async () => {
   // eslint-disable-next-line no-console
   console.log('Deadlands Classic | Readying');
-  Chips.buildCurrentChipPool();
 });
 
 Hooks.on('renderSidebar', async (app, html) => {

@@ -20,7 +20,11 @@ export class Chips {
   };
 
   static getColour(type) {
-    return this.colour(type);
+    const key = Object.keys(Chips.type)[
+      Object.values(Chips.type).indexOf(type)
+    ];
+
+    return this.colour[key];
   }
 
   // Choose a randomn chip from those available in the pot. The Marshall can't get green

@@ -116,6 +116,10 @@
     },
 
     "settings": {
+      "chip-from-marshal-bJoker": {
+        "name": "Marshal black joker Chips",
+        "hint": "Does the marshal's black joker give them a chip?"
+      },
       "chips-blue": {
         "name": "Blue Chips",
         "hint": "How many blue chips exist in the pot."

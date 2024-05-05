@@ -108,7 +108,7 @@ async function socketAddChipsActor(actorId, chips) {
   _chatMessage(ChatMessage.getSpeaker(), actor.name, message);
 }
 
-async function socketDrawChipActor(actorId, num = 1) {
+async function socketDrawChipActor(actorId, num = 1, joker = false) {
   const actor = game.actors.get(actorId);
 
   let chipobject = {
@@ -127,10 +127,12 @@ async function socketDrawChipActor(actorId, num = 1) {
   // Adding the randomly drawn chip.
   const message = await actor.addMultipleChips(chipobject);
 
-  _chatMessage(ChatMessage.getSpeaker(), actor.name, message);
+  const name = joker ? `Red joker — ${actor.name}` : actor.name;
+
+  _chatMessage(ChatMessage.getSpeaker(), name, message);
 }
 
-async function socketDrawChipMarshal() {
+async function socketDrawChipMarshal(joker = false) {
   const chip = Chips.randomDraw(false);
 
   const marshal = game.settings.get('deadlands-classic', 'marshal-chips');
@@ -145,6 +147,13 @@ async function socketDrawChipMarshal() {
   }
 
   await game.settings.set('deadlands-classic', 'marshal-chips', newMarshal);
+
+  if (joker) {
+    const colour = Chips.getColour(chip);
+    const message = `Drew a ${colour} chip.`;
+
+    _chatMessage(ChatMessage.getSpeaker(), 'Black Joker — Marshal', message);
+  }
 }
 
 async function socketConvertChipActor(actorId, chip) {

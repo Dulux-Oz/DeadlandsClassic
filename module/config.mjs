@@ -32,9 +32,19 @@ export const dlcConfig = {
     'Special',
   ],
   aptitudes: {
-    Academia: { trait: 'Knowledge', concentrations: [] },
-    "Animal Wranglin'": { trait: 'Mien', concentrations: [] },
-    'Area Knowledge': { trait: 'Knowledge', concentrations: [] },
+    Academia: {
+      trait: 'Knowledge',
+      concentrations: ['Philosophy', 'History', 'Occult'],
+    },
+    "Animal Wranglin'": {
+      trait: 'Mien',
+      concentrations: ['Bronco Busting', 'Dog Training'],
+    },
+    'Area Knowledge': {
+      trait: 'Knowledge',
+      concentrations: ['Home county'],
+      default: 1,
+    },
     Artillery: {
       trait: 'Cognition',
       concentrations: ['Cannons', 'Gatling Guns', 'Rockets'],

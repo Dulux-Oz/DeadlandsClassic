@@ -2,11 +2,34 @@
 import { Chips } from '../helpers/chips.mjs';
 import * as utility from '../helpers/dlc-utilities.mjs';
 import { NumberString } from '../helpers/number-string.mjs';
+import { CreateActorSheet } from '../sheets/create-actor-sheet.mjs';
 
 export class DeadlandsActor extends Actor {
-  // eslint-disable-next-line no-useless-constructor
   constructor(data, context) {
     super(data, context);
+
+    /* This will hold the application used when creating a DeadlandsActor */
+    Object.defineProperty(this, '_charCreator', {
+      value: null,
+      writable: true,
+      enumerable: false,
+    });
+
+    /* This data that needs to be persistent while selecting trait dice, but we don't want in the database. */
+    Object.defineProperty(this, 'UpdatingTraits', {
+      value: null,
+      writable: true,
+      enumerable: false,
+    });
+
+    this.UpdatingTraits = {};
+
+    /* This data that needs to be persistent while selecting trait dice, but we don't want in the database. */
+    Object.defineProperty(this, 'archtypeSelected', {
+      value: null,
+      writable: true,
+      enumerable: false,
+    });
   }
 
   /* -------------------------------------------- */
@@ -235,5 +258,17 @@ export class DeadlandsActor extends Actor {
 
     this.update(localAct, {});
     return chatStr;
+  }
+
+  /* -------------------------------------------- */
+
+  /* Lazily get a sheet that deals with initial character creation. */
+  get createCharacter() {
+    if (!this._charCreator) {
+      this._charCreator = new CreateActorSheet(this, {
+        editable: this.isOwner,
+      });
+    }
+    return this._charCreator;
   }
 }

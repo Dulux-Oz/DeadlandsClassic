@@ -1,0 +1,54 @@
+<form class="flexcol {{cssClass}}" autocomplete="off">
+  {{!-- Sheet Header --}}
+  <header class="sheet-header">
+    <img
+      class="profile-img"
+      src="{{data.img}}"
+      data-edit="img"
+      title="{{data.name}}"
+      height="100"
+      width="100"
+    />
+    <div class="header-fields">
+      <h1 class="charname">
+        <input
+          name="name"
+          type="text"
+          value="{{this.title}}"
+          placeholder="Name"
+        />
+      </h1>
+    </div>
+  </header>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="trait-create">
+      {{localize "DLC.tab.trait-create"}}
+    </a>
+    <a class="item" data-tab="apt-create">
+      {{localize "DLC.tab.apt-create"}}
+    </a>
+    <a class="item" data-tab="edge-create">
+      {{localize "DLC.tab.edge-create"}}
+    </a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+    {{!-- Initial Traits Tab/Sub-Page --}}
+    <div class="tab trait-create" data-group="primary" data-tab="trait-create">
+      {{> "systems/deadlands-classic/templates/char-create/trait.html" }}
+    </div>
+
+    {{!-- Initial aptitudes Tab/Sub-Page --}}
+    <div class="tab apt-create" data-group="primary" data-tab="apt-create">
+      {{> "systems/deadlands-classic/templates/char-create/aptitude.html" }}
+    </div>
+
+    {{!-- Initial Edges Tab/Sub-Page --}}
+    <div class="tab edge-create" data-group="primary" data-tab="edge-create">
+      {{> "systems/deadlands-classic/templates/char-create/edge.html" }}
+    </div>
+  </section>
+</form>

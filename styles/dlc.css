@@ -372,3 +372,55 @@ li.combatant .roll:hover {
   min-width: 500px;
   min-height: 500px;
 }
+
+.item {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: end;
+}
+
+.traitOptions {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.traitOptionItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  flex: calc(33% - 42px);
+}
+
+.traitInputs {
+  display: flex;
+  flex-direction: row;
+}
+
+.traitColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.traitInput {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: start;
+  flex: calc(33% - 42px);
+}
+
+.traitInput > label {
+  min-width: 9em;
+}
+
+.traitInput > input {
+  text-align: right;
+  width: 30px;
+}
+
+.traitSubmit {
+  font-size: var(--font-size-14);
+  flex: 0 0 var(--control-width);
+  color: var(--color-text-light-6);
+}

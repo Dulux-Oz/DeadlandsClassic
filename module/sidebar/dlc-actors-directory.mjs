@@ -14,13 +14,27 @@ export class DeadlandsActorDirectory extends ActorDirectory {
         condition: (li) => true,
         callback: (li) => {
           const actor = game.actors.get(li.data('documentId'));
-          if (actor.system.ActiveForChips) {
-            delete actor.apps?.[globalThis.ChipManager.appId];
+          const localActor = actor.toObject();
+
+          if (localActor.system.hasChips) {
+            delete localActor.apps?.[globalThis.ChipManager.appId];
           } else {
-            actor.apps[globalThis.ChipManager.appId] = globalThis.ChipManager;
+            localActor.apps[globalThis.ChipManager.appId] =
+              globalThis.ChipManager;
           }
-          actor.system.ActiveForChips = !actor.system.ActiveForChips;
-          actor.update();
+          localActor.system.hasChips = !localActor.system.hasChips;
+
+          const updateOptions = {};
+          actor.update(localActor, updateOptions);
+        },
+      },
+      {
+        name: 'DLC.sidebar.CreateCharacter',
+        icon: '<i class="fas fa-cards"></i>',
+        condition: (li) => true,
+        callback: (li) => {
+          const actor = game.actors.get(li.data('documentId'));
+          actor.createCharacter.render(true);
         },
       },
     ].concat(options);

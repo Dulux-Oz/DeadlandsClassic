@@ -171,7 +171,7 @@
       "DrawMarshalChip": "Draw a chip for the Marshal",
       "EditItem": "Edit",
       "MarshalsChips": "Marshal's Chips",
-      "SetTraits": "Set character's traits",
+      "CreateCharacter": "Set character's initial properties.",
       "UseChips": "Toggle participation in the chip pot",
       "UseMarshalBlue": "Use chip",
       "UseMarshalRed": "Use chip",

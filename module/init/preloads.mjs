@@ -1,5 +1,7 @@
 export async function preloadTemplates() {
-  const sPrePath = `systems/deadlands-classic/templates/actor-sheet/`;
+  const templateDir = 'systems/deadlands-classic/templates/';
+  const sPrePath = `${templateDir}actor-sheet/`;
+  const createActorPath = `${templateDir}char-create/`;
   const aTemplatePaths = [
     `${sPrePath}aptitudes.html`,
     `${sPrePath}biodata.html`,
@@ -9,7 +11,13 @@ export async function preloadTemplates() {
     `${sPrePath}gear.html`,
     `${sPrePath}main.html`,
     `${sPrePath}spells.html`,
-    'systems/deadlands-classic/templates/sidebar/combat-tracker.html',
+
+    `${templateDir}sidebar/combat-tracker.html`,
+
+    `${createActorPath}aptitude.html`,
+    `${createActorPath}edge.html`,
+    `${createActorPath}trait.html`,
+    `${createActorPath}create-character.html`,
   ];
   return loadTemplates(aTemplatePaths);
 }

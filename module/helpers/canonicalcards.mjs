@@ -79,6 +79,11 @@ export class CanonicalCards {
     return this.cards[index];
   }
 
+  cardBySymbol(symbol) {
+    const index = this.cardMap.get(symbol);
+    return this.cardByIndex(index);
+  }
+
   // Does this integer represent a card in this deck
   isCard(card) {
     if (Number.isNaN(card)) {
@@ -93,15 +98,23 @@ export class CanonicalCards {
   makeCards() {
     const cards = [];
     let index = 0;
+    let die = 4;
 
     for (let r = 0; r < this.rank.length; r += 1) {
+      if (r === 1 || r === 6 || r === 10 || r === 12) {
+        die += 2;
+      }
+
       for (let s = 0; s < this.suit.length; s += 1) {
+        const dieNum = s + 1;
         const symbol = `${this.rank[r]}${this.suit[s]}`;
         const name = `${this.word[r]} of ${this.suitWord[s]}`;
         cards.push({
           symbol,
           name,
           index,
+          die,
+          dieNum,
         });
         index += 1;
       }
@@ -111,12 +124,16 @@ export class CanonicalCards {
       symbol: 'BJ',
       name: 'The Black Joker',
       index: this.bJokerIndex,
+      die: 12,
+      dieNum: 5,
     };
 
     const rJoker = {
       symbol: 'RJ',
       name: 'The Red Joker',
       index: this.rJokerIndex,
+      die: 12,
+      dieNum: 5,
     };
 
     if (this.rJokerIndex === this.smallestJokerIndex) {

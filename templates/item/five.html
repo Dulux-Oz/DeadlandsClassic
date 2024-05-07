@@ -1,0 +1,15 @@
+<h1>{{localize "DLC.modificationTabConfigure.five"}}</h1>
+
+<div>
+  <label for="StartCost">{{localize "DLC.modification.startCost"}}</label> 
+  <input type="number"  id="StartCost" name="system.five.startCost" {{#if system.five.startCost includeZero=true}} value="{{system.five.startCost}}" {{/if}} />
+</div>
+
+<div>
+  <label for="Cost">{{localize "DLC.modification.cost"}}</label> 
+  <input type="number"  id="Cost" name="system.five.cost" {{#if system.five.cost includeZero=true}} value="{{system.five.cost}}" {{/if}} />
+</div>
+
+<div>
+  {{editor enrichedFiveText target="system.five.text" editable=editable}}
+</div>

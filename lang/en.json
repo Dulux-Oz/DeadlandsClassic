@@ -190,8 +190,12 @@
       "characterhoe": "Player Character Hell on Earth",
       "characterlc": "Player Character Lost Colony",
       "characterww": "Player Character Weird West",
-      "edge": "Edge",
-      "npc": "Non-Player Character"
+      "edge": "Player Modification",
+      "gun": "Gun",
+      "melee": "Melee",
+      "miscItem": "Miscellaneous item",
+      "npc": "Non-Player Character",
+      "otherRanged": "Other ranged (not gun)"
     },
 
     "sidebar": {

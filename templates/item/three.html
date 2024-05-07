@@ -1,0 +1,17 @@
+<h1>
+  {{localize "DLC.modificationTabConfigure.three"}}
+</h1>
+
+<div>
+  <label for="StartCost">{{localize "DLC.modification.startCost"}}</label> 
+  <input type="number"  id="StartCost" name="system.three.startCost" {{#if system.three.startCost includeZero=true}} value="{{system.three.startCost}}" {{/if}} />
+</div>
+
+<div>
+  <label for="Cost">{{localize "DLC.modification.cost"}}</label> 
+  <input type="number"  id="Cost" name="system.three.cost" {{#if system.three.cost includeZero=true}} value="{{system.three.cost}}" {{/if}} />
+</div>
+
+<div>
+  {{editor enrichedThreeText target="system.three.text" editable=editable}}
+</div>

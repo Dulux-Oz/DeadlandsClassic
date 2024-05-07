@@ -11,16 +11,19 @@ import { OtherRangedDataModel } from './data/other-ranged-data.mjs';
 import { DeadlandsActor } from './documents/dlc-actor.mjs';
 import { DeadlandsCombat } from './documents/dlc-combat.mjs';
 import { DeadlandsCombatant } from './documents/dlc-combatant.mjs';
+import { DeadlandsItem } from './documents/dlc-item.mjs';
 import { CanonicalCards } from './helpers/canonicalcards.mjs';
 import { Chips } from './helpers/chips.mjs';
 import { addChipTab } from './init/add-chip-tab.mjs';
 import { preloadTemplates } from './init/preloads.mjs';
+import { registerItemSheets } from './init/register-item-sheets.mjs';
 import { createGameSettings } from './init/settings.mjs';
 import { registerSocketFunctions } from './init/socket-functions.mjs';
 import { DLCActorSheet } from './sheets/actor-sheet.mjs';
 import { ChipManager } from './sidebar/chip-manager.mjs';
 import { DeadlandsActorDirectory } from './sidebar/dlc-actors-directory.mjs';
 import { DeadlandsCombatTracker } from './sidebar/dlc-combat-tracker.mjs';
+import { DeadlandsItemDirectory } from './sidebar/dlc-items-directory.mjs';
 import { DlcSocketManager } from './sockets/dlc-socket-manager.mjs';
 import { dlcConfig } from './config.mjs';
 
@@ -52,11 +55,13 @@ Hooks.once('init', async () => {
   CONFIG.Actor.documentClass = DeadlandsActor;
   CONFIG.Combat.documentClass = DeadlandsCombat;
   CONFIG.Combatant.documentClass = DeadlandsCombatant;
+  CONFIG.Item.documentClass = DeadlandsItem;
 
   // Define custom ui classes
   CONFIG.ui.combat = DeadlandsCombatTracker;
   CONFIG.ui.actors = DeadlandsActorDirectory;
   CONFIG.ui.chips = ChipManager;
+  CONFIG.ui.items = DeadlandsItemDirectory;
 
   /* -------------------------------------------- */
 
@@ -107,6 +112,7 @@ Hooks.once('init', async () => {
     label: 'DLC.sheet-type.characterww',
   });
 
+  registerItemSheets();
   createGameSettings();
 
   globalThis.CanonicalCards = new CanonicalCards();

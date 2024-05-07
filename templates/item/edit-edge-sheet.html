@@ -1,0 +1,79 @@
+<form class="flexcol {{cssClass}}" autocomplete="off">
+  <header class="sheet-header">
+    <img src="{{img}}" data-edit="img" title="{{name}}" height="64" width="64"/>
+    <h1>
+      <input name="name" type="text" value="{{name}}" placeholder="{{ localize 'Name' }}"/>
+    </h1>
+  </header>
+
+    <input type="submit" value="Submit Changes" style="width: 10em;  height: 2em;">
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="configure"> {{localize "DLC.modificationTab.configure"}} </a>
+    <a class="item" data-tab="blurb"> {{localize "DLC.modificationTab.blurb"}} </a>
+    
+    {{#if system.one.active }} <a class="item" data-tab="one"> {{localize "DLC.modificationTab.one"}} </a> {{/if}}
+    {{#if system.two.active }} <a class="item" data-tab="two"> {{localize "DLC.modificationTab.two"}} </a> {{/if}}
+    {{#if system.three.active }} <a class="item" data-tab="three"> {{localize "DLC.modificationTab.three"}} </a> {{/if}}
+    {{#if system.four.active }} <a class="item" data-tab="four"> {{localize "DLC.modificationTab.four"}} </a> {{/if}}
+    {{#if system.five.active }} <a class="item" data-tab="five"> {{localize "DLC.modificationTab.five"}} </a> {{/if}}
+    {{#if system.capstone.active }} <a class="item" data-tab="capstone"> {{localize "DLC.modificationTab.capstone"}} </a> {{/if}}
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- Configure Tab/Sub-Page --}}
+    <div class="tab configure flexcol" data-group="primary" data-tab="configure">
+      {{> "systems/deadlands-classic/templates/item/configure.html" }}
+    </div>
+
+    {{!-- Blurb Tab/Sub-Page --}}
+    <div class="tab blurb" data-group="primary" data-tab="blurb">
+      {{> "systems/deadlands-classic/templates/item/blurb.html" }}
+    </div>
+
+    {{!-- Level one Tab/Sub-Page --}}
+    {{#if system.one.active }}       
+    <div class="tab one flexcol" data-group="primary" data-tab="one">
+      {{> "systems/deadlands-classic/templates/item/one.html" }}
+    </div>
+     {{/if}}
+
+    {{!-- Level two Tab/Sub-Page --}}
+    {{#if system.two.active }}       
+    <div class="tab two flexcol" data-group="primary" data-tab="two" >
+      {{> "systems/deadlands-classic/templates/item/two.html" }}
+    </div>
+     {{/if}}
+
+    {{!-- Level three Tab/Sub-Page --}}
+    {{#if system.three.active }}     
+    <div class="tab three flexcol" data-group="primary" data-tab="three">
+      {{> "systems/deadlands-classic/templates/item/three.html" }}
+    </div>
+    {{/if}}
+
+    {{!-- Level four Tab/Sub-Page --}}
+    {{#if system.four.active }}      
+    <div class="tab four flexcol" data-group="primary" data-tab="four">
+      {{> "systems/deadlands-classic/templates/item/four.html" }}
+    </div>
+    {{/if}}
+
+    {{!-- Level five Tab/Sub-Page --}}
+    {{#if system.five.active }}      
+    <div class="tab five flexcol" data-group="primary" data-tab="five">
+      {{> "systems/deadlands-classic/templates/item/five.html" }}
+    </div>
+    {{/if}}
+
+    {{!-- Capstone Tab/Sub-Page --}}
+    {{#if system.capstone.active }}  
+    <div class="tab capstone flexcol" data-group="primary" data-tab="capstone">
+      {{> "systems/deadlands-classic/templates/item/capstone.html" }}
+    </div>
+    {{/if}}
+  </section>
+</form>

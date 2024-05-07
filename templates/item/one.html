@@ -1,0 +1,15 @@
+<h1>{{localize "DLC.modificationTabConfigure.one"}}</h1>
+
+<div>
+  <label for="StartCost">{{localize "DLC.modification.startCost"}}</label> 
+  <input type="number"  id="StartCost" name="system.one.startCost" {{#if system.one.startCost includeZero=true}} value="{{system.one.startCost}}" {{/if}} />
+</div>
+
+<div>
+  <label for="Cost">{{localize "DLC.modification.cost"}}</label> 
+  <input type="number"  id="Cost" name="system.one.cost" {{#if system.one.cost includeZero=true}} value="{{system.one.cost}}" {{/if}} />
+</div>
+
+<div>
+  {{editor enrichedOneText target="system.one.text" editable=editable}}
+</div>

@@ -1,0 +1,21 @@
+<h1>Configure </h1>
+
+  <div>
+    {{localize "DLC.modificationTabConfigure.capstone"}}
+  </div>
+
+  <div>
+    <label for="StartCost">{{localize "DLC.modification.startCost"}}</label> 
+    <input type="number"  id="StartCost" name="system.capstone.startCost" {{#if system.capstone.startCost includeZero=true}} value="{{system.capstone.startCost}}" {{/if}} />
+  </div>
+
+  <div>
+    <label for="Cost">{{localize "DLC.modification.cost"}}</label> 
+    <input type="number"  id="Cost" name="system.capstone.cost" {{#if system.capstone.cost includeZero=true}} value="{{system.capstone.cost}}" {{/if}} />
+  </div>
+
+  <div>
+    {{editor enrichedCapstoneText target="system.capstone.text" editable=editable}}
+  </div>
+
+  <hr>

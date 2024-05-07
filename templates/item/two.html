@@ -1,0 +1,15 @@
+<h1>{{localize "DLC.modificationTabConfigure.two"}}</h1>
+
+<div>
+  <label for="StartCost">{{localize "DLC.modification.startCost"}}</label> 
+  <input type="number"  id="StartCost" name="system.two.startCost" {{#if system.two.startCost includeZero=true}} value="{{system.two.startCost}}" {{/if}} />
+</div>
+
+<div>
+  <label for="Cost">{{localize "DLC.modification.cost"}}</label> 
+  <input type="number"  id="Cost" name="system.two.cost" {{#if system.two.cost includeZero=true}} value="{{system.two.cost}}" {{/if}} />
+</div>
+
+<div>
+  {{editor enrichedTwoText target="system.two.text" editable=editable}}
+</div>

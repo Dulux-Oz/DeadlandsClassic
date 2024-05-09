@@ -52,6 +52,7 @@
       "convertWhite": "Convert white chip to bounty",
       "useRed": "Use red chip",
       "convertRed": "Convert red chip to bounty",
+      "useRedReroll": "Use red chip for reroll",
       "useBlue": "Use blue chip",
       "convertBlue": "Convert blue chip to bounty",
       "useGreen": "Use green chip",
@@ -61,7 +62,8 @@
       "convertTemporaryGreen": "Convert temporary green chip to bounty",
       "consumeChip": "Consume",
       "convertChip": "Convert",
-      "useChip": "Use"
+      "useChip": "Use",
+      "useChipReroll": "Use for reroll"
     },
 
     "combat": {

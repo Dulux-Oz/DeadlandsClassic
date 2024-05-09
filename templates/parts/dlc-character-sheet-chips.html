@@ -1,4 +1,4 @@
-<h1>Tmp Header - Chips</h1>
+<h1>Chips</h1>
 
 <div class="chip-entry">
   <div class="chip-label-character">White</div>
@@ -16,6 +16,7 @@
   {{#if chips.hasred}}
     <button class="chip-control chip-button-narrow-character" role="button" data-tooltip="DLC.character.useRed" data-control="useRed">     {{localize 'DLC.character.useChip'}}</button>
     <button class="chip-control chip-button-narrow-character" role="button" data-tooltip="DLC.character.convertRed" data-control="convertRed"> {{localize 'DLC.character.convertChip'}}</button>
+    <button class="chip-control chip-button-narrow-character" role="button" data-tooltip="DLC.character.useRedReroll" data-control="useRedReroll"> {{localize 'DLC.character.useChipReroll'}}</button>
   {{/if}}
 </div>
 
@@ -46,7 +47,9 @@
   {{/if}}
 </div>
 
+<div class="chip-entry"><br></div>
+
 <div class="chip-entry">
-  <button class="chip-control chip-button-narrow-character" role="button" data-tooltip="DLC.character.drawOne"   data-control="drawOne">   {{localize 'DLC.character.drawOne'}}</button>
-  <button class="chip-control chip-button-narrow-character" role="button" data-tooltip="DLC.character.drawThree" data-control="drawThree"> {{localize 'DLC.character.drawThree'}}</button>
+  <button class="chip-control chip-button-character" role="button" data-tooltip="DLC.character.drawOne"   data-control="drawOne">   {{localize 'DLC.character.drawOne'}}</button>
+  <button class="chip-control chip-button-character" role="button" data-tooltip="DLC.character.drawThree" data-control="drawThree"> {{localize 'DLC.character.drawThree'}}</button>
 </div>

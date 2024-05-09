@@ -17,6 +17,27 @@ function _chatMessage(
   ChatMessage.create(chatData);
 }
 
+/* Draws a random chip for the Marshall. Returns the value so that this can be
+   called from various places that need different reports to chat. */
+
+async function _drawChipMarshalBase() {
+  const chip = Chips.randomDraw(false);
+
+  const marshal = game.settings.get('deadlands-classic', 'marshal-chips');
+  const newMarshal = marshal.toObject();
+
+  if (chip === Chips.type.White) {
+    newMarshal.chips.white += 1;
+  } else if (chip === Chips.type.Red) {
+    newMarshal.chips.red += 1;
+  } else if (chip === Chips.type.Blue) {
+    newMarshal.chips.blue += 1;
+  }
+
+  await game.settings.set('deadlands-classic', 'marshal-chips', newMarshal);
+  return chip;
+}
+
 function socketLogCombatant(combatId, combatantId, index) {
   const combat = game.combats.get(combatId);
   const combatant = combat.combatants.get(combatantId);
@@ -133,20 +154,7 @@ async function socketDrawChipActor(actorId, num = 1, joker = false) {
 }
 
 async function socketDrawChipMarshal(joker = false) {
-  const chip = Chips.randomDraw(false);
-
-  const marshal = game.settings.get('deadlands-classic', 'marshal-chips');
-  const newMarshal = marshal.toObject();
-
-  if (chip === Chips.type.White) {
-    newMarshal.chips.white += 1;
-  } else if (chip === Chips.type.Red) {
-    newMarshal.chips.red += 1;
-  } else if (chip === Chips.type.Blue) {
-    newMarshal.chips.blue += 1;
-  }
-
-  await game.settings.set('deadlands-classic', 'marshal-chips', newMarshal);
+  const chip = await _drawChipMarshalBase();
 
   if (joker) {
     const colour = Chips.getColour(chip);
@@ -179,6 +187,27 @@ async function socketConsumeGreenChipActor(actorId) {
   _chatMessage(actor.name, actor.name, 'Consumed a Green chip');
 }
 
+async function socketRedRerollActor(actorId) {
+  const actor = game.actors.get(actorId);
+
+  if (actor.system.red < 1) {
+    _chatMessage(
+      actor.name,
+      actor.name,
+      'Attempted to reroll using a Red chip, but none was available!'
+    );
+    return;
+  }
+
+  actor.useChip(Chips.type.Red);
+  const chip = await _drawChipMarshalBase();
+
+  const colour = Chips.getColour(chip);
+  const message = `Marshal drew a ${colour} chip.`;
+
+  _chatMessage(ChatMessage.getSpeaker(), `Red chip reroll!`, message);
+}
+
 async function socketUseChipActor(actorId, chip) {
   const actor = game.actors.get(actorId);
   actor.useChip(chip);
@@ -201,5 +230,6 @@ export function registerSocketFunctions(socket) {
   socket.register('socketConsumeGreenChipActor', socketConsumeGreenChipActor);
   socket.register('socketDrawChipActor', socketDrawChipActor);
   socket.register('socketDrawChipMarshal', socketDrawChipMarshal);
+  socket.register('socketRedRerollActor', socketRedRerollActor);
   socket.register('socketUseChipActor', socketUseChipActor);
 }

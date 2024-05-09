@@ -1,8 +1,6 @@
 <header class="sheet-header">
-  <img src="{{img}}" data-edit="img" title="{{name}}" height="64" width="64"/>
-  <h1>
-    <input name="name" type="text" value="{{name}}" placeholder="{{ localize 'Name' }}"/>
-  </h1>
+  <img src={{img}} data-edit="img" title={{name}} height="64" width="64"/>
+  <h1>{{name}}</h1>
 </header>
 
 {{!-- Sheet Body --}}
@@ -15,50 +13,64 @@
     {{#if system.setting.LostColony }} {{localize "DLC.settings.game-world.lc"}} {{/if}}
   </div>
 
+  <div><br></div>
+
+  <div>
+    <h2>Blurb</h2>
+    {{editor enrichedBlurb target="system.blurb" editable=editable}}
+  </div>
+
+  <div><br></div>
+
   {{#if system.one.active }}
     <div>
-      {{localize "DLC.modification.startCost"}} {{#if system.one.startCost includeZero=true}} {{system.one.startCost}} {{/if}} 
-      {{localize "DLC.modification.cost"}} {{#if system.one.cost includeZero=true}} {{system.one.cost}} {{/if}}
+      <h3>Level One</h3>
+      {{localize "DLC.modification.startCost"}} {{#if system.one.startCost includeZero=true}} <strong>{{system.one.startCost}}</strong> {{/if}} 
+      {{localize "DLC.modification.cost"}} {{#if system.one.cost includeZero=true}} <strong>{{system.one.cost}}</strong> {{/if}}
       {{editor enrichedOneText target="system.one.text" editable=editable}}
     </div>
   {{/if}}
   
   {{#if system.two.active }}
     <div>
-      {{localize "DLC.modification.startCost"}} {{#if system.two.startCost includeZero=true}} {{system.two.startCost}} {{/if}} 
-      {{localize "DLC.modification.cost"}} {{#if system.two.cost includeZero=true}} {{system.two.cost}} {{/if}}
+      <h3>Level Two</h3>
+      {{localize "DLC.modification.startCost"}} {{#if system.two.startCost includeZero=true}} <strong>{{system.two.startCost}}</strong> {{/if}} 
+      {{localize "DLC.modification.cost"}} {{#if system.two.cost includeZero=true}} <strong>{{system.two.cost}}</strong> {{/if}}
       {{editor enrichedTwoText target="system.two.text" editable=editable}}
     </div>
   {{/if}}
 
   {{#if system.three.active }}
     <div>
-      {{localize "DLC.modification.startCost"}} {{#if system.three.startCost includeZero=true}} {{system.three.startCost}} {{/if}} 
-      {{localize "DLC.modification.cost"}} {{#if system.three.cost includeZero=true}} {{system.three.cost}} {{/if}}
+      <h3>Level Three</h3>
+      {{localize "DLC.modification.startCost"}} {{#if system.three.startCost includeZero=true}} <strong>{{system.three.startCost}}</strong> {{/if}} 
+      {{localize "DLC.modification.cost"}} {{#if system.three.cost includeZero=true}} <strong>{{system.three.cost}}</strong> {{/if}}
       {{editor enrichedThreeText target="system.three.text" editable=editable}}
     </div>
   {{/if}}
 
   {{#if system.four.active }}
     <div>
-      {{localize "DLC.modification.startCost"}} {{#if system.four.startCost includeZero=true}} {{system.four.startCost}} {{/if}} 
-      {{localize "DLC.modification.cost"}} {{#if system.four.cost includeZero=true}} {{system.four.cost}} {{/if}}
+      <h3>Level Four</h3>
+      {{localize "DLC.modification.startCost"}} {{#if system.four.startCost includeZero=true}} <strong>{{system.four.startCost}}</strong> {{/if}} 
+      {{localize "DLC.modification.cost"}} {{#if system.four.cost includeZero=true}} <strong>{{system.four.cost}}</strong> {{/if}}
       {{editor enrichedFourText target="system.four.text" editable=editable}}
     </div>
   {{/if}}
 
   {{#if system.five.active }}
     <div>
-      {{localize "DLC.modification.startCost"}} {{#if system.five.startCost includeZero=true}} {{system.five.startCost}} {{/if}} 
-      {{localize "DLC.modification.cost"}} {{#if system.five.cost includeZero=true}} {{system.five.cost}} {{/if}}
+      <h3>Level Five</h3>
+      {{localize "DLC.modification.startCost"}} {{#if system.five.startCost includeZero=true}} <strong>{{system.five.startCost}}</strong> {{/if}} 
+      {{localize "DLC.modification.cost"}} {{#if system.five.cost includeZero=true}} <strong>{{system.five.cost}}</strong> {{/if}}
       {{editor enrichedFiveText target="system.five.text" editable=editable}}
     </div>
   {{/if}}
 
   {{#if system.capstone.active }}
     <div>
-      {{localize "DLC.modification.startCost"}} {{#if system.capstone.startCost includeZero=true}} {{system.capstone.startCost}} {{/if}} 
-      {{localize "DLC.modification.cost"}} {{#if system.capstone.cost includeZero=true}} {{system.capstone.cost}} {{/if}}
+      {{localize "DLC.modification.startCost"}} {{#if system.capstone.startCost includeZero=true}} <strong>{{system.capstone.startCost}}</strong> {{/if}} 
+      {{localize "DLC.modification.cost"}} {{#if system.capstone.cost includeZero=true}} <strong>{{system.capstone.cost}}</strong> {{/if}}
       {{editor enrichedCapstoneText target="system.capstone.text" editable=editable}}
     </div>
   {{/if}}

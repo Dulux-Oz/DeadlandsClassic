@@ -1,9 +1,7 @@
 <form class="flexcol {{cssClass}}" autocomplete="off">
   <header class="sheet-header">
-    <img src="{{img}}" data-edit="img" title="{{name}}" height="64" width="64"/>
-    <h1>
-      <input name="name" type="text" value="{{name}}" placeholder="{{ localize 'Name' }}"/>
-    </h1>
+    <img src={{img}} data-edit="img" title={{name}} height="64" width="64"/>
+    <h1><input name="name" type="text" value="{{this.title}}" placeholder="{{this.title}}"/></h1>
   </header>
 
     <input type="submit" value="Submit Changes" style="width: 10em;  height: 2em;">

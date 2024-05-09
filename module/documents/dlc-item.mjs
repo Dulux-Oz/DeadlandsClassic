@@ -1,9 +1,9 @@
 /* eslint-disable no-underscore-dangle */
-import { EditEdgeSheet } from '../sheets/edit-edge-sheet.mjs';
-import { EditGunSheet } from '../sheets/edit-gun-sheet.mjs';
-import { EditMeleeSheet } from '../sheets/edit-melee-sheet.mjs';
-import { EditMiscItemSheet } from '../sheets/edit-misc-item-sheet.mjs';
-import { EditOtherRangedSheet } from '../sheets/edit-other-ranged-sheet.mjs';
+import { EditEdgeSheet } from '../sheets/edit-sheet-edge.mjs';
+import { EditGunSheet } from '../sheets/edit-sheet-gun.mjs';
+import { EditMeleeSheet } from '../sheets/edit-sheet-melee.mjs';
+import { EditMiscItemSheet } from '../sheets/edit-sheet-misc-item.mjs';
+import { EditOtherRangedSheet } from '../sheets/edit-sheet-other-ranged.mjs';
 
 export class DeadlandsItem extends Item {
   constructor(data, context) {

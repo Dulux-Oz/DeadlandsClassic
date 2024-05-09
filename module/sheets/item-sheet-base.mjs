@@ -1,4 +1,4 @@
-export class EditMeleeSheet extends ItemSheet {
+export class ItemSheetBase extends ItemSheet {
   constructor(data, options = {}) {
     // setting up tabs here instead of in defaultOptions so that we can easily set the initial tab
     // eslint-disable-next-line no-param-reassign
@@ -15,8 +15,6 @@ export class EditMeleeSheet extends ItemSheet {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['dlc', 'sheet', 'item'],
-      template:
-        'systems/deadlands-classic/templates/item/edit-melee-sheet.html',
       width: 660,
       height: 800,
       closeOnSubmit: false,
@@ -41,15 +39,19 @@ export class EditMeleeSheet extends ItemSheet {
       img: this.document.img,
     };
 
-    context.enrichedDescription = await TextEditor.enrichHTML(
-      this.item.system.description,
-      { async: true }
-    );
+    if (this.item?.system?.description) {
+      context.enrichedDescription = await TextEditor.enrichHTML(
+        this.item.system.description,
+        { async: true }
+      );
+    }
 
-    context.enrichedNotes = await TextEditor.enrichHTML(
-      this.item.system.notes,
-      { async: true }
-    );
+    if (this.item?.system?.notes) {
+      context.enrichedNotes = await TextEditor.enrichHTML(
+        this.item.system.notes,
+        { async: true }
+      );
+    }
 
     return context;
   }

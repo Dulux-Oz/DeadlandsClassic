@@ -37,6 +37,15 @@ export class DeadlandsActorDirectory extends ActorDirectory {
           actor.createCharacter.render(true);
         },
       },
+      {
+        name: 'DLC.sidebar.ModifyCharacter',
+        icon: '<i class="fas fa-shield"></i>',
+        condition: (li) => true,
+        callback: (li) => {
+          const actor = game.actors.get(li.data('documentId'));
+          actor.modifyCharacter.render(true);
+        },
+      },
     ].concat(options);
   }
 }

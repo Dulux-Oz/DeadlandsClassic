@@ -1,7 +1,7 @@
 import { Chips } from '../helpers/chips.mjs';
-import { DLCBaseActorSheet } from './base-actor-sheet.mjs';
+import { DLCActorSheetBase } from './actor-sheet-base.mjs';
 
-export class DLCActorSheet extends DLCBaseActorSheet {
+export class DLCActorSheet extends DLCActorSheetBase {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['dlc', 'sheet', 'actor'],

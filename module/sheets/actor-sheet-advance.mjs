@@ -1,12 +1,11 @@
-import { Chips } from '../helpers/chips.mjs';
-import { DLCBaseActorSheet } from './base-actor-sheet.mjs';
+import { DLCActorSheetBase } from './actor-sheet-base.mjs';
 
-export class CreateActorSheet extends DLCBaseActorSheet {
+export class ActorSheetAdvance extends DLCActorSheetBase {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['dlc', 'sheet', 'actor'],
       template:
-        'systems/deadlands-classic/templates/char-create/create-character.html',
+        'systems/deadlands-classic/templates/char-modify/character.html',
       width: 660,
       height: 800,
       tabs: [

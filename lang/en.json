@@ -168,10 +168,11 @@
     "sidebar": {
       "ChipAllocator": "Chip Allocator",
       "ChipPot": "Chips in Pot",
+      "CreateCharacter": "Initial Character set up",
       "DrawMarshalChip": "Draw a chip for the Marshal",
       "EditItem": "Edit",
       "MarshalsChips": "Marshal's Chips",
-      "CreateCharacter": "Set character's initial properties.",
+      "ModifyCharacter": "Upgrade Character",
       "UseChips": "Toggle participation in the chip pot",
       "UseMarshalBlue": "Use chip",
       "UseMarshalRed": "Use chip",
@@ -179,22 +180,25 @@
     },
 
     "tab": {
-      "apt-create": "Initial Aptitudes",
-      "apt-improve": "Improve Aptitudes",
       "aptitudes": "Aptitudes",
       "bio": "Biography",
       "biodata": "Bio-Data",
       "chips": "Chips",
       "combat": "Combat",
-      "edge-create": "Creation Edges",
-      "edge-improve": "Improvement Edges",
+
+      "create-aptitude": "Initial aptitudes",
+      "create-edge": "Initial edges",
+      "create-trait": "Initial traits",
+
+      "improve-aptitude": "Improve aptitudes",
+      "improve-edge": "Improve edges",
+      "improve-trait": "Improve traits",
+
       "edges": "Edges",
       "gear": "Inventory",
       "main": "Main",
       "notes": "Notes",
       "spells": "Spells",
-      "trait-create": "Initial Traits",
-      "trait-improve": "Improve Traits",
       "traits": "Traits"
     },
 

@@ -2,7 +2,9 @@
 import { Chips } from '../helpers/chips.mjs';
 import * as utility from '../helpers/dlc-utilities.mjs';
 import { NumberString } from '../helpers/number-string.mjs';
-import { CreateActorSheet } from '../sheets/create-actor-sheet.mjs';
+import { TraitCards } from '../helpers/traitcards.mjs';
+import { ActorSheetAdvance } from '../sheets/actor-sheet-advance.mjs';
+import { ActorSheetCreate } from '../sheets/actor-sheet-create.mjs';
 
 export class DeadlandsActor extends Actor {
   constructor(data, context) {
@@ -10,6 +12,13 @@ export class DeadlandsActor extends Actor {
 
     /* This will hold the application used when creating a DeadlandsActor */
     Object.defineProperty(this, '_charCreator', {
+      value: null,
+      writable: true,
+      enumerable: false,
+    });
+
+    /* This will hold the application used when modifying a DeadlandsActor */
+    Object.defineProperty(this, '_charModifier', {
       value: null,
       writable: true,
       enumerable: false,
@@ -265,10 +274,32 @@ export class DeadlandsActor extends Actor {
   /* Lazily get a sheet that deals with initial character creation. */
   get createCharacter() {
     if (!this._charCreator) {
-      this._charCreator = new CreateActorSheet(this, {
+      this._charCreator = new ActorSheetCreate(this, {
         editable: this.isOwner,
       });
     }
     return this._charCreator;
+  }
+
+  /* -------------------------------------------- */
+
+  /* Lazily get a sheet that deals with character advancement/modification. */
+  get modifyCharacter() {
+    if (!this._charModifier) {
+      this._charModifier = new ActorSheetAdvance(this, {
+        editable: this.isOwner,
+      });
+    }
+    return this._charModifier;
+  }
+
+  _preCreate(data, options, user) {
+    // eslint-disable-next-line no-undef
+    super._preCreate(data, options, user);
+
+    if (this.system.cards === null || this.system.cards === undefined) {
+      const cardString = TraitCards.makeNewCardString();
+      this.updateSource({ 'system.cards': cardString });
+    }
   }
 }

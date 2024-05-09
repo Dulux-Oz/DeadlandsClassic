@@ -10,6 +10,8 @@
   --sidebar-card-width: 12px;
   --sidebar-item-height: 48px;
   --sidebar-img-height: 36px;
+
+  --charsheet-item-height: 32px;
 }
 
 .directory li.combatant {
@@ -122,8 +124,29 @@ li.combatant .roll:hover {
 
 .chip-entry {
   display: flex;
-  flex: 0 0 calc(var(--sidebar-header-height) * 2px);
   grid-template-columns: 180px 40px;
+}
+
+.aptitude-entry {
+  display: grid;
+  grid-template-columns: 140px 80px 80px;
+  grid-template-rows: 32px;
+}
+
+.aptitude-label {
+  grid-column: 1;
+  color: var(--color-text-dark-1);
+  font-weight: bold;
+}
+
+.aptitude-trait {
+  grid-column: 2;
+  color: var(--color-text-dark-1);
+}
+
+.aptitude-die {
+  grid-column: 3;
+  color: var(--color-text-dark-1);
 }
 
 /* ----------------------------------------- */
@@ -158,6 +181,10 @@ li.combatant .roll:hover {
   flex: 0 0 calc(var(--sidebar-header-height) * 2px);
 }
 
+.chip-button-character {
+  width: 150px;
+  flex: 0 0 calc(var(--sidebar-header-height) * 2px);
+}
 .chip-button-narrow {
   width: 100px;
   flex: 0 0 calc(var(--sidebar-header-height) * 2px);
@@ -371,12 +398,6 @@ li.combatant .roll:hover {
 .dlc.sheet.item {
   min-width: 500px;
   min-height: 500px;
-}
-
-.item {
-  flex-direction: column;
-  flex-wrap: nowrap;
-  justify-content: end;
 }
 
 .traitOptions {

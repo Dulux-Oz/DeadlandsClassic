@@ -85,6 +85,12 @@ export class DLCBaseActorSheet extends ActorSheet {
       const confEntry = dlcConfig.aptitudes[key];
 
       if (confEntry.concentrations?.length > 0) {
+        if (!value.concentrations?.length > 0) {
+          value.label = `${key} (${value.concentrations.join(', ')})`;
+        } else {
+          value.label = key;
+        }
+
         value.available = [];
         // eslint-disable-next-line no-restricted-syntax
         for (const cValue of confEntry.concentrations) {
@@ -92,6 +98,8 @@ export class DLCBaseActorSheet extends ActorSheet {
             value.available.push(cValue);
           }
         }
+      } else {
+        value.label = key;
       }
     }
 

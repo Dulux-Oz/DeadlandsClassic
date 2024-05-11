@@ -56,6 +56,13 @@ export class DLCActorSheet extends DLCActorSheetBase {
         );
         break;
 
+      case 'useRedReroll':
+        await game['deadlands-classic'].socket.executeAsGM(
+          'socketRedRerollActor',
+          this.document.id
+        );
+        break;
+
       case 'useRed':
         await game['deadlands-classic'].socket.executeAsGM(
           'socketUseChipActor',

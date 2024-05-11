@@ -32,6 +32,15 @@ export function createGameSettings() {
     },
   });
 
+  game.settings.register('deadlands-classic', 'marshal-black-draw', {
+    name: 'DLC.settings.chip-from-marshal-bJoker.name',
+    hint: 'DLC.settings.chip-from-marshal-bJoker.hint',
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: false,
+  });
+
   game.settings.register('deadlands-classic', 'wildBlack', {
     name: 'DLC.settings.wild-black.name',
     hint: 'DLC.settings.wild-black.hint',

@@ -158,6 +158,10 @@ li.combatant .roll:hover {
   flex: 0 0 calc(var(--sidebar-header-height) * 2px);
 }
 
+.chip-button-character {
+  width: 150px;
+  flex: 0 0 calc(var(--sidebar-header-height) * 2px);
+}
 .chip-button-narrow {
   width: 100px;
   flex: 0 0 calc(var(--sidebar-header-height) * 2px);

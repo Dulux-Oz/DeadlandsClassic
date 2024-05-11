@@ -1,4 +1,7 @@
+/* global CanonicalCards */
+
 import { Deck } from '../helpers/deck.mjs';
+import * as utility from '../helpers/dlc-utilities.mjs';
 import { Hand } from '../helpers/hand.mjs';
 
 export class DeadlandsCombat extends Combat {
@@ -467,30 +470,87 @@ export class DeadlandsCombat extends Combat {
   }
 
   /*
-   * Look up the combatant and check if there are cards available in its deck.
+   * Check if there are cards available in the combatant's deck.
    *
-   * If no cards are available, the function collects any discards from
-   * combatants allied to this combatant back to the deck.
+   * If no cards are available, collect all discards from combatants allied
+   * to this combatant back to the deck.
    *
    * If that doesn't fix the lack of cards, then the function stops
-   * trying to allocate one.
+   * trying to allocate one and returns -1 to indicate the failure.
    */
+
+  #tryDraw(deck, isHostile) {
+    if (!deck.canDraw) {
+      this.reapDiscards(isHostile);
+    }
+
+    return deck.canDraw ? deck.draw() : -1;
+  }
+
+  // Draw a card from the posse's deck and draw chips in response if necessary
+  async #drawPosse(actorId) {
+    const card = this.#tryDraw(this.ally, false);
+
+    if (card === CanonicalCards.rJokerIndex) {
+      await game['deadlands-classic'].socket.executeAsGM(
+        'socketDrawChipActor',
+        actorId,
+        1,
+        true
+      );
+    } else if (card === CanonicalCards.bJokerIndex) {
+      await game['deadlands-classic'].socket.executeAsGM(
+        'socketDrawChipMarshal',
+        true
+      );
+    }
+
+    return card;
+  }
+
+  // Draw a card from the marshal's deck and draw chips in response if necessary
+  async #drawMarshal() {
+    const card = this.#tryDraw(this.axis, true);
+
+    if (card === CanonicalCards.bJokerIndex) {
+      const chipFromBlack = game.settings.get(
+        'deadlands-classic',
+        'marshal-black-draw'
+      );
+
+      if (chipFromBlack) {
+        await game['deadlands-classic'].socket.executeAsGM(
+          'socketDrawChipMarshal',
+          true
+        );
+      }
+    }
+
+    return card;
+  }
+
+  /* The error handling for failing to draw is done here, because -1 will not
+   * equal the red joker index or the black joker index. This means that
+   * the two draw functions can ignore the error, they will not draw chips
+   * in response */
 
   async draw(combatantId) {
     const combatant = this.combatants.get(combatantId);
     if (typeof combatant === 'undefined') return;
 
-    const deck = combatant.isHostile ? this.axis : this.ally;
+    const card = combatant.isHostile
+      ? await this.#drawMarshal()
+      : await this.#drawPosse(combatant.actorId);
 
-    if (!deck.canDraw) {
-      this.reapDiscards(this.isHostile);
+    if (card === -1) {
+      const message = `Attempted to draw a card, but none was available.`;
+
+      utility.chatMessage(combatant.actor.name, combatant.actor.name, message);
+
+      return;
     }
 
-    if (deck.canDraw) {
-      const card = deck.draw();
-      combatant.addCard(card);
-    }
-
+    combatant.addCard(card);
     this.updateCombatData();
   }
 

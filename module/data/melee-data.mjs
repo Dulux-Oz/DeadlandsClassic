@@ -5,7 +5,6 @@ export class MeleeDataModel extends foundry.abstract.TypeDataModel {
     const { fields } = foundry.data;
     return {
       ...dlcFields.setting(),
-      name: new fields.StringField({ required: true, blank: false }),
       db: new fields.StringField({ required: true, blank: false }),
       notes: new fields.HTMLField({ required: false }),
       ...dlcFields.integerNoMax('price', 0), // in cents

@@ -113,7 +113,7 @@ export const aptitude = (label, trait, defaultRanks) => ({
   }),
 });
 
-// An aptitude which need concentrations
+// An aptitude which need concentrations.
 export const concentrationAptitude = (
   label,
   trait,
@@ -122,17 +122,18 @@ export const concentrationAptitude = (
 ) => ({
   [label]: new fields.SchemaField({
     ...valueType('aptitude'),
-    ...integerNoMax('ranks', 0, 0),
-    ...integer('startRanks', 0, 0, 5 - defaultRanks),
-    ...integerNoLimit('bountyAdjustment', 0),
+    ...integerNoMax('startConcentrations', 0, 0),
     ...integer('defaultRanks', defaultRanks, 0, 5),
+    ...integer('startRanks', 0, 0, 5 - defaultRanks),
+    ...integerNoMax('ranks', 0, 0),
+    ...integerNoLimit('bountyAdjustment', 0),
     trait: new fields.StringField({
       required: true,
       initial: trait,
       choices: dlcConfig.traits,
     }),
     concentrations: new fields.ArrayField(
-      new fields.StringField({ choices: [choices] }, { required: false })
+      new fields.StringField({ choices }, { required: false })
     ),
   }),
 });

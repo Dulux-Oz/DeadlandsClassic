@@ -129,8 +129,9 @@ li.combatant .roll:hover {
 
 .aptitude-entry {
   display: grid;
-  grid-template-columns: 140px 80px 80px;
-  grid-template-rows: 32px;
+  grid-template-columns: 140px 80px 80px 20px 80px;
+  grid-template-rows: 40px;
+  align-items: center;
 }
 
 .aptitude-label {
@@ -147,6 +148,16 @@ li.combatant .roll:hover {
 .aptitude-die {
   grid-column: 3;
   color: var(--color-text-dark-1);
+}
+
+.aptitude-cost {
+  grid-column: 4;
+  color: var(--color-text-dark-1);
+}
+.aptitude-button {
+  grid-column: 5;
+  color: var(--color-text-dark-1);
+  height: var(--charsheet-item-height);
 }
 
 /* ----------------------------------------- */
@@ -353,26 +364,6 @@ li.combatant .roll:hover {
 }
 .dlc .sheet-body {
   overflow: hidden;
-}
-.dlc .sheet-body .aptitudes {
-}
-.dlc .sheet-body .bio {
-}
-.dlc .sheet-body .biodata {
-}
-.sheet-body .chips {
-}
-.dlc .sheet-body .combat {
-}
-.dlc .sheet-body .edges {
-}
-.dlc .sheet-body .gear {
-}
-.dlc .sheet-body .main {
-}
-.dlc .sheet-body .notes {
-}
-.dlc .sheet-body .spells {
 }
 .dlc .sheet-body .tab {
   height: 100%;

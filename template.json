@@ -1,7 +1,9 @@
 {
   "Actor": {
     "types": [
-      "character", 
+      "characterhoe", 
+      "characterlc", 
+      "characterww", 
       "npc"
     ],
     "htmlFields": [

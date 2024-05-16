@@ -22,6 +22,8 @@ export class ActorSheetCreate extends DLCActorSheetBase {
   async getData(options) {
     const context = super.getData(options);
 
+    const { aptitudes } = context;
+
     return context;
   }
 }

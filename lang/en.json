@@ -62,6 +62,9 @@
       "convertTemporaryGreen": "Convert temporary green chip to bounty",
       "consumeChip": "Consume",
       "convertChip": "Convert",
+      "improveAptitude": "Improve the aptitude",
+      "improveAptitudeCost": "Cost to improve the aptitude",
+      "improve": "Improve",
       "useChip": "Use",
       "useChipReroll": "Use for reroll"
     },
@@ -166,7 +169,9 @@
     },
 
     "sheet-type": {
-      "character": "Player Character",
+      "characterhoe": "Player Character Hell on Earth",
+      "characterlc": "Player Character Lost Colony",
+      "characterww": "Player Character Weird West",
       "edge": "Edge",
       "npc": "Non-Player Character"
     },

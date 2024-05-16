@@ -48,7 +48,7 @@
 
   "documentTypes": {
     "Actor": {
-      "types": ["character", "npc"],
+      "types": ["characterhoe", "characterlc", "characterww", "npc"],
       "htmlFields": ["biography", "notes"]
     },
     "Item": {

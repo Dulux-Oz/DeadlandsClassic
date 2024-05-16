@@ -1,4 +1,5 @@
 import { dlcConfig } from '../config.mjs';
+import { BaseActorDataModel } from '../data/base-actor-data.mjs';
 
 export class DLCActorSheetBase extends ActorSheet {
   static get defaultOptions() {
@@ -74,33 +75,54 @@ export class DLCActorSheetBase extends ActorSheet {
       }
     }
 
+    const { Cognition } = traits;
+    const { Knowledge } = traits;
+    const { Smarts } = traits;
+
+    const aptitudePoints =
+      (Cognition?.dieSize ?? 4) +
+      (Knowledge?.dieSize ?? 4) +
+      (Smarts?.dieSize ?? 4);
+
+    const { careerBounty } = actorSystem;
+
+    const world =
+      // prettier-ignore
+      // eslint-disable-next-line no-nested-ternary
+      actor.type === 'characterww'  ? 'WW' : 
+      actor.type === 'characterhoe' ? 'HE' : 'LC';
+
     // eslint-disable-next-line no-restricted-syntax
     for (const key of Object.keys(aptitudes)) {
       const value = aptitudes[key];
       const trait = actorSystem[value.trait];
-      value.die = trait?.dieSize ?? 4;
-      value.totalRanks = value.defaultRanks + value.ranks + value.startRanks;
-      value.show = value.totalRanks !== 0;
+      aptitudes[key].die = trait?.dieSize ?? 4;
+      aptitudes[key].totalRanks =
+        value.defaultRanks + value.ranks + value.startRanks;
+      aptitudes[key].show = aptitudes[key].totalRanks !== 0;
 
       const confEntry = dlcConfig.aptitudes[key];
 
-      if (confEntry.concentrations?.length > 0) {
+      if (BaseActorDataModel.hasConcentrations(confEntry, world)) {
         if (!value.concentrations?.length > 0) {
-          value.label = `${key} (${value.concentrations.join(', ')})`;
+          aptitudes[key].label = `${key} (${value.concentrations.join(', ')})`;
         } else {
-          value.label = key;
+          aptitudes[key].label = key;
         }
 
-        value.available = [];
+        aptitudes[key].available = [];
+        // prettier-ignore
         // eslint-disable-next-line no-restricted-syntax
-        for (const cValue of confEntry.concentrations) {
+        for (const cValue of BaseActorDataModel.getConcentrations(confEntry, world)) {
           if (!value.concentrations.includes(cValue)) {
-            value.available.push(cValue);
+            aptitudes[key].available.push(cValue);
           }
         }
       } else {
-        value.label = key;
+        aptitudes[key].label = key;
       }
+
+      aptitudes[key].aptitudeID = key;
     }
 
     const { isEditable } = this;
@@ -117,6 +139,9 @@ export class DLCActorSheetBase extends ActorSheet {
       title,
       traits,
       unclassified,
+
+      aptitudePoints,
+      careerBounty,
     });
 
     return context;

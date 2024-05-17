@@ -19,71 +19,112 @@ export class ActorSheetAdvance extends DLCActorSheetBase {
     });
   }
 
+  /*--------------------------------------------------------------------------
+  | If the aptitude has any concentrations, calculate how much (if anything)
+  | they cost in bounty.
+  +-------------------------------------------------------------------------*/
+
+  static getConcentrationsAdjustment(aptitude) {
+    if (!aptitude.hasConcentrations) {
+      return 0;
+    }
+
+    const { startConcentrations } = aptitude;
+    const { length: totalConcentrations } = aptitude.concentrations;
+
+    /*-----------------------------------------------------------------------
+    | The first concentration is free, i.e. costs neither bounty nor aptitude
+    | points. If there are any start concentrations then all of them are free
+    | in terms of bounty cost.
+    +-----------------------------------------------------------------------*/
+
+    const adjustment = startConcentrations !== 0 ? startConcentrations : 1;
+
+    // Concentrations (after the first) bought with bounty cost 3 each.
+    return Math.max(0, totalConcentrations - adjustment) * 3;
+  }
+
   /** @override */
   async getData(options) {
     const context = await super.getData(options);
 
     const { aptitudes } = context;
-    let bountyUsed = 0;
 
-    /* First pass through the aptitudes, calculate how much bounty each has used,
-       what the next level for it will be, how much that will cost. Also calculate
-       the global bounty used total. */
+    /*------------------------------------------------------------------------
+    | First pass through the aptitudes, calculate how much bounty each has
+    | used, what the next level for it will be, how much that will cost.
+    | Also calculate the total global bounty used (context.bountyUsed).
+    +-----------------------------------------------------------------------*/
+
+    context.bountyUsed = 0;
 
     for (const key of Object.keys(aptitudes)) {
       const value = aptitudes[key];
 
-      let concentrationAdjustment = 0;
+      /*----------------------------------------------------------------------
+      | Calculate bounty spent on this aptitude so far and the amount for its
+      | next improvement.
+      |
+      | fromCreation: The number of ranks from the creation process.
+      |
+      | start:        The number to start calculating from. Is one greater
+      |               than the ranks from the character creation process.
+      |
+      | total:        The total number of ranks the character currently has.
+      |
+      | length:       How long to make the levels to process array.
+      |
+      | multiplier:   When the level being processed is a multiple of five
+      |               then Increment the multiplier. 1–5 = 1; 6–10 = 2; 
+      |               etc.
+      +--------------------------------------------------------------------*/
 
-      if (Object.prototype.hasOwnProperty.call(value, 'concentrations')) {
-        //
-        // First concentration is free.
+      const fromCreation = value.defaultRanks + value.startRanks;
 
-        concentrationAdjustment = Math.max(0, value.concentrations.length - 1);
-      }
+      const start = fromCreation + 1;
+      const total = fromCreation + value.ranks;
 
-      // Calculate bounty spent on this aptitude so far and the amount for its next improvement.
-      const start = value.defaultRanks;
-      const total = value.defaultRanks + value.startRanks;
-      const next = total + 1;
-
-      let aptitudeBounty = 0;
+      const length = Math.max(0, total - fromCreation);
       let multiplier = start === 5 ? 2 : 1;
 
-      for (let r = start + 1; r <= total; r += 1) {
-        aptitudeBounty += r * multiplier;
-        multiplier += r % 5 === 0 ? 1 : 0;
-      }
+      // prettier-ignore
+      const levelsToProcess = Array.from({ length }, (_, index) => start + index);
 
-      const nextBounty = next * multiplier;
+      const bountyForRanks = levelsToProcess.reduce(
+        (accumulator, currentValue) => {
+          const accumulation = accumulator + currentValue * multiplier;
+          multiplier += currentValue % 5 === 0 ? 1 : 0;
+          return accumulation;
+        },
+        0
+      );
 
-      aptitudeBounty =
-        aptitudeBounty - value.bountyAdjustment + concentrationAdjustment;
+      aptitudes[key].aptitudeBounty =
+        bountyForRanks +
+        value.bountyAdjustment +
+        ActorSheetAdvance.getConcentrationsAdjustment(value);
 
       // update the total for the actor
-      bountyUsed += aptitudeBounty;
+      context.bountyUsed += aptitudes[key].aptitudeBounty;
 
-      aptitudes[key].aptitudeBounty = aptitudeBounty;
-      aptitudes[key].next = next;
-      aptitudes[key].nextBounty = nextBounty;
-      aptitudes[key].start = start;
-      aptitudes[key].total = total;
+      aptitudes[key].next = total + 1;
+      aptitudes[key].nextBounty = aptitudes[key].next * multiplier;
     }
 
-    context.bountyUsed = bountyUsed;
-    context.bountyRemaining = Math.max(
-      0,
-      this.actor.system.careerBounty - bountyUsed
-    );
+    // prettier-ignore
+    context.bountyRemaining = Math.max( 0, this.actor.system.careerBounty - context.bountyUsed);
 
-    /* Second pass through the aptitudes, now that we have a figure for
-       bounty remaining, set the "can we afford to improve this
-       aptitude" boolean. */
+    /* ----------------------------------------------------------------------
+    | Second pass through the aptitudes, now that we have a figure for
+    | bounty remaining, set the "can we afford to improve this
+    | aptitude" booleans.
+    +----------------------------------------------------------------------*/
 
     for (const key of Object.keys(aptitudes)) {
-      const value = aptitudes[key];
-
-      value.canImprove = value.nextBounty <= context.bountyRemaining;
+      aptitudes[key].canAddConcentration =
+        aptitudes[key].hasAvailable && context.bountyRemaining >= 3;
+      aptitudes[key].canImprove =
+        aptitudes[key].nextBounty <= context.bountyRemaining;
     }
 
     return context;

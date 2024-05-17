@@ -18,17 +18,6 @@ export class DLCActorSheetBase extends ActorSheet {
     });
   }
 
-  static getConcentrations() {
-    const concentrations = {};
-    // eslint-disable-next-line no-restricted-syntax
-    for (const [key, value] of Object.entries(dlcConfig.aptitudes)) {
-      if (value.concentrations.length > 0) {
-        concentrations[key] = foundry.utils.deepClone(value.concentrations);
-      }
-    }
-    return concentrations;
-  }
-
   /** @override */
   async getData(options) {
     let context = super.getData(options);
@@ -37,6 +26,7 @@ export class DLCActorSheetBase extends ActorSheet {
     const chips = {};
     const traits = {};
     const unclassified = {};
+    const woundLocations = {};
 
     const actor = this.document.toObject(false);
     const actorSystem = actor.system;
@@ -48,6 +38,15 @@ export class DLCActorSheetBase extends ActorSheet {
       blue: 0,
       green: 0,
       temporaryGreen: 0,
+    };
+
+    const validWoundLocations = {
+      head: true,
+      guts: true,
+      'left arm': true,
+      'right arm': true,
+      'left leg': true,
+      'right leg': true,
     };
 
     // eslint-disable-next-line no-restricted-syntax, guard-for-in
@@ -69,20 +68,13 @@ export class DLCActorSheetBase extends ActorSheet {
         } else if (key in validChips) {
           chips[key] = slot;
           chips[`has${key}`] = slot > 0;
+        } else if (key in validWoundLocations) {
+          woundLocations[key] = slot;
         } else {
           unclassified[key] = slot;
         }
       }
     }
-
-    const { Cognition } = traits;
-    const { Knowledge } = traits;
-    const { Smarts } = traits;
-
-    const aptitudePoints =
-      (Cognition?.dieSize ?? 4) +
-      (Knowledge?.dieSize ?? 4) +
-      (Smarts?.dieSize ?? 4);
 
     const { careerBounty } = actorSystem;
 
@@ -98,13 +90,27 @@ export class DLCActorSheetBase extends ActorSheet {
       const trait = actorSystem[value.trait];
       aptitudes[key].die = trait?.dieSize ?? 4;
       aptitudes[key].totalRanks =
-        value.defaultRanks + value.ranks + value.startRanks;
+        value.defaultRanks + value.startRanks + value.ranks;
       aptitudes[key].show = aptitudes[key].totalRanks !== 0;
 
       const confEntry = dlcConfig.aptitudes[key];
 
-      if (BaseActorDataModel.hasConcentrations(confEntry, world)) {
-        if (!value.concentrations?.length > 0) {
+      /* --------------------------------------------------------------------
+       | Calculate useful flags for The presence of concentrations in this 
+       | attribute and whether there are any available to add */
+
+      aptitudes[key].hasConfigConcentrations =
+        BaseActorDataModel.hasConcentrations(confEntry, world);
+
+      aptitudes[key].hasConcentrations =
+        aptitudes[key].hasConfigConcentrations &&
+        typeof value.concentrations?.length !== 'undefined' &&
+        value.concentrations.length > 0;
+
+      aptitudes[key].hasAvailable = false;
+
+      if (aptitudes[key].hasConfigConcentrations) {
+        if (aptitudes[key].hasConcentrations) {
           aptitudes[key].label = `${key} (${value.concentrations.join(', ')})`;
         } else {
           aptitudes[key].label = key;
@@ -116,6 +122,7 @@ export class DLCActorSheetBase extends ActorSheet {
         for (const cValue of BaseActorDataModel.getConcentrations(confEntry, world)) {
           if (!value.concentrations.includes(cValue)) {
             aptitudes[key].available.push(cValue);
+            aptitudes[key].hasAvailable = true;
           }
         }
       } else {
@@ -139,8 +146,8 @@ export class DLCActorSheetBase extends ActorSheet {
       title,
       traits,
       unclassified,
+      woundLocations,
 
-      aptitudePoints,
       careerBounty,
     });
 

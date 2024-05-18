@@ -62,6 +62,8 @@
       "convertTemporaryGreen": "Convert temporary green chip to bounty",
       "consumeChip": "Consume",
       "convertChip": "Convert",
+      "add": "Add",
+      "addConcentration": "Add Concentration",
       "improveAptitude": "Improve the aptitude",
       "improveAptitudeCost": "Cost to improve the aptitude",
       "improve": "Improve",

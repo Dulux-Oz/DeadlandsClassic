@@ -65,7 +65,10 @@ export class ActorSheetAdvance extends DLCActorSheetBase {
       | Calculate bounty spent on this aptitude so far and the amount for its
       | next improvement.
       |
-      | fromCreation: The number of ranks from the creation process.
+      | fromCreation: The number of ranks from the creation process. Note,
+      |               for the bounty calculation we discount default ranks
+      |               since they increase the rank without increasing the
+      |               cost.
       |
       | start:        The number to start calculating from. Is one greater
       |               than the ranks from the character creation process.
@@ -79,12 +82,12 @@ export class ActorSheetAdvance extends DLCActorSheetBase {
       |               etc.
       +--------------------------------------------------------------------*/
 
-      const fromCreation = value.defaultRanks + value.startRanks;
+      const fromCreation = value.startRanks;
 
       const start = fromCreation + 1;
       const total = fromCreation + value.ranks;
 
-      const length = Math.max(0, total - fromCreation);
+      const length = value.ranks;
       let multiplier = start === 5 ? 2 : 1;
 
       // prettier-ignore
@@ -109,6 +112,7 @@ export class ActorSheetAdvance extends DLCActorSheetBase {
 
       aptitudes[key].next = total + 1;
       aptitudes[key].nextBounty = aptitudes[key].next * multiplier;
+      aptitudes[key].isNoRank = value.startRanks === 0 && value.ranks === 0;
     }
 
     // prettier-ignore
@@ -121,12 +125,74 @@ export class ActorSheetAdvance extends DLCActorSheetBase {
     +----------------------------------------------------------------------*/
 
     for (const key of Object.keys(aptitudes)) {
+      const totalConcentrations = aptitudes[key].hasConfigConcentrations
+        ? aptitudes[key].concentrations.length
+        : 0;
+
       aptitudes[key].canAddConcentration =
-        aptitudes[key].hasAvailable && context.bountyRemaining >= 3;
+        aptitudes[key].hasAvailable &&
+        ((aptitudes[key].isNoRank && context.bountyRemaining >= 1) ||
+          context.bountyRemaining >= 3);
+
       aptitudes[key].canImprove =
+        ((aptitudes[key].hasAvailable && totalConcentrations !== 0) ||
+          !aptitudes[key].hasAvailable) &&
         aptitudes[key].nextBounty <= context.bountyRemaining;
+
+      aptitudes[key].choiceName = `${key}Choice`;
     }
 
+    context.showBountyRemaining = context.bountyRemaining > 0;
     return context;
+  }
+
+  /** @inheritdoc */
+  activateListeners(html) {
+    super.activateListeners(html);
+
+    // chip control
+    html.find('.aptitude-control').click((ev) => this.#onAptitudeControl(ev));
+  }
+
+  /**
+   * Handle an aptitude improvement event
+   * @private
+   * @param {Event} event The originating mousedown event
+   */
+  async #onAptitudeControl(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const btn = event.currentTarget;
+    const actor = this.document.toObject(false);
+
+    // eslint-disable-next-line default-case
+    switch (btn.dataset.control) {
+      case 'improveAptitude':
+        {
+          const { id } = btn.dataset;
+          actor.system[[id]].ranks += 1;
+          await this.document.update(actor, {});
+        }
+        break;
+
+      case 'addConcentration':
+        {
+          const { id } = btn.dataset;
+          const choice = document.getElementsByName(`${id}Choice`)[0];
+          const conc = choice.value;
+          const isNoRank =
+            actor.system[[id]].ranks === 0 &&
+            actor.system[[id]].startRanks === 0;
+
+          if (isNoRank) {
+            actor.system[[id]].ranks = 1;
+          }
+
+          actor.system[[id]].concentrations.push(conc);
+          await this.document.update(actor, {});
+        }
+        break;
+    }
   }
 }

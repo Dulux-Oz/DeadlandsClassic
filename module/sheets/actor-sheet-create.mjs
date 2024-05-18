@@ -85,7 +85,10 @@ export class ActorSheetCreate extends DLCActorSheetBase {
         aptitudes[key].hasAvailable &&
         ((pointsRemaining >= 1 && aptitudes[key].startConcentrations === 0) ||
           pointsRemaining >= 3);
-      aptitudes[key].choiceName = `${key}Choice`;
+
+      const processedKey = key.split(' ').join('');
+      aptitudes[key].choiceName = `${processedKey}Choice`;
+
       aptitudes[key].canImprove =
         aptitudes[key].startConcentrations !== 0 &&
         aptitudes[key].next <= 5 &&
@@ -130,10 +133,14 @@ export class ActorSheetCreate extends DLCActorSheetBase {
       case 'addConcentration':
         {
           const { id } = btn.dataset;
-          const choice = document.getElementsByName(`${id}Choice`)[0];
+          const processedId = id.split(' ').join('');
+          const choice = document.getElementsByName(`${processedId}Choice`)[0];
           const conc = choice.value;
 
-          if (actor.system[[id]].startRanks < 1) {
+          if (
+            actor.system[[id]].startRanks < 1 &&
+            actor.system[[id]].defaultRanks < 1
+          ) {
             actor.system[[id]].startRanks += 1;
           }
 

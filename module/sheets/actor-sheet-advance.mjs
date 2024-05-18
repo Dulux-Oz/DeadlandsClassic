@@ -139,7 +139,8 @@ export class ActorSheetAdvance extends DLCActorSheetBase {
           !aptitudes[key].hasAvailable) &&
         aptitudes[key].nextBounty <= context.bountyRemaining;
 
-      aptitudes[key].choiceName = `${key}Choice`;
+      const processedKey = key.split(' ').join('');
+      aptitudes[key].choiceName = `${processedKey}Choice`;
     }
 
     context.showBountyRemaining = context.bountyRemaining > 0;
@@ -179,11 +180,15 @@ export class ActorSheetAdvance extends DLCActorSheetBase {
       case 'addConcentration':
         {
           const { id } = btn.dataset;
-          const choice = document.getElementsByName(`${id}Choice`)[0];
+
+          const processedId = id.split(' ').join('');
+          const choice = document.getElementsByName(`${processedId}Choice`)[0];
+
           const conc = choice.value;
           const isNoRank =
-            actor.system[[id]].ranks === 0 &&
-            actor.system[[id]].startRanks === 0;
+            actor.system[[id]].defaultRanks === 0 &&
+            actor.system[[id]].startRanks === 0 &&
+            actor.system[[id]].ranks === 0;
 
           if (isNoRank) {
             actor.system[[id]].ranks = 1;

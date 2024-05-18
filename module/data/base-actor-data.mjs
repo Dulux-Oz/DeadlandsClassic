@@ -1,78 +1,19 @@
 import { dlcConfig } from '../config.mjs';
+import * as aptitudeUtils from '../helpers/aptitude-utilities.mjs';
 import * as dlcFields from './dlc-fields.mjs';
 
 export class BaseActorDataModel extends foundry.abstract.TypeDataModel {
-  static isActive(confRec, world) {
-    switch (world) {
-      case 'WW': {
-        return confRec.isWW;
-      }
-      case 'HE': {
-        return confRec.isHoe;
-      }
-      case 'LC': {
-        return confRec.isLC;
-      }
-      default:
-        return false;
-    }
-  }
-
-  static hasConcentrations(confRec, world) {
-    switch (world) {
-      case 'WW': {
-        return confRec.hasUniversalConcentrations || confRec.hasConcWW;
-      }
-      case 'HE': {
-        return confRec.hasUniversalConcentrations || confRec.hasConcHoe;
-      }
-      case 'LC': {
-        return (
-          confRec.hasUniversalConcentrations ||
-          (confRec.commonHoeAndLC && confRec.hasConcHoe) ||
-          confRec.hasConcLC
-        );
-      }
-      default:
-        return false;
-    }
-  }
-
-  static getConcentrations(confRec, world) {
-    switch (world) {
-      case 'WW': {
-        if (confRec.hasUniversalConcentrations) return confRec.concentrations;
-        if (confRec.hasConcWW) return confRec.concentrationsWW;
-        return null;
-      }
-      case 'HE': {
-        if (confRec.hasUniversalConcentrations) return confRec.concentrations;
-        if (confRec.hasConcHoe) return confRec.concentrationsHoE;
-        return null;
-      }
-      // prettier-ignore
-      case 'LC': {
-        if (confRec.hasUniversalConcentrations) return confRec.concentrations;
-        if (confRec.commonHoeAndLC && confRec.hasConcHoe) return confRec.concentrationsHoE;
-        if (confRec.hasConcLC) return confRec.concentrationsLC;
-        return null;
-      }
-      default:
-        return null;
-    }
-  }
-
   static makeAptitudes(world) {
     let aptitudes = {};
     // eslint-disable-next-line no-restricted-syntax
     for (const [key, value] of Object.entries(dlcConfig.aptitudes)) {
       // eslint-disable-next-line no-continue
-      if (!this.isActive(value, world)) continue;
+      if (!aptitudeUtils.isActive(key, world)) continue;
 
       const defaultRanks =
         Number.isInteger(value.default) > 0 ? value.default : 0;
-      if (this.hasConcentrations(value, world)) {
-        const conc = this.getConcentrations(value, world) ?? [];
+      if (aptitudeUtils.hasConcentrations(key, world)) {
+        const conc = aptitudeUtils.getConcentrations(key, world) ?? [];
         aptitudes = {
           ...aptitudes,
           ...dlcFields.concentrationAptitude(

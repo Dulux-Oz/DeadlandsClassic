@@ -1,5 +1,6 @@
 import { dlcConfig } from '../config.mjs';
 import { BaseActorDataModel } from '../data/base-actor-data.mjs';
+import * as aptitudeUtils from '../helpers/aptitude-utilities.mjs';
 
 export class DLCActorSheetBase extends ActorSheet {
   static get defaultOptions() {
@@ -99,8 +100,10 @@ export class DLCActorSheetBase extends ActorSheet {
        | Calculate useful flags for The presence of concentrations in this 
        | attribute and whether there are any available to add */
 
-      aptitudes[key].hasConfigConcentrations =
-        BaseActorDataModel.hasConcentrations(confEntry, world);
+      aptitudes[key].hasConfigConcentrations = aptitudeUtils.hasConcentrations(
+        key,
+        world
+      );
 
       aptitudes[key].hasConcentrations =
         aptitudes[key].hasConfigConcentrations &&
@@ -119,7 +122,7 @@ export class DLCActorSheetBase extends ActorSheet {
         aptitudes[key].available = {};
         // prettier-ignore
         // eslint-disable-next-line no-restricted-syntax
-        for (const cValue of BaseActorDataModel.getConcentrations(confEntry, world)) {
+        for (const cValue of aptitudeUtils.getConcentrations(key, world)) {
           if (!value.concentrations.includes(cValue)) {
             aptitudes[key].available[cValue] = cValue;
             aptitudes[key].hasAvailable = true;

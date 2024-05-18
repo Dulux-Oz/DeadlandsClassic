@@ -9,6 +9,10 @@ export class ActorSheetCreate extends DLCActorSheetBase {
         'systems/deadlands-classic/templates/char-create/character.html',
       width: 660,
       height: 800,
+      closeOnSubmit: false,
+      submitOnClose: false,
+      submitOnChange: false,
+      resizable: true,
       tabs: [
         {
           navSelector: '.sheet-tabs',
@@ -37,10 +41,10 @@ export class ActorSheetCreate extends DLCActorSheetBase {
     for (const key of Object.keys(aptitudes)) {
       const value = aptitudes[key];
 
-      const start = value.defaultRanks + 1;
-      const total = value.defaultRanks + value.startRanks;
+      const start = 1;
+      const total = value.startRanks;
 
-      const length = Math.max(0, total - start);
+      const length = Math.max(0, total + 1 - start);
 
       // prettier-ignore
       const levelsToProcess = Array.from({ length }, (_, index) => start + index);
@@ -59,6 +63,8 @@ export class ActorSheetCreate extends DLCActorSheetBase {
 
       aptitudes[key].aptitudePoints = thisAptitudespoints;
       aptitudes[key].next = total + 1;
+      aptitudes[key].nextPoints = aptitudes[key].startRanks + 1;
+      aptitudes[key].isNoRank = value.startRanks === 0 && value.ranks === 0;
     }
 
     const pointsAvailable =
@@ -76,11 +82,66 @@ export class ActorSheetCreate extends DLCActorSheetBase {
 
     for (const key of Object.keys(aptitudes)) {
       aptitudes[key].canAddConcentration =
-        aptitudes[key].hasAvailable && pointsRemaining >= 3;
+        aptitudes[key].hasAvailable &&
+        ((pointsRemaining >= 1 && aptitudes[key].startConcentrations === 0) ||
+          pointsRemaining >= 3);
+      aptitudes[key].choiceName = `${key}Choice`;
       aptitudes[key].canImprove =
-        aptitudes[key].next <= 5 && aptitudes[key].next <= pointsRemaining;
+        aptitudes[key].startConcentrations !== 0 &&
+        aptitudes[key].next <= 5 &&
+        aptitudes[key].next <= pointsRemaining;
     }
 
+    context.pointsRemaining = pointsRemaining;
+    context.showPointsRemaining = pointsRemaining > 0;
     return context;
+  }
+
+  /** @inheritdoc */
+  activateListeners(html) {
+    super.activateListeners(html);
+
+    // chip control
+    html.find('.aptitude-control').click((ev) => this.#onAptitudeControl(ev));
+  }
+
+  /**
+   * Handle an aptitude improvement event
+   * @private
+   * @param {Event} event The originating mousedown event
+   */
+  async #onAptitudeControl(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const btn = event.currentTarget;
+    const actor = this.document.toObject(false);
+
+    // eslint-disable-next-line default-case
+    switch (btn.dataset.control) {
+      case 'improveAptitude':
+        {
+          const { id } = btn.dataset;
+          actor.system[[id]].startRanks += 1;
+          await this.document.update(actor, {});
+        }
+        break;
+
+      case 'addConcentration':
+        {
+          const { id } = btn.dataset;
+          const choice = document.getElementsByName(`${id}Choice`)[0];
+          const conc = choice.value;
+
+          if (actor.system[[id]].startRanks < 1) {
+            actor.system[[id]].startRanks += 1;
+          }
+
+          actor.system[[id]].startConcentrations += 1;
+          actor.system[[id]].concentrations.push(conc);
+          await this.document.update(actor, {});
+        }
+        break;
+    }
   }
 }

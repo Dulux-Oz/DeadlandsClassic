@@ -1,4 +1,4 @@
-/* @haxxx: apparently its best practice to use class, etc, definitions with a prefix so as to avoid name-space issues. I suggest "dlc".  -MJB - 20230702 */
+aptitude-button/* @haxxx: apparently its best practice to use class, etc, definitions with a prefix so as to avoid name-space issues. I suggest "dlc".  -MJB - 20230702 */
 
 :root {
   --color-shadow-dark: #000;
@@ -129,7 +129,7 @@ li.combatant .roll:hover {
 
 .aptitude-entry {
   display: grid;
-  grid-template-columns: 140px 80px 80px 20px 80px;
+  grid-template-columns: 140px 80px 25px 15px 90px 150px repeat(auto-fill, 90px);
   grid-template-rows: 40px;
   align-items: center;
 }
@@ -153,11 +153,28 @@ li.combatant .roll:hover {
 .aptitude-cost {
   grid-column: 4;
   color: var(--color-text-dark-1);
+  text-align: center;
 }
+
 .aptitude-button {
   grid-column: 5;
   color: var(--color-text-dark-1);
   height: var(--charsheet-item-height);
+  width: 80px;
+}
+
+.aptitude-concentration {
+  grid-column: 6;
+  color: var(--color-text-dark-1);
+  height: var(--charsheet-item-height);
+  width: 90%;
+}
+
+.aptitude-button2 {
+  grid-column: 7;
+  color: var(--color-text-dark-1);
+  height: var(--charsheet-item-height);
+  width: 80px;
 }
 
 /* ----------------------------------------- */

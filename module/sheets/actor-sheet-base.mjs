@@ -116,12 +116,12 @@ export class DLCActorSheetBase extends ActorSheet {
           aptitudes[key].label = key;
         }
 
-        aptitudes[key].available = [];
+        aptitudes[key].available = {};
         // prettier-ignore
         // eslint-disable-next-line no-restricted-syntax
         for (const cValue of BaseActorDataModel.getConcentrations(confEntry, world)) {
           if (!value.concentrations.includes(cValue)) {
-            aptitudes[key].available.push(cValue);
+            aptitudes[key].available[cValue] = cValue;
             aptitudes[key].hasAvailable = true;
           }
         }

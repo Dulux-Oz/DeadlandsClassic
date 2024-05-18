@@ -1,4 +1,4 @@
-aptitude-button/* @haxxx: apparently its best practice to use class, etc, definitions with a prefix so as to avoid name-space issues. I suggest "dlc".  -MJB - 20230702 */
+/* @haxxx: apparently its best practice to use class, etc, definitions with a prefix so as to avoid name-space issues. I suggest "dlc".  -MJB - 20230702 */
 
 :root {
   --color-shadow-dark: #000;

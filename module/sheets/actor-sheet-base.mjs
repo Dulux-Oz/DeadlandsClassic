@@ -1,5 +1,4 @@
 import { dlcConfig } from '../config.mjs';
-import { BaseActorDataModel } from '../data/base-actor-data.mjs';
 import * as aptitudeUtils from '../helpers/aptitude-utilities.mjs';
 
 export class DLCActorSheetBase extends ActorSheet {

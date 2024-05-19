@@ -59,7 +59,7 @@ export function hasConcentrations(aptitudeKey, worldKey) {
   }
 }
 
-export function getConcentrations(aptitudeKey, worldKey) {
+export function getBaseConcentrations(aptitudeKey, worldKey) {
   if (!(_isAptitude(aptitudeKey) && _isworld(worldKey))) return null;
 
   const confRec = dlcConfig.aptitudes[[aptitudeKey]];
@@ -68,31 +68,28 @@ export function getConcentrations(aptitudeKey, worldKey) {
 
   switch (worldKey) {
     case 'WW': {
-      if (confRec.hasUniversalConcentrations) {
+      if (confRec?.hasUniversalConcentrations) {
         configConcentrations = confRec.concentrations;
       }
-      if (confRec.hasConcWW) {
+      if (confRec?.hasConcWW) {
         configConcentrations = confRec.concentrationsWW;
       }
       break;
     }
     case 'HE': {
-      if (confRec.hasUniversalConcentrations) {
+      if (confRec?.hasUniversalConcentrations) {
         configConcentrations = confRec.concentrations;
-      }
-      if (confRec.hasConcHoe) {
+      } else if (confRec?.hasConcHoe) {
         configConcentrations = confRec.concentrationsHoE;
       }
       break;
     }
     case 'LC': {
-      if (confRec.hasUniversalConcentrations) {
+      if (confRec?.hasUniversalConcentrations) {
         configConcentrations = confRec.concentrations;
-      }
-      if (confRec.commonHoeAndLC && confRec.hasConcHoe) {
+      } else if (confRec?.commonHoeAndLC && confRec.hasConcHoe) {
         configConcentrations = confRec.concentrationsHoE;
-      }
-      if (confRec.hasConcLC) {
+      } else if (confRec?.hasConcLC) {
         configConcentrations = confRec.concentrationsLC;
       }
       break;
@@ -101,6 +98,25 @@ export function getConcentrations(aptitudeKey, worldKey) {
   }
 
   return configConcentrations;
+}
+
+export function getConcentrations(aptitudeKey, worldKey) {
+  const base = getBaseConcentrations(aptitudeKey, worldKey);
+
+  const concData = game.settings.get(
+    'deadlands-classic',
+    'extraConcentrations'
+  );
+
+  let extra = [];
+  if (Object.hasOwn(concData, aptitudeKey)) {
+    const apt = concData[[aptitudeKey]];
+    if (Object.hasOwn(apt, [[worldKey]])) {
+      extra = concData[[aptitudeKey]][[worldKey]];
+    }
+  }
+
+  return [...base, ...extra];
 }
 
 export function getWorldConcentrationAptitudes() {
@@ -113,7 +129,7 @@ export function getWorldConcentrationAptitudes() {
     const LC =
       value.hasUniversalConcentrations ||
       (value.commonHoeAndLC && value.hasConcHoe) ||
-      value.hasConcHoe;
+      value.hasConcLC;
 
     const noConcentrations = !(WW || HE || LC);
 

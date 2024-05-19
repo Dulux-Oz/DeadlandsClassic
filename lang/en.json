@@ -1,6 +1,7 @@
 {
   "DLC": {
     "app": {
+      "AddConcentrations": "Add Concentrations",
       "AllocateChips": "Allocate Chips",
       "ChipAllocator": "Chip Allocator",
       "ChooseTraits": "You must set each trait with a unique card.",
@@ -67,6 +68,8 @@
       "improveAptitude": "Improve the aptitude",
       "improveAptitudeCost": "Cost to improve the aptitude",
       "improve": "Improve",
+      "remove": "Remove",
+      "removeConcentration": "Remove Concentration",
       "useChip": "Use",
       "useChipReroll": "Use for reroll"
     },
@@ -198,6 +201,12 @@
       "biodata": "Bio-Data",
       "chips": "Chips",
       "combat": "Combat",
+      "edges": "Edges",
+      "gear": "Inventory",
+      "main": "Main",
+      "notes": "Notes",
+      "spells": "Spells",
+      "traits": "Traits",
 
       "create-aptitude": "Initial aptitudes",
       "create-edge": "Initial edges",
@@ -207,12 +216,9 @@
       "improve-edge": "Improve edges",
       "improve-trait": "Improve traits",
 
-      "edges": "Edges",
-      "gear": "Inventory",
-      "main": "Main",
-      "notes": "Notes",
-      "spells": "Spells",
-      "traits": "Traits"
+      "weird-west": "Weird West",
+      "hell-on-earth": "Hell on Earth",
+      "lost-colony": "Lost Colony"
     },
 
     "traitAbbreviation": {

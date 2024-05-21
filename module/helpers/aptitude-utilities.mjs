@@ -69,35 +69,34 @@ export function getBaseConcentrations(aptitudeKey, worldKey) {
   switch (worldKey) {
     case 'WW': {
       if (confRec?.hasUniversalConcentrations) {
-        configConcentrations = confRec.concentrations;
-      }
-      if (confRec?.hasConcWW) {
-        configConcentrations = confRec.concentrationsWW;
+        configConcentrations = [...confRec.concentrations];
+      } else if (confRec?.hasConcWW) {
+        configConcentrations = [...confRec.concentrationsWW];
       }
       break;
     }
     case 'HE': {
       if (confRec?.hasUniversalConcentrations) {
-        configConcentrations = confRec.concentrations;
+        configConcentrations = [...confRec.concentrations];
       } else if (confRec?.hasConcHoe) {
-        configConcentrations = confRec.concentrationsHoE;
+        configConcentrations = [...confRec.concentrationsHoE];
       }
       break;
     }
     case 'LC': {
       if (confRec?.hasUniversalConcentrations) {
-        configConcentrations = confRec.concentrations;
+        configConcentrations = [...confRec.concentrations];
       } else if (confRec?.commonHoeAndLC && confRec.hasConcHoe) {
-        configConcentrations = confRec.concentrationsHoE;
+        configConcentrations = [...confRec.concentrationsHoE];
       } else if (confRec?.hasConcLC) {
-        configConcentrations = confRec.concentrationsLC;
+        configConcentrations = [...confRec.concentrationsLC];
       }
       break;
     }
     default:
   }
 
-  return configConcentrations;
+  return configConcentrations.sort();
 }
 
 export function getConcentrations(aptitudeKey, worldKey) {
@@ -116,7 +115,8 @@ export function getConcentrations(aptitudeKey, worldKey) {
     }
   }
 
-  return [...base, ...extra];
+  const combined = [...base, ...extra];
+  return combined.sort();
 }
 
 export function getWorldConcentrationAptitudes() {

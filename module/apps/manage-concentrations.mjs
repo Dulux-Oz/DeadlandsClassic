@@ -54,10 +54,17 @@ export class ManageConcentrations extends FormApplication {
 
       if (typeof WW !== 'undefined') {
         const config = aptUtils.getBaseConcentrations(key, 'WW');
+        const processedWW = WW.reduce(
+          (obj, conc) => ({
+            ...obj,
+            [conc]: conc,
+          }),
+          {}
+        );
         weird[[key]] = {
           config,
-          extra: WW,
-          id: processedKey,
+          extra: processedWW,
+          id: key,
           worldId: processedKey.concat('WW'),
           world: 'WW',
         };
@@ -65,10 +72,17 @@ export class ManageConcentrations extends FormApplication {
 
       if (typeof HE !== 'undefined') {
         const config = aptUtils.getBaseConcentrations(key, 'HE');
+        const processedHE = HE.reduce(
+          (obj, conc) => ({
+            ...obj,
+            [conc]: conc,
+          }),
+          {}
+        );
         hell[[key]] = {
           config,
-          extra: HE,
-          id: processedKey,
+          extra: processedHE,
+          id: key,
           worldId: processedKey.concat('HE'),
           world: 'HE',
         };
@@ -76,10 +90,17 @@ export class ManageConcentrations extends FormApplication {
 
       if (typeof LC !== 'undefined') {
         const config = aptUtils.getBaseConcentrations(key, 'LC');
+        const processedLC = LC.reduce(
+          (obj, conc) => ({
+            ...obj,
+            [conc]: conc,
+          }),
+          {}
+        );
         lost[[key]] = {
           config,
-          extra: LC,
-          id: processedKey,
+          extra: processedLC,
+          id: key,
           worldId: processedKey.concat('LC'),
           world: 'LC',
         };
@@ -113,7 +134,7 @@ export class ManageConcentrations extends FormApplication {
     event.stopPropagation();
 
     const btn = event.currentTarget;
-    const entry = btn.closest('.aptitude-concentration');
+    const entry = btn.closest('.concentration-entry');
 
     const { id } = entry.dataset;
     const { worldId } = entry.dataset;
@@ -137,6 +158,7 @@ export class ManageConcentrations extends FormApplication {
         choice = document.getElementsByName(processedid)[0];
         conc = choice.value;
         settingData[id][world].push(conc);
+        settingData[id][world].sort();
 
         await game.settings.set(
           'deadlands-classic',

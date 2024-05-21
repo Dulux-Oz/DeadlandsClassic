@@ -1,7 +1,7 @@
 <h1>{{localize "DLC.tab.lost-colony"}}</h1>
 
 {{#each this.lost}}
-<div class="aptitude-concentration" data-id={{this.id}} data-world-id={{this.worldId}} data-world={{this.world}}>
+<div class="concentration-entry" data-id="{{this.id}}" data-world-id={{this.worldId}} data-world={{this.world}}>
 
   <h2>{{@key}}</h2>
 
@@ -11,8 +11,8 @@
 
   <div class="aptitude-entry">
     <input
-    name={{this.worldId}}
-    type="text"
+      name={{this.worldId}}
+      type="text"
       value="{{this.title}}"
       placeholder="Name"
       class="aptitude-label"

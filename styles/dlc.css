@@ -129,7 +129,7 @@ li.combatant .roll:hover {
 
 .aptitude-entry {
   display: grid;
-  grid-template-columns: 140px 80px 25px 15px 90px 150px repeat(auto-fill, 90px);
+  grid-template-columns: 225px 80px 30px 25px 90px 150px repeat(auto-fill, 90px);
   grid-template-rows: 40px;
   align-items: center;
 }
@@ -138,6 +138,7 @@ li.combatant .roll:hover {
   grid-column: 1;
   color: var(--color-text-dark-1);
   font-weight: bold;
+  margin-left: 1em;
 }
 
 .aptitude-trait {
@@ -175,6 +176,12 @@ li.combatant .roll:hover {
   color: var(--color-text-dark-1);
   height: var(--charsheet-item-height);
   width: 80px;
+}
+
+.concentration-entry {
+  display: grid;
+  grid-template-rows: 40px;
+  align-items: center;
 }
 
 /* ----------------------------------------- */

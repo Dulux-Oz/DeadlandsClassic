@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+import { SetTraitsApp } from '../apps/set-traits-app.mjs';
 import { Chips } from '../helpers/chips.mjs';
 import * as utility from '../helpers/dlc-utilities.mjs';
 import { NumberString } from '../helpers/number-string.mjs';
@@ -24,8 +25,22 @@ export class DeadlandsActor extends Actor {
       enumerable: false,
     });
 
+    /* This will hold the application used when setting the traits of a DeadlandsActor */
+    Object.defineProperty(this, '_traitSetter', {
+      value: null,
+      writable: true,
+      enumerable: false,
+    });
+
     /* This data that needs to be persistent while selecting trait dice, but we don't want in the database. */
-    Object.defineProperty(this, 'UpdatingTraits', {
+    Object.defineProperty(this, 'settingTraits', {
+      value: null,
+      writable: true,
+      enumerable: false,
+    });
+
+    /* This data that needs to be persistent while selecting trait dice, but we don't want in the database. */
+    Object.defineProperty(this, 'updatingTraits', {
       value: null,
       writable: true,
       enumerable: false,
@@ -281,8 +296,6 @@ export class DeadlandsActor extends Actor {
     return this._charCreator;
   }
 
-  /* -------------------------------------------- */
-
   /* Lazily get a sheet that deals with character advancement/modification. */
   get modifyCharacter() {
     if (!this._charModifier) {
@@ -291,6 +304,16 @@ export class DeadlandsActor extends Actor {
       });
     }
     return this._charModifier;
+  }
+
+  /* Lazily get a sheet that deals with setting the character's traits. */
+  get setTraits() {
+    if (!this._traitSetter) {
+      this._traitSetter = new SetTraitsApp(this, {
+        editable: this.isOwner,
+      });
+    }
+    return this._traitSetter;
   }
 
   _preCreate(data, options, user) {

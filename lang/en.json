@@ -189,6 +189,7 @@
       "EditItem": "Edit",
       "MarshalsChips": "Marshal's Chips",
       "ModifyCharacter": "Upgrade Character",
+      "SetTraits": "Allocate cards to character's traits",
       "UseChips": "Toggle participation in the chip pot",
       "UseMarshalBlue": "Use chip",
       "UseMarshalRed": "Use chip",

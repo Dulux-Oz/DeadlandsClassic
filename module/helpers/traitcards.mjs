@@ -51,6 +51,11 @@ export class TraitCards {
       obj.#cards.push(card);
     });
 
+    // Add a blank card to the end.
+    const cannon = CanonicalCards.cardBySymbol('BL');
+    const card = { ...cannon };
+    obj.#cards.push(card);
+
     let jIndex = 0;
     let nIndex = 0;
     let tIndex = 0;
@@ -204,8 +209,26 @@ export class TraitCards {
         index: inx,
         name,
         symbol,
+        column1: inx % 3 === 0,
+        column2: inx % 3 === 1,
+        column3: inx % 3 === 2,
       };
     });
+
+    // Grab the blank card and add it to the end.
+    const card = this.cardByIndex(12);
+    const { die, dieNum, icon, name, symbol } = card;
+    cards[12] = {
+      die,
+      dieNum,
+      icon,
+      index: 12,
+      name,
+      symbol,
+      column1: true,
+      column2: false,
+      column3: false,
+    };
 
     return cards;
   }

@@ -7,7 +7,7 @@ export class ActorSheetAdvance extends DLCActorSheetBase {
       classes: ['dlc', 'sheet', 'actor'],
       template:
         'systems/deadlands-classic/templates/char-modify/character.html',
-      width: 660,
+      width: 720,
       height: 800,
       tabs: [
         {

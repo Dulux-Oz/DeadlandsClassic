@@ -62,6 +62,10 @@ export class CanonicalCards {
     return 52;
   }
 
+  get blankIndex() {
+    return this.largestJokerIndex + 1;
+  }
+
   get largestJokerIndex() {
     return Math.max(this.bJokerIndex, this.rJokerIndex);
   }
@@ -136,6 +140,14 @@ export class CanonicalCards {
       dieNum: 5,
     };
 
+    const blank = {
+      symbol: 'BL',
+      name: 'Blank card',
+      index: this.blankIndex,
+      die: 4,
+      dieNum: 1,
+    };
+
     if (this.rJokerIndex === this.smallestJokerIndex) {
       cards.push(rJoker);
       cards.push(bJoker);
@@ -143,6 +155,8 @@ export class CanonicalCards {
       cards.push(bJoker);
       cards.push(rJoker);
     }
+
+    cards.push(blank);
 
     return cards;
   }
@@ -222,5 +236,9 @@ export class CanonicalCards {
     index += 1;
 
     this.cards[index].icon = makePath.call(this, 13, 5);
+
+    // Add the icon of the blank card at the end
+    this.cards[this.blankIndex].icon =
+      'systems/deadlands-classic/icons/svg/1B.svg';
   }
 }

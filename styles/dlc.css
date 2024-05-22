@@ -11,6 +11,8 @@
   --sidebar-item-height: 48px;
   --sidebar-img-height: 36px;
 
+  --trait-card-height: 72px;
+
   --charsheet-item-height: 32px;
 }
 
@@ -415,6 +417,78 @@ li.combatant .roll:hover {
   min-height: 500px;
 }
 
+.trait-entry {
+  display: grid;
+  grid-template-columns: repeat(6, 100px);
+  align-items: center;
+  vertical-align: middle;
+}
+
+.trait-column1-label {
+  grid-column: 1;
+  color: var(--color-text-dark-1);
+  font-weight: bold;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.trait-column2-label {
+  grid-column: 3;
+  color: var(--color-text-dark-1);
+  font-weight: bold;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.trait-column3-label {
+  grid-column: 5;
+  color: var(--color-text-dark-1);
+  font-weight: bold;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.trait-column1-card {
+  grid-column: 2;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.trait-column1-card > img {
+  height: var(--combat-card-height);
+  object-fit: scale-down;
+  border: none;
+  margin: 2px;
+}
+
+.trait-column2-card {
+  grid-column: 4;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.trait-column2-card > img {
+  color: var(--color-text-dark-1);
+  height: var(--combat-card-height);
+  object-fit: scale-down;
+  border: none;
+  margin: 2px;
+}
+
+.trait-column3-card {
+  grid-column: 6;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.trait-column3-card > img {
+  color: var(--color-text-dark-1);
+  height: var(--combat-card-height);
+  object-fit: scale-down;
+  border: none;
+  margin: 2px;
+}
+
 .traitOptions {
   display: flex;
   flex-wrap: wrap;
@@ -428,31 +502,53 @@ li.combatant .roll:hover {
   flex: calc(33% - 42px);
 }
 
-.traitInputs {
-  display: flex;
-  flex-direction: row;
+.trait-inputs {
+  display: grid;
+  grid-template-columns: 180px 180px 180px 180px;
+  vertical-align: middle;
 }
 
-.traitColumn {
-  display: flex;
-  flex-direction: column;
+.trait-input-label1 {
+  grid-column: 1;
+  color: var(--color-text-dark-1);
+  font-weight: bold;
+  justify-content: space-around;
+  align-items: right;
+  vertical-align: middle;
 }
 
-.traitInput {
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  align-items: start;
-  flex: calc(33% - 42px);
+.trait-input-image1 {
+  justify-content: space-around;
+  align-items: right;
+}
+.trait-input-image1 > img {
+  grid-column: 2;
+  height: var(--trait-card-height);
+  object-fit: scale-down;
+  border: none;
+  margin: 2px;
 }
 
-.traitInput > label {
-  min-width: 9em;
+.trait-input-label2 {
+  grid-column: 3;
+  color: var(--color-text-dark-1);
+  font-weight: bold;
+  justify-content: space-around;
+  align-items: right;
 }
 
-.traitInput > input {
-  text-align: right;
-  width: 30px;
+.trait-input-image2 {
+  grid-column: 4;
+  justify-content: space-around;
+  align-items: left;
+}
+
+.trait-input-image2 > img {
+  height: var(--trait-card-height);
+  object-fit: scale-down;
+  border: none;
+  margin: 2px;
+  align-items: right;
 }
 
 .traitSubmit {

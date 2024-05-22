@@ -20,7 +20,9 @@ export class Chips {
   };
 
   static getColour(type) {
-    const key = Object.keys(Chips.type).find(searchKey => Chips.type[searchKey] === type);
+    const key = Object.keys(Chips.type).find(
+      (searchKey) => Chips.type[searchKey] === type
+    );
 
     return this.colour[key];
   }

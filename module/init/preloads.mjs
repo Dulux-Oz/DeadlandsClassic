@@ -11,9 +11,9 @@ export async function preloadTemplates() {
     `${sPrePath}combat.html`,
     `${sPrePath}edges.html`,
     `${sPrePath}gear.html`,
-    `${sPrePath}main.html`,
     `${sPrePath}pc-sheet.html`,
     `${sPrePath}spells.html`,
+    `${sPrePath}traits.html`,
 
     `${templateDir}sidebar/combat-tracker.html`,
 

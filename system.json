@@ -31,10 +31,9 @@
   ],
   "version": "0.0.3",
   "compatibility": {
-    "minimum": "11",
-    "verified": "11"
+    "minimum": "12",
+    "verified": "12"
   },
-  "templateVersion": 1,
   "esmodules": ["module/deadlands-classic.mjs"],
 
   "styles": ["styles/dlc.css"],
@@ -48,30 +47,60 @@
 
   "documentTypes": {
     "Actor": {
-      "types": ["characterhoe", "characterlc", "characterww", "npc"],
-      "htmlFields": ["biography", "notes"]
+      "characterhoe": {
+        "htmlFields": ["biography", "notes"]
+      },
+      "characterlc": {
+        "htmlFields": ["biography", "notes"]
+      },
+      "characterww": {
+        "htmlFields": ["biography", "notes"]
+      },
+      "npc": {
+        "htmlFields": ["biography", "notes"]
+      }
     },
     "Item": {
-      "types": [
-        "edge",
-        "hindrance",
-        "spellLike",
-        "gun",
-        "otherRanged",
-        "melee",
-        "miscItem"
-      ],
-      "htmlFields": [
-        "blurb",
-        "description",
-        "notes",
-        "one.text",
-        "two.text",
-        "three.text",
-        "four.text",
-        "five.text",
-        "capstone.text"
-      ]
+      "edge": {
+        "htmlFields": [
+          "blurb",
+          "description",
+          "one.text",
+          "two.text",
+          "three.text",
+          "four.text",
+          "five.text",
+          "capstone.text"
+        ]
+      },
+      "hindrance": {
+        "htmlFields": [
+          "blurb",
+          "description",
+          "one.text",
+          "two.text",
+          "three.text",
+          "four.text",
+          "five.text",
+          "capstone.text"
+        ]
+      },
+      "spellLike": {
+        "htmlFields": [
+          "blurb",
+          "description",
+          "one.text",
+          "two.text",
+          "three.text",
+          "four.text",
+          "five.text",
+          "capstone.text"
+        ]
+      },
+      "gun": { "htmlFields": ["blurb", "description"] },
+      "otherRanged": { "htmlFields": ["blurb", "description"] },
+      "melee": { "htmlFields": ["blurb", "description"] },
+      "miscItem": { "htmlFields": ["blurb", "description"] }
     }
   },
 
@@ -79,6 +108,10 @@
   "socket": true,
   "grid.distance": 2,
   "grid.units": "yrd",
+  "grid": {
+    "distance": 2,
+    "units": "yrd"
+  },
   "url": "https://github.com/Dulux-Oz/deadlands-classic",
   "manifest": "https://raw.githubusercontent.com/Dulux-Oz/deadlands-classic/master/system.json",
   "download": "https://github.com/Dulux-Oz/deadlands-classic/releases/download/0.1/deadlands_classic.zip",

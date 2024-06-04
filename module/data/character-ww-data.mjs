@@ -11,7 +11,7 @@ export class CharacterWwDataModel extends BaseActorDataModel {
       ...this.makeWoundLocations(),
 
       biography: new fields.HTMLField(),
-      cards: new fields.StringField({ required: false }),
+      cards: new fields.StringField({ required: false, initial: '' }),
       notes: new fields.HTMLField(),
     };
   }

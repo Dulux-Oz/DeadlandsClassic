@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-syntax */
 import { dlcConfig } from '../config.mjs';
 import * as aptitudeUtils from '../helpers/aptitude-utilities.mjs';
 
@@ -28,52 +29,42 @@ export class DLCActorSheetBase extends ActorSheet {
     const unclassified = {};
     const woundLocations = {};
 
-    const actor = this.document.toObject(false);
+    const actor = this.object.toObject(false);
     const actorSystem = actor.system;
-    const keys = Object.keys(actorSystem);
 
-    const validChips = {
-      white: 0,
-      red: 0,
-      blue: 0,
-      green: 0,
-      temporaryGreen: 0,
-    };
+    for (const key of Object.keys(this.object.aptitudeKeys)) {
+      aptitudes[key] = { ...actorSystem[key] };
+    }
 
-    const validWoundLocations = {
-      head: true,
-      guts: true,
-      'left arm': true,
-      'right arm': true,
-      'left leg': true,
-      'right leg': true,
-    };
+    for (const key of Object.keys(this.object.traitKeys)) {
+      traits[key] = { ...actorSystem[key] };
+    }
 
-    // eslint-disable-next-line no-restricted-syntax, guard-for-in
-    for (const key of keys.values()) {
-      if (Object.prototype.hasOwnProperty.call(actorSystem, key)) {
-        const slot = actorSystem[key];
-        if (Object.prototype.hasOwnProperty.call(slot, 'valueType')) {
-          switch (slot.valueType) {
-            case 'trait':
-              traits[key] = slot;
-              break;
-            case 'aptitude':
-              aptitudes[key] = slot;
-              break;
-            default:
-            // There is no default case, the document validation has restriced
-            // this value.
-          }
-        } else if (key in validChips) {
-          chips[key] = slot;
-          chips[`has${key}`] = slot > 0;
-        } else if (key in validWoundLocations) {
-          woundLocations[key] = slot;
-        } else {
-          unclassified[key] = slot;
-        }
-      }
+    for (const key of Object.keys(this.object.chipKeys)) {
+      chips[key] = actorSystem[key];
+      chips[`has${key}`] = chips[key] > 0;
+    }
+
+    for (const key of Object.keys(this.object.locationKeys)) {
+      woundLocations[key] = actorSystem[key];
+    }
+
+    for (const key of Object.keys(this.object.unclassifiedKeys)) {
+      unclassified[key] = actorSystem[key];
+    }
+
+    // eslint-disable-next-line no-restricted-syntax
+    for (const key of Object.keys(traits)) {
+      traits[key].label = key;
+
+      traits[key].totalRanks =
+        traits[key].cardRanks +
+        traits[key].startRanks +
+        traits[key].bountyRanks;
+
+      traits[key].totalDieSize = this.object.dieSize(key);
+
+      traits[key].traitID = key;
     }
 
     const { careerBounty } = actorSystem;
@@ -84,16 +75,13 @@ export class DLCActorSheetBase extends ActorSheet {
       actor.type === 'characterww'  ? 'WW' : 
       actor.type === 'characterhoe' ? 'HE' : 'LC';
 
-    // eslint-disable-next-line no-restricted-syntax
     for (const key of Object.keys(aptitudes)) {
       const value = aptitudes[key];
-      const trait = actorSystem[value.trait];
-      aptitudes[key].die = trait?.dieSize ?? 4;
+      const trait = traits[value.trait];
+      aptitudes[key].die = trait?.totalDieSize;
       aptitudes[key].totalRanks =
-        value.defaultRanks + value.startRanks + value.ranks;
+        value.defaultRanks + value.startRanks + value.bountyRanks;
       aptitudes[key].show = aptitudes[key].totalRanks !== 0;
-
-      const confEntry = dlcConfig.aptitudes[key];
 
       /* --------------------------------------------------------------------
        | Calculate useful flags for The presence of concentrations in this 
@@ -120,7 +108,6 @@ export class DLCActorSheetBase extends ActorSheet {
 
         aptitudes[key].available = {};
         // prettier-ignore
-        // eslint-disable-next-line no-restricted-syntax
         for (const cValue of aptitudeUtils.getConcentrations(key, world)) {
           if (!value.concentrations.includes(cValue)) {
             aptitudes[key].available[cValue] = cValue;
@@ -136,10 +123,10 @@ export class DLCActorSheetBase extends ActorSheet {
 
     const { isEditable } = this;
     const { title } = this;
-    const owner = this.document.isOwner;
+    const owner = this.object.isOwner;
 
     context = foundry.utils.mergeObject(context, {
-      actorId: this.document.id,
+      actorId: this.object.id,
       aptitudes,
       chips,
       cssClass: isEditable ? 'editable' : 'locked',

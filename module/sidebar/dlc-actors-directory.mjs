@@ -39,7 +39,7 @@ export class DeadlandsActorDirectory extends ActorDirectory {
       },
       {
         name: 'DLC.sidebar.CreateCharacter',
-        icon: '<i class="fas fa-cards"></i>',
+        icon: '<i class="fas fa-snowflake"></i>',
         condition: (li) => true,
         callback: (li) => {
           const actor = game.actors.get(li.data('documentId'));

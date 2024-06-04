@@ -1,4 +1,5 @@
 /* eslint-disable no-restricted-syntax */
+import { dlcConstants } from '../constants.mjs';
 import { DLCActorSheetBase } from './actor-sheet-base.mjs';
 
 export class ActorSheetAdvance extends DLCActorSheetBase {
@@ -9,6 +10,10 @@ export class ActorSheetAdvance extends DLCActorSheetBase {
         'systems/deadlands-classic/templates/char-modify/character.html',
       width: 720,
       height: 800,
+      closeOnSubmit: false,
+      submitOnClose: false,
+      submitOnChange: false,
+      resizable: true,
       tabs: [
         {
           navSelector: '.sheet-tabs',
@@ -48,7 +53,7 @@ export class ActorSheetAdvance extends DLCActorSheetBase {
   async getData(options) {
     const context = await super.getData(options);
 
-    const { aptitudes } = context;
+    const { aptitudes, traits } = context;
 
     /*------------------------------------------------------------------------
     | First pass through the aptitudes, calculate how much bounty each has
@@ -85,10 +90,9 @@ export class ActorSheetAdvance extends DLCActorSheetBase {
       const fromCreation = value.startRanks;
 
       const start = fromCreation + 1;
-      const total = fromCreation + value.ranks;
 
-      const length = value.ranks;
-      let multiplier = start === 5 ? 2 : 1;
+      const length = value.bountyRanks;
+      let multiplier = fromCreation === 5 ? 2 : 1;
 
       // prettier-ignore
       const levelsToProcess = Array.from({ length }, (_, index) => start + index);
@@ -110,13 +114,51 @@ export class ActorSheetAdvance extends DLCActorSheetBase {
       // update the total for the actor
       context.bountyUsed += aptitudes[key].aptitudeBounty;
 
-      aptitudes[key].next = total + 1;
+      aptitudes[key].next = fromCreation + value.bountyRanks + 1;
       aptitudes[key].nextBounty = aptitudes[key].next * multiplier;
-      aptitudes[key].isNoRank = value.startRanks === 0 && value.ranks === 0;
+      aptitudes[key].isNoRank =
+        value.startRanks === 0 && value.bountyRanks === 0;
+    }
+
+    /*------------------------------------------------------------------------
+    | First pass through the traits, calculate how many bounty points
+    | each has used, what the next level for it will be, how much that will
+    | cost. Also calculate the bounty points used total.
+    +-----------------------------------------------------------------------*/
+
+    for (const key of Object.keys(traits)) {
+      const trait = traits[key];
+
+      let length = trait.bountyDieSize;
+      let start = trait.cardDieSize + trait.startDieSize + 1;
+      const sizeArray = Array.from({ length }, (_, index) => start + index);
+
+      const dieSizePoints = sizeArray.reduce(
+        (accumulator, currentValue) =>
+          accumulator + dlcConstants.DieSizePointMultiplier * currentValue,
+        0
+      );
+
+      length = trait.bountyRanks;
+      start = trait.cardRanks + trait.startRanks + 1;
+      const rankArray = Array.from({ length }, (_, index) => start + index);
+
+      const dieRankPoints = rankArray.reduce(
+        (accumulator, currentValue) =>
+          accumulator + dlcConstants.DieRankPointMultiplier * currentValue,
+        0
+      );
+
+      // Update the total bounty points for the actor.
+
+      const bountyPoints = dieSizePoints + dieRankPoints;
+      context.bountyUsed += bountyPoints;
+
+      traits[key].bountyPoints = bountyPoints;
     }
 
     // prettier-ignore
-    context.bountyRemaining = Math.max( 0, this.actor.system.careerBounty - context.bountyUsed);
+    const bountyRemaining = Math.max( 0, this.actor.system.careerBounty - context.bountyUsed);
 
     /* ----------------------------------------------------------------------
     | Second pass through the aptitudes, now that we have a figure for
@@ -131,19 +173,50 @@ export class ActorSheetAdvance extends DLCActorSheetBase {
 
       aptitudes[key].canAddConcentration =
         aptitudes[key].hasAvailable &&
-        ((aptitudes[key].isNoRank && context.bountyRemaining >= 1) ||
-          context.bountyRemaining >= 3);
+        ((aptitudes[key].isNoRank && bountyRemaining >= 1) ||
+          bountyRemaining >= 3);
+
+      const processedKey = key.split(' ').join('');
+      aptitudes[key].choiceName = `${processedKey}Choice`;
 
       aptitudes[key].canImprove =
         ((aptitudes[key].hasAvailable && totalConcentrations !== 0) ||
           !aptitudes[key].hasAvailable) &&
-        aptitudes[key].nextBounty <= context.bountyRemaining;
-
-      const processedKey = key.split(' ').join('');
-      aptitudes[key].choiceName = `${processedKey}Choice`;
+        aptitudes[key].nextBounty <= bountyRemaining;
     }
 
-    context.showBountyRemaining = context.bountyRemaining > 0;
+    /*-----------------------------------------------------------------------
+    | Second pass through the traits, calculate whether we can improve this
+    | trait, set the can improve booleans for each trait.
+    +----------------------------------------------------------------------*/
+
+    // prettier-ignore
+    for (const key of Object.keys(traits)) {
+      const trait = traits[key];
+
+      const dieSize = trait.cardDieSize + trait.startDieSize + trait.bountyDieSize;
+      const traitRank = trait.cardRanks + trait.startRanks + trait.bountyRanks;
+
+      traits[key].dieSizeImprovementIsPossible = dieSize < dlcConstants.MaxDieSize;
+      traits[key].dieRankImprovementIsPossible = traitRank < dlcConstants.MaxTraitRank;
+
+      traits[key].nextDie     = dieSize + 1;
+      traits[key].nextDieCost = traits[key].nextDie * dlcConstants.DieSizePointMultiplier;
+
+      traits[key].nextRank     = traitRank + 1;
+      traits[key].nextRankCost = traits[key].nextRank * dlcConstants.DieRankPointMultiplier;
+
+      traits[key].canImproveDieSize =
+        traits[key].dieSizeImprovementIsPossible &&
+        traits[key].nextDieCost <= bountyRemaining;
+
+      traits[key].canImproveTraitRank =
+        traits[key].dieRankImprovementIsPossible &&
+        traits[key].nextRankCost <= bountyRemaining;
+    }
+
+    context.bountyRemaining = bountyRemaining;
+    context.showBountyRemaining = bountyRemaining > 0;
     return context;
   }
 
@@ -151,8 +224,8 @@ export class ActorSheetAdvance extends DLCActorSheetBase {
   activateListeners(html) {
     super.activateListeners(html);
 
-    // chip control
     html.find('.aptitude-control').click((ev) => this.#onAptitudeControl(ev));
+    html.find('.trait-control').click((ev) => this.#onTraitControl(ev));
   }
 
   /**
@@ -169,14 +242,6 @@ export class ActorSheetAdvance extends DLCActorSheetBase {
 
     // eslint-disable-next-line default-case
     switch (btn.dataset.control) {
-      case 'improveAptitude':
-        {
-          const { id } = btn.dataset;
-          actor.system[[id]].ranks += 1;
-          await this.document.update(actor, {});
-        }
-        break;
-
       case 'addConcentration':
         {
           const { id } = btn.dataset;
@@ -188,16 +253,62 @@ export class ActorSheetAdvance extends DLCActorSheetBase {
           const isNoRank =
             actor.system[[id]].defaultRanks === 0 &&
             actor.system[[id]].startRanks === 0 &&
-            actor.system[[id]].ranks === 0;
+            actor.system[[id]].bountyRanks === 0;
 
           if (isNoRank) {
-            actor.system[[id]].ranks = 1;
+            actor.system[[id]].bountyRanks = 1;
           }
 
           actor.system[[id]].concentrations.push(conc);
           await this.document.update(actor, {});
         }
         break;
+
+      case 'improveAptitude':
+        {
+          const { id } = btn.dataset;
+          actor.system[[id]].bountyRanks += 1;
+          await this.document.update(actor, {});
+        }
+        break;
+
+      default:
+      // No default case is necessary
+    }
+  }
+
+  /**
+   * Handle an aptitude improvement event
+   * @private
+   * @param {Event} event The originating mousedown event
+   */
+  async #onTraitControl(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const btn = event.currentTarget;
+    const actor = this.document.toObject(false);
+
+    // eslint-disable-next-line default-case
+    switch (btn.dataset.control) {
+      case 'improveDieSize':
+        {
+          const { id } = btn.dataset;
+          actor.system[[id]].bountyDieSize += 1;
+          await this.document.update(actor, {});
+        }
+        break;
+
+      case 'improveTraitRank':
+        {
+          const { id } = btn.dataset;
+          actor.system[[id]].bountyRanks += 1;
+          await this.document.update(actor, {});
+        }
+        break;
+
+      default:
+      // No default case is necessary
     }
   }
 }

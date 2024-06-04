@@ -6,7 +6,7 @@ export class DLCActorSheet extends DLCActorSheetBase {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['dlc', 'sheet', 'actor'],
       template: 'systems/deadlands-classic/templates/actor-sheet/pc-sheet.html',
-      width: 660,
+      width: 700,
       height: 800,
       tabs: [
         {
@@ -16,13 +16,6 @@ export class DLCActorSheet extends DLCActorSheetBase {
         },
       ],
     });
-  }
-
-  /** @override */
-  async getData(options) {
-    const context = super.getData(options);
-
-    return context;
   }
 
   /* -------------------------------------------- */

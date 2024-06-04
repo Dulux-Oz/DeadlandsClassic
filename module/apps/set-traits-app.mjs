@@ -250,10 +250,15 @@ export class SetTraitsApp extends DocumentSheet {
       const card = traitCards.cardByIndex(index);
 
       updateData.system[trait].card = index;
-      updateData.system[trait].startRanks = card.dieNum;
-      updateData.system[trait].startDieSize = card.die;
-      updateData.system[trait].ranks = card.dieNum;
-      updateData.system[trait].dieSize = card.die;
+
+      updateData.system[trait].cardRanks = card.dieNum;
+      updateData.system[trait].cardDieSize = Math.floor(card.die / 2); // store d4 as 2, d6 as 3, etc.
+
+      updateData.system[trait].startRanks = 0;
+      updateData.system[trait].startDieSize = 0;
+
+      updateData.system[trait].bountyRanks = 0;
+      updateData.system[trait].bountyDieSize = 0;
     });
 
     this.actor.SettingTraits = undefined;

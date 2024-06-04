@@ -47,29 +47,42 @@
     },
 
     "character": {
+      "consumeChip": "Consume",
+
+      "consumeGreen": "Use and consume green chip",
+      "convertBlue": "Convert blue chip to bounty",
+      "convertChip": "Convert",
+      "convertGreen": "Convert green chip to bounty",
+      "convertRed": "Convert red chip to bounty",
+      "convertTemporaryGreen": "Convert temporary green chip to bounty",
+      "convertWhite": "Convert white chip to bounty",
+
       "drawOne": "Draw one chip",
       "drawThree": "Draw three chips",
-      "useWhite": "Use white chip",
-      "convertWhite": "Convert white chip to bounty",
-      "useRed": "Use red chip",
-      "convertRed": "Convert red chip to bounty",
-      "useRedReroll": "Use red chip for reroll",
+
       "useBlue": "Use blue chip",
-      "convertBlue": "Convert blue chip to bounty",
       "useGreen": "Use green chip",
-      "convertGreen": "Convert green chip to bounty",
-      "consumeGreen": "Use and consume green chip",
+      "useRed": "Use red chip",
+      "useRedReroll": "Use red chip for reroll",
       "useTemporaryGreen": "Use temporary green chip",
-      "convertTemporaryGreen": "Convert temporary green chip to bounty",
-      "consumeChip": "Consume",
-      "convertChip": "Convert",
+      "useWhite": "Use white chip",
+
       "add": "Add",
-      "addConcentration": "Add Concentration",
-      "improveAptitude": "Improve the aptitude",
-      "improveAptitudeCost": "Cost to improve the aptitude",
       "improve": "Improve",
       "remove": "Remove",
+
+      "addConcentration": "Add Concentration",
       "removeConcentration": "Remove Concentration",
+
+      "improveAptitude": "Improve the aptitude",
+      "improveAptitudeCost": "Cost to improve the aptitude",
+
+      "improveTrait": "Improve the number of trait dice",
+      "improveTraitCost": "Cost to improve the number of trait dice",
+
+      "improveTraitDieSize": "Improve the size of the trait die",
+      "improveTraitDieSizeCost": "Cost to improve the size of the trait die",
+
       "useChip": "Use",
       "useChipReroll": "Use for reroll"
     },
@@ -246,6 +259,14 @@
       "Spirit": "Spirit",
       "Strength": "Strength",
       "Vigor": "Vigor"
+    }
+  },
+  "TYPES": {
+    "Actor": {
+      "characterhoe": "Hell on Earth Player Character",
+      "characterlc": "Lost Colony Player Character",
+      "characterww": "Weird West Player Character",
+      "npc": "Non-Player Character"
     }
   }
 }

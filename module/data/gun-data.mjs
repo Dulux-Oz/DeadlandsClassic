@@ -5,7 +5,6 @@ export class GunDataModel extends foundry.abstract.TypeDataModel {
     const { fields } = foundry.data;
     return {
       ...dlcFields.setting(),
-      name: new fields.StringField({ required: true, blank: false }),
       description: new fields.HTMLField({ required: false }),
       notes: new fields.HTMLField({ required: false }),
       calibre: new fields.StringField({

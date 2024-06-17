@@ -1,0 +1,38 @@
+<form class="flexcol dlc {{cssClass}}" autocomplete="off">
+  {{!-- Sheet Header --}}
+  <header class="concentration-manager-header dlc tabs">
+    <div class="flexrow">
+      <h1 class="charname">{{localize "DLC.app.AddConcentrations"}}</h1>
+    </div>
+  </header>
+
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs dlc tabs" data-group="primary">
+    <a class="item" data-tab="weird-west">
+      {{localize "DLC.tab.weird-west"}}
+    </a>
+    <a class="item" data-tab="hell-on-earth">
+      {{localize "DLC.tab.hell-on-earth"}}
+    </a>
+    <a class="item" data-tab="lost-colony">
+      {{localize "DLC.tab.lost-colony"}}
+    </a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body dlc">
+
+    <div class="tab weird-west" data-group="primary" data-tab="weird-west">
+      {{> "systems/deadlands-classic/templates/concentrations/weird-west.html" }}
+    </div>
+
+    <div class="tab hell-on-earth" data-group="primary" data-tab="hell-on-earth">
+      {{> "systems/deadlands-classic/templates/concentrations/hell-on-earth.html" }}
+    </div>
+
+    <div class="tab lost-colony" data-group="primary" data-tab="lost-colony">
+      {{> "systems/deadlands-classic/templates/concentrations/lost-colony.html" }}
+    </div>
+
+  </section>
+</form>

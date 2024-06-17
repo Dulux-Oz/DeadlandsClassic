@@ -1,0 +1,40 @@
+<h1>Starting aptitudes
+  {{#if showPointsRemaining}} — {{this.pointsRemaining}}{{/if}}
+</h1>
+
+{{#each this.aptitudes}}
+  <div class="aptitude-entry">
+    <div class="aptitude-label">{{this.label}}</div>
+    <div class="aptitude-trait">{{this.trait}}</div>
+    <div class="aptitude-die">{{this.totalRanks}}d{{this.die}}</div>
+    <div class="aptitude-cost" data-tooltip="DLC.character.improveAptitudeCost">{{this.nextPoints}}</div>
+
+    {{#if this.canImprove}}
+    <button 
+      class="aptitude-control aptitude-button" 
+      role="button"
+      data-id="{{this.aptitudeID}}"
+      data-tooltip="DLC.character.improveAptitude"
+      data-control="improveAptitude">
+        {{localize 'DLC.character.improve'}}
+    </button>
+    {{/if}}
+
+    {{#if this.canAddConcentration}}
+
+      <select name={{this.choiceName}} class="aptitude-concentration">
+        {{selectOptions this.available}}
+      </select>
+
+      <button 
+        class="aptitude-control aptitude-button2" 
+        role="button"
+        data-id="{{this.aptitudeID}}"
+        data-tooltip="DLC.character.addConcentration"
+        data-control="addConcentration">
+          {{localize 'DLC.character.add'}}
+      </button>
+    {{/if}}
+  </div>
+
+{{/each}}

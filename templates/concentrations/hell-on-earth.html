@@ -1,0 +1,52 @@
+<h1>{{localize "DLC.tab.hell-on-earth"}}</h1>
+
+{{#each this.hell}}
+<div class="concentration-entry" data-id="{{this.id}}" data-world-id={{this.worldId}} data-world={{this.world}}>
+
+  <h2>{{@key}}</h2>
+
+  <p>
+    {{#each this.config}} <strong>{{#unless @last}} {{this}}, {{/unless}}  {{#if @last}} {{this}} {{/if}}</strong> {{/each}}
+  </p>
+
+  <div class="aptitude-entry">
+    <input
+      name={{this.worldId}}
+      type="text"
+      value="{{this.title}}"
+      placeholder="Name"
+      class="aptitude-label"
+      />
+
+      <button 
+      class="concentration-control aptitude-button" 
+      role="button"
+      type="button"
+      data-id={{this.id}}
+      data-world={{this.world}}
+      data-tooltip="DLC.character.addConcentration"
+      data-control="addConcentration">
+        {{localize 'DLC.character.add'}}
+    </button>
+
+  </div>
+
+  {{#each this.extra}}
+    <div class="aptitude-entry">
+      <span class="aptitude-label">
+        <strong>{{this}}</strong>
+      </span>
+      <button 
+      class="concentration-control aptitude-button" 
+      role="button"
+      type="button"
+      data-item={{@index}}
+      data-tooltip="DLC.character.removeConcentration"
+      data-control="removeConcentration">
+        {{localize 'DLC.character.remove'}}
+      </button>
+    </div>
+  {{/each}}
+
+</div>
+{{/each}}

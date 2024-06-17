@@ -1,4 +1,6 @@
+import { ManageConcentrations } from '../apps/manage-concentrations.mjs';
 import { ChipDataModel } from '../data/chip-data.mjs';
+import { ConcentrationDataModel } from '../data/concentration-data.mjs';
 
 export function createGameSettings() {
   /* global CanonicalCards */
@@ -103,5 +105,21 @@ export function createGameSettings() {
     config: false,
     type: ChipDataModel,
     default: { chips: { white: 0, red: 0, blue: 0 } },
+  });
+
+  game.settings.registerMenu('deadlands-classic', 'mySettingsMenu', {
+    name: 'Aptitude Concentrations',
+    label: 'Manage aptitude concentrations', // The text label used in the button
+    hint: 'Allow for the addition of extra concentrations for aptitudes.',
+    icon: 'fas fa-pencil', // A Font Awesome icon used in the submenu button
+    type: ManageConcentrations, // A FormApplication subclass
+    restricted: true, // Restrict this submenu to gamemaster only?
+  });
+
+  game.settings.register('deadlands-classic', 'extraConcentrations', {
+    scope: 'world',
+    config: false, // we will use the menu above to edit this setting
+    type: ConcentrationDataModel,
+    default: {},
   });
 }

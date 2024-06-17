@@ -15,10 +15,10 @@ export const boolean = (label, initial = true, required = true) => ({
 
 export const dieSize = (label) => ({
   [label]: new fields.NumberField({
-    initial: 4,
+    initial: 2,
     required: true,
     integer: true,
-    choices: [4, 6, 8, 10, 12],
+    choices: [2, 3, 4, 5, 6], // x2 gives the number of sides
   }),
 });
 
@@ -101,7 +101,7 @@ export const valueType = (type) => ({
 export const aptitude = (label, trait, defaultRanks) => ({
   [label]: new fields.SchemaField({
     ...valueType('aptitude'),
-    ...integerNoMax('ranks', 0, 0),
+    ...integerNoMax('bountyRanks', 0, 0),
     ...integer('startRanks', 0, 0, 5 - defaultRanks),
     ...integerNoLimit('bountyAdjustment', 0),
     ...integer('defaultRanks', defaultRanks, 0, 5),
@@ -113,7 +113,7 @@ export const aptitude = (label, trait, defaultRanks) => ({
   }),
 });
 
-// An aptitude which need concentrations
+// An aptitude which need concentrations.
 export const concentrationAptitude = (
   label,
   trait,
@@ -122,17 +122,18 @@ export const concentrationAptitude = (
 ) => ({
   [label]: new fields.SchemaField({
     ...valueType('aptitude'),
-    ...integerNoMax('ranks', 0, 0),
-    ...integer('startRanks', 0, 0, 5 - defaultRanks),
-    ...integerNoLimit('bountyAdjustment', 0),
+    ...integerNoMax('startConcentrations', 0, 0),
     ...integer('defaultRanks', defaultRanks, 0, 5),
+    ...integer('startRanks', 0, 0, 5 - defaultRanks),
+    ...integerNoMax('bountyRanks', 0, 0),
+    ...integerNoLimit('bountyAdjustment', 0),
     trait: new fields.StringField({
       required: true,
       initial: trait,
       choices: dlcConfig.traits,
     }),
     concentrations: new fields.ArrayField(
-      new fields.StringField({ choices: [choices] }, { required: false })
+      new fields.StringField({ choices }, { required: false })
     ),
   }),
 });
@@ -141,7 +142,7 @@ export const concentrationAptitude = (
 export const variableAptitude = (label, defaultRanks) => ({
   [label]: new fields.SchemaField({
     ...valueType('aptitude'),
-    ...integerNoMax('ranks', 0, 0),
+    ...integerNoMax('bountyRanks', 0, 0),
     ...integer('startRanks', 0, 0, 5 - defaultRanks),
     ...integerNoLimit('bountyAdjustment', 0),
     ...integer('defaultRanks', defaultRanks, 0, 5),
@@ -163,11 +164,17 @@ export const trait = (label) => ({
 
     ...traitCard('card'), // integer 0 .. 11, index from TraitCards, is optional in data, but not in completed char.
 
-    ...integer('startRanks', 1, 1, 5), // will be derived from the 'card
-    ...dieSize('startDieSize'),
+    // (cardDieSize + startDieSize + bountyDieSize) x2 is the number of sides - 4, 6, 8, etc.
 
-    ...integerNoMax('ranks', 1, 0), // startRanks + ranks === curent ranks
-    ...dieSize('dieSize'),
+    ...integer('cardRanks', 1, 1, 5), // will be derived from the 'card'
+    ...dieSize('cardDieSize'),
+
+    ...integer('startRanks', 0, 0, 4),
+    ...integer('startDieSize', 0, 0, 4),
+
+    ...integerNoMax('bountyRanks', 0, 0),
+    ...integer('bountyDieSize', 0, 0, 4),
+
     ...integerNoLimit('bountyAdjustment', 0), // If the dieSize gets reduced, this accounts for the bounty
 
     ...integerNoMax('dieBoost', 0, 0, { step: 2 }),

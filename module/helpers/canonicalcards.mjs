@@ -62,6 +62,10 @@ export class CanonicalCards {
     return 52;
   }
 
+  get blankIndex() {
+    return this.largestJokerIndex + 1;
+  }
+
   get largestJokerIndex() {
     return Math.max(this.bJokerIndex, this.rJokerIndex);
   }
@@ -79,6 +83,11 @@ export class CanonicalCards {
     return this.cards[index];
   }
 
+  cardBySymbol(symbol) {
+    const index = this.cardMap.get(symbol);
+    return this.cardByIndex(index);
+  }
+
   // Does this integer represent a card in this deck
   isCard(card) {
     if (Number.isNaN(card)) {
@@ -93,15 +102,23 @@ export class CanonicalCards {
   makeCards() {
     const cards = [];
     let index = 0;
+    let die = 4;
 
     for (let r = 0; r < this.rank.length; r += 1) {
+      if (r === 1 || r === 6 || r === 10 || r === 12) {
+        die += 2;
+      }
+
       for (let s = 0; s < this.suit.length; s += 1) {
+        const dieNum = s + 1;
         const symbol = `${this.rank[r]}${this.suit[s]}`;
         const name = `${this.word[r]} of ${this.suitWord[s]}`;
         cards.push({
           symbol,
           name,
           index,
+          die,
+          dieNum,
         });
         index += 1;
       }
@@ -111,12 +128,24 @@ export class CanonicalCards {
       symbol: 'BJ',
       name: 'The Black Joker',
       index: this.bJokerIndex,
+      die: 12,
+      dieNum: 5,
     };
 
     const rJoker = {
       symbol: 'RJ',
       name: 'The Red Joker',
       index: this.rJokerIndex,
+      die: 12,
+      dieNum: 5,
+    };
+
+    const blank = {
+      symbol: 'BL',
+      name: 'Blank card',
+      index: this.blankIndex,
+      die: 4,
+      dieNum: 1,
     };
 
     if (this.rJokerIndex === this.smallestJokerIndex) {
@@ -126,6 +155,8 @@ export class CanonicalCards {
       cards.push(bJoker);
       cards.push(rJoker);
     }
+
+    cards.push(blank);
 
     return cards;
   }
@@ -205,5 +236,9 @@ export class CanonicalCards {
     index += 1;
 
     this.cards[index].icon = makePath.call(this, 13, 5);
+
+    // Add the icon of the blank card at the end
+    this.cards[this.blankIndex].icon =
+      'systems/deadlands-classic/icons/svg/1B.svg';
   }
 }

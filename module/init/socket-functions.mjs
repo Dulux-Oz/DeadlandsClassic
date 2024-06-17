@@ -11,7 +11,7 @@ function _chatMessage(
     content: `<div><h2>${title}</h2>${message}</div>`,
     user: game.user.id,
     speaker,
-    type: globalThis.CONST.CHAT_MESSAGE_TYPES.OTHER,
+    type: globalThis.CONST.CHAT_MESSAGE_STYLES.OTHER,
   };
 
   ChatMessage.create(chatData);

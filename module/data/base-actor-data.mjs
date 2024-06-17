@@ -1,31 +1,37 @@
 import { dlcConfig } from '../config.mjs';
+import * as aptitudeUtils from '../helpers/aptitude-utilities.mjs';
 import * as dlcFields from './dlc-fields.mjs';
 
 export class BaseActorDataModel extends foundry.abstract.TypeDataModel {
-  static makeAptitudes() {
+  static makeAptitudes(world) {
     let aptitudes = {};
     // eslint-disable-next-line no-restricted-syntax
     for (const [key, value] of Object.entries(dlcConfig.aptitudes)) {
-      const ranks = Number.isInteger(value.default) > 0 ? value.default : 0;
-      if (value.concentrations.length > 0) {
+      // eslint-disable-next-line no-continue
+      if (!aptitudeUtils.isActive(key, world)) continue;
+
+      const defaultRanks =
+        Number.isInteger(value.default) > 0 ? value.default : 0;
+      if (aptitudeUtils.hasConcentrations(key, world)) {
+        const conc = aptitudeUtils.getConcentrations(key, world) ?? [];
         aptitudes = {
           ...aptitudes,
           ...dlcFields.concentrationAptitude(
             key,
             value.trait,
-            ranks,
-            ...value.concentrations
+            defaultRanks,
+            ...conc
           ),
         };
       } else if (value.trait === 'Special') {
         aptitudes = {
           ...aptitudes,
-          ...dlcFields.variableAptitude(key, ranks),
+          ...dlcFields.variableAptitude(key, defaultRanks),
         };
       } else {
         aptitudes = {
           ...aptitudes,
-          ...dlcFields.aptitude(key, value.trait, ranks),
+          ...dlcFields.aptitude(key, value.trait, defaultRanks),
         };
       }
     }

@@ -1,0 +1,92 @@
+<form class="flexcol {{cssClass}}" autocomplete="off">
+  {{!-- Sheet Header --}}
+  <header class="sheet-header">
+    <img
+      class="profile-img"
+      src="{{data.img}}"
+      data-edit="img"
+      title="{{data.name}}"
+      height="100"
+      width="100"
+    />
+    <div class="header-fields">
+      <h1 class="charname">
+        <input
+          name="name"
+          type="text"
+          value="{{this.title}}"
+          placeholder="Name"
+        />
+      </h1>
+    </div>
+  </header>
+  {{!-- Sheet Tab Navigation --}}
+  <nav class="sheet-tabs tabs" data-group="primary">
+    <a class="item" data-tab="traits"> {{localize "DLC.tab.traits"}} </a>
+    <a class="item" data-tab="aptitudes"> {{localize "DLC.tab.aptitudes"}} </a>
+    <a class="item" data-tab="edges"> {{localize "DLC.tab.edges"}} </a>
+    <a class="item" data-tab="chips"> {{localize "DLC.tab.chips"}} </a>
+    <a class="item" data-tab="gear"> {{localize "DLC.tab.gear"}} </a>
+    <a class="item" data-tab="spells"> {{localize "DLC.tab.spells"}} </a>
+    <a class="item" data-tab="biodata"> {{localize "DLC.tab.biodata"}} </a>
+    <a class="item" data-tab="bio"> {{localize "DLC.tab.bio"}} </a>
+    <a class="item" data-tab="combat"> {{localize "DLC.tab.combat"}} </a>
+    <a class="item" data-tab="notes"> {{localize "DLC.tab.notes"}} </a>
+  </nav>
+
+  {{!-- Sheet Body --}}
+  <section class="sheet-body">
+
+    {{!-- traits Tab/Sub-Page --}}
+    <div class="tab traits" data-group="primary" data-tab="traits">
+      {{> "systems/deadlands-classic/templates/actor-sheet/traits.html" }}
+    </div>
+
+
+    {{!-- Combat Tab/Sub-Page --}}
+    <div class="tab combat" data-group="primary" data-tab="combat">
+      {{> "systems/deadlands-classic/templates/actor-sheet/combat.html" }}
+    </div>
+
+    {{!-- Aptitudes Tab/Sub-Page --}}
+    <div class="tab aptitudes" data-group="primary" data-tab="aptitudes">
+      {{> "systems/deadlands-classic/templates/actor-sheet/aptitudes.html" }}
+    </div>
+
+    {{!-- Edges Tab/Sub-Page --}}
+    <div class="tab edges" data-group="primary" data-tab="edges">
+      {{> "systems/deadlands-classic/templates/actor-sheet/edges.html" }}
+    </div>
+
+    {{!-- Chips Tab/Sub-Page --}}
+    <div class="tab chips" data-group="primary" data-tab="chips">
+      {{> "systems/deadlands-classic/templates/actor-sheet/chips.html" }}
+    </div>
+
+    {{!-- Gear Tab/Sub-Page --}}
+    <div class="tab gear" data-group="primary" data-tab="gear">
+      {{> "systems/deadlands-classic/templates/actor-sheet/gear.html" }}
+    </div>
+
+    {{!-- Spells Tab/Sub-Page --}}
+    <div class="tab spells" data-group="primary" data-tab="spells">
+      {{> "systems/deadlands-classic/templates/actor-sheet/spells.html" }}
+    </div>
+
+    {{!-- Bio Data Tab/Sub-Page --}}
+    <div class="tab biodata" data-group="primary" data-tab="biodata">
+      {{> "systems/deadlands-classic/templates/actor-sheet/biodata.html" }}
+    </div>
+
+    {{!-- Biography Tab/Sub-Page --}}
+    <div class="tab bio" data-group="primary" data-tab="bio">
+      {{editor data.sBiography target="system.sBiography" button=true editable=editable engine="prosemirror" collaborate=false}}
+    </div>
+
+    {{!-- Notes Tab/Sub-Page --}}
+    <div class="tab notes" data-group="primary" data-tab="notes">
+      {{editor data.sNotes target="system.sNotes" button=true editable=editable engine="prosemirror" collaborate=false}}
+    </div>
+
+  </section>
+</form>

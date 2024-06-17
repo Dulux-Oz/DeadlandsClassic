@@ -1,6 +1,7 @@
 {
   "DLC": {
     "app": {
+      "AddConcentrations": "Add Concentrations",
       "AllocateChips": "Allocate Chips",
       "ChipAllocator": "Chip Allocator",
       "ChooseTraits": "You must set each trait with a unique card.",
@@ -46,22 +47,42 @@
     },
 
     "character": {
+      "consumeChip": "Consume",
+
+      "consumeGreen": "Use and consume green chip",
+      "convertBlue": "Convert blue chip to bounty",
+      "convertChip": "Convert",
+      "convertGreen": "Convert green chip to bounty",
+      "convertRed": "Convert red chip to bounty",
+      "convertTemporaryGreen": "Convert temporary green chip to bounty",
+      "convertWhite": "Convert white chip to bounty",
+
       "drawOne": "Draw one chip",
       "drawThree": "Draw three chips",
-      "useWhite": "Use white chip",
-      "convertWhite": "Convert white chip to bounty",
-      "useRed": "Use red chip",
-      "convertRed": "Convert red chip to bounty",
-      "useRedReroll": "Use red chip for reroll",
+
       "useBlue": "Use blue chip",
-      "convertBlue": "Convert blue chip to bounty",
       "useGreen": "Use green chip",
-      "convertGreen": "Convert green chip to bounty",
-      "consumeGreen": "Use and consume green chip",
+      "useRed": "Use red chip",
+      "useRedReroll": "Use red chip for reroll",
       "useTemporaryGreen": "Use temporary green chip",
-      "convertTemporaryGreen": "Convert temporary green chip to bounty",
-      "consumeChip": "Consume",
-      "convertChip": "Convert",
+      "useWhite": "Use white chip",
+
+      "add": "Add",
+      "improve": "Improve",
+      "remove": "Remove",
+
+      "addConcentration": "Add Concentration",
+      "removeConcentration": "Remove Concentration",
+
+      "improveAptitude": "Improve the aptitude",
+      "improveAptitudeCost": "Cost to improve the aptitude",
+
+      "improveTrait": "Improve the number of trait dice",
+      "improveTraitCost": "Cost to improve the number of trait dice",
+
+      "improveTraitDieSize": "Improve the size of the trait die",
+      "improveTraitDieSizeCost": "Cost to improve the size of the trait die",
+
       "useChip": "Use",
       "useChipReroll": "Use for reroll"
     },
@@ -166,7 +187,9 @@
     },
 
     "sheet-type": {
-      "character": "Player Character",
+      "characterhoe": "Player Character Hell on Earth",
+      "characterlc": "Player Character Lost Colony",
+      "characterww": "Player Character Weird West",
       "edge": "Edge",
       "npc": "Non-Player Character"
     },
@@ -174,10 +197,12 @@
     "sidebar": {
       "ChipAllocator": "Chip Allocator",
       "ChipPot": "Chips in Pot",
+      "CreateCharacter": "Initial Character set up",
       "DrawMarshalChip": "Draw a chip for the Marshal",
       "EditItem": "Edit",
       "MarshalsChips": "Marshal's Chips",
-      "SetTraits": "Set character's traits",
+      "ModifyCharacter": "Upgrade Character",
+      "SetTraits": "Allocate cards to character's traits",
       "UseChips": "Toggle participation in the chip pot",
       "UseMarshalBlue": "Use chip",
       "UseMarshalRed": "Use chip",
@@ -185,23 +210,29 @@
     },
 
     "tab": {
-      "apt-create": "Initial Aptitudes",
-      "apt-improve": "Improve Aptitudes",
       "aptitudes": "Aptitudes",
       "bio": "Biography",
       "biodata": "Bio-Data",
       "chips": "Chips",
       "combat": "Combat",
-      "edge-create": "Creation Edges",
-      "edge-improve": "Improvement Edges",
       "edges": "Edges",
       "gear": "Inventory",
       "main": "Main",
       "notes": "Notes",
       "spells": "Spells",
-      "trait-create": "Initial Traits",
-      "trait-improve": "Improve Traits",
-      "traits": "Traits"
+      "traits": "Traits",
+
+      "create-aptitude": "Initial aptitudes",
+      "create-edge": "Initial edges",
+      "create-trait": "Initial traits",
+
+      "improve-aptitude": "Improve aptitudes",
+      "improve-edge": "Improve edges",
+      "improve-trait": "Improve traits",
+
+      "weird-west": "Weird West",
+      "hell-on-earth": "Hell on Earth",
+      "lost-colony": "Lost Colony"
     },
 
     "traitAbbreviation": {
@@ -228,6 +259,14 @@
       "Spirit": "Spirit",
       "Strength": "Strength",
       "Vigor": "Vigor"
+    }
+  },
+  "TYPES": {
+    "Actor": {
+      "characterhoe": "Hell on Earth Player Character",
+      "characterlc": "Lost Colony Player Character",
+      "characterww": "Weird West Player Character",
+      "npc": "Non-Player Character"
     }
   }
 }

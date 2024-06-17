@@ -10,6 +10,10 @@
   --sidebar-card-width: 12px;
   --sidebar-item-height: 48px;
   --sidebar-img-height: 36px;
+
+  --trait-card-height: 72px;
+
+  --charsheet-item-height: 32px;
 }
 
 .directory li.combatant {
@@ -122,8 +126,64 @@ li.combatant .roll:hover {
 
 .chip-entry {
   display: flex;
-  flex: 0 0 calc(var(--sidebar-header-height) * 2px);
   grid-template-columns: 180px 40px;
+}
+
+.aptitude-entry {
+  display: grid;
+  grid-template-columns: 225px 80px 30px 25px 90px 150px repeat(auto-fill, 90px);
+  grid-template-rows: 40px;
+  align-items: center;
+}
+
+.aptitude-label {
+  grid-column: 1;
+  color: var(--color-text-dark-1);
+  font-weight: bold;
+  margin-left: 1em;
+}
+
+.aptitude-trait {
+  grid-column: 2;
+  color: var(--color-text-dark-1);
+}
+
+.aptitude-die {
+  grid-column: 3;
+  color: var(--color-text-dark-1);
+}
+
+.aptitude-cost {
+  grid-column: 4;
+  color: var(--color-text-dark-1);
+  text-align: center;
+}
+
+.aptitude-button {
+  grid-column: 5;
+  color: var(--color-text-dark-1);
+  height: var(--charsheet-item-height);
+  width: 80px;
+}
+
+.aptitude-concentration {
+  grid-column: 6;
+  color: var(--color-text-dark-1);
+  height: var(--charsheet-item-height);
+  width: 90%;
+}
+
+.aptitude-button2 {
+  grid-column: 7;
+  color: var(--color-text-dark-1);
+  height: var(--charsheet-item-height);
+  width: 80px;
+}
+
+.concentration-entry {
+  display: grid;
+  grid-template-rows: 40px;
+  align-items: center;
 }
 
 /* ----------------------------------------- */
@@ -331,26 +391,6 @@ li.combatant .roll:hover {
 .dlc .sheet-body {
   overflow: hidden;
 }
-.dlc .sheet-body .aptitudes {
-}
-.dlc .sheet-body .bio {
-}
-.dlc .sheet-body .biodata {
-}
-.sheet-body .chips {
-}
-.dlc .sheet-body .combat {
-}
-.dlc .sheet-body .edges {
-}
-.dlc .sheet-body .gear {
-}
-.dlc .sheet-body .main {
-}
-.dlc .sheet-body .notes {
-}
-.dlc .sheet-body .spells {
-}
 .dlc .sheet-body .tab {
   height: 100%;
   overflow-y: auto;
@@ -375,4 +415,210 @@ li.combatant .roll:hover {
 .dlc.sheet.item {
   min-width: 500px;
   min-height: 500px;
+}
+
+.trait-entry {
+  display: grid;
+  grid-template-columns: repeat(6, 100px);
+  align-items: center;
+  vertical-align: middle;
+}
+
+.trait-column1-label {
+  grid-column: 1;
+  color: var(--color-text-dark-1);
+  font-weight: bold;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.trait-column2-label {
+  grid-column: 3;
+  color: var(--color-text-dark-1);
+  font-weight: bold;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.trait-column3-label {
+  grid-column: 5;
+  color: var(--color-text-dark-1);
+  font-weight: bold;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.trait-column1-card {
+  grid-column: 2;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.trait-column1-card > img {
+  height: var(--combat-card-height);
+  object-fit: scale-down;
+  border: none;
+  margin: 2px;
+}
+
+.trait-column2-card {
+  grid-column: 4;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.trait-column2-card > img {
+  color: var(--color-text-dark-1);
+  height: var(--combat-card-height);
+  object-fit: scale-down;
+  border: none;
+  margin: 2px;
+}
+
+.trait-column3-card {
+  grid-column: 6;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.trait-column3-card > img {
+  color: var(--color-text-dark-1);
+  height: var(--combat-card-height);
+  object-fit: scale-down;
+  border: none;
+  margin: 2px;
+}
+
+.traitOptions {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.traitOptionItem {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  flex: calc(33% - 42px);
+}
+
+.trait-inputs {
+  display: grid;
+  grid-template-columns: 180px 180px 180px 180px;
+  vertical-align: middle;
+}
+
+.trait-input-label1 {
+  grid-column: 1;
+  color: var(--color-text-dark-1);
+  font-weight: bold;
+  justify-content: space-around;
+  align-items: right;
+  vertical-align: middle;
+}
+
+.trait-input-image1 {
+  justify-content: space-around;
+  align-items: right;
+}
+.trait-input-image1 > img {
+  grid-column: 2;
+  height: var(--trait-card-height);
+  object-fit: scale-down;
+  border: none;
+  margin: 2px;
+}
+
+.trait-input-label2 {
+  grid-column: 3;
+  color: var(--color-text-dark-1);
+  font-weight: bold;
+  justify-content: space-around;
+  align-items: right;
+}
+
+.trait-input-image2 {
+  grid-column: 4;
+  justify-content: space-around;
+  align-items: left;
+}
+
+.trait-input-image2 > img {
+  height: var(--trait-card-height);
+  object-fit: scale-down;
+  border: none;
+  margin: 2px;
+  align-items: right;
+}
+
+.traitSubmit {
+  font-size: var(--font-size-14);
+  flex: 0 0 var(--control-width);
+  color: var(--color-text-light-6);
+}
+
+.main-trait-entry {
+  display: grid;
+  grid-template-columns: 180px 80px 30px 25px 90px 150px repeat(auto-fill, 90px);
+  grid-template-rows: 40px;
+  align-items: center;
+}
+
+.main-trait-label {
+  grid-column: 1;
+  color: var(--color-text-dark-1);
+  font-weight: bold;
+  margin-left: 1em;
+}
+
+.main-trait-die {
+  grid-column: 2;
+  color: var(--color-text-dark-1);
+  font-size: var(--font-size-20);
+}
+
+/* These control the trait tab of the character create page. */
+
+.initial-trait-entry {
+  display: grid;
+  grid-template-columns: 150px 70px 35px 150px 35px 90px;
+  grid-template-rows: 40px;
+  align-items: center;
+}
+
+.trait-label {
+  grid-column: 1;
+  color: var(--color-text-dark-1);
+  font-weight: bold;
+  margin-left: 1em;
+}
+
+.trait-die {
+  grid-column: 2;
+  color: var(--color-text-dark-1);
+  font-weight: bold;
+}
+
+.trait-rank-cost {
+  grid-column: 3;
+  color: var(--color-text-dark-1);
+}
+
+.trait-button {
+  grid-column: 4;
+  color: var(--color-text-dark-1);
+  height: var(--charsheet-item-height);
+  width: 80px;
+}
+
+.trait-die-size-cost {
+  grid-column: 5;
+  color: var(--color-text-dark-1);
+}
+
+.trait-button2 {
+  grid-column: 6;
+  color: var(--color-text-dark-1);
+  height: var(--charsheet-item-height);
+  width: 80px;
 }

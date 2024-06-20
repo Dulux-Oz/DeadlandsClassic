@@ -1,10 +1,8 @@
 /* eslint-disable no-underscore-dangle */
 import { SetTraitsApp } from '../apps/set-traits-app.mjs';
-import { dlcConfig } from '../config.mjs';
 import { dlcConstants } from '../constants.mjs';
 import { Chips } from '../helpers/chips.mjs';
 import * as utility from '../helpers/dlc-utilities.mjs';
-import { NumberString } from '../helpers/number-string.mjs';
 import { TraitCards } from '../helpers/traitcards.mjs';
 import { ActorSheetAdvance } from '../sheets/actor-sheet-advance.mjs';
 import { ActorSheetCreate } from '../sheets/actor-sheet-create.mjs';
@@ -120,7 +118,7 @@ export class DeadlandsActor extends Actor {
         temporaryGreen: 0,
       });
 
-      message = DeadlandsActor.#makeReport(reportAction, chipobject);
+      message = Chips.makeActorReport(reportAction, chipobject);
     }
 
     utility.chatMessage(speaker, title, message);
@@ -132,52 +130,6 @@ export class DeadlandsActor extends Actor {
 
   async convertChip(chip) {
     this._checkRemoval(chip, 'convert', true, 'Converted');
-  }
-
-  /* -------------------------------------------- */
-  /*  Making report strings                       */
-  /* -------------------------------------------- */
-
-  static #makeSub(count, string) {
-    const suffix = count > 1 ? 's' : '';
-    const num = NumberString.makeString(count);
-    return count < 1 ? '' : num + string + suffix;
-  }
-
-  static #makeReport(action, chips) {
-    const strings = [];
-
-    let str = DeadlandsActor.#makeSub(
-      chips.temporaryGreen,
-      ' temporary green chip'
-    );
-    if (str !== '') strings.push(str);
-
-    str = DeadlandsActor.#makeSub(chips.green, ' green chip');
-    if (str !== '') strings.push(str);
-
-    str = DeadlandsActor.#makeSub(chips.blue, ' blue chip');
-    if (str !== '') strings.push(str);
-
-    str = DeadlandsActor.#makeSub(chips.red, ' red chip');
-    if (str !== '') strings.push(str);
-
-    str = DeadlandsActor.#makeSub(chips.white, ' white chip');
-    if (str !== '') strings.push(str);
-
-    let report = `${action} `;
-    let added = false;
-
-    while (strings.length > 1) {
-      if (added) report += ', ';
-      report += strings.shift();
-      added = true;
-    }
-
-    report += added ? ' and ' : '';
-    report += strings.shift();
-
-    return report;
   }
 
   /* -------------------------------------------- */
@@ -273,10 +225,10 @@ export class DeadlandsActor extends Actor {
       converting.green +
       converting.temporaryGreen;
 
-    let chatStr = DeadlandsActor.#makeReport('Added', adding);
+    let chatStr = Chips.makeActorReport('Added', adding);
 
     if (totalConverting > 0) {
-      chatStr += `${DeadlandsActor.#makeReport(
+      chatStr += `${Chips.makeActorReport(
         '. Converted',
         converting
       )} to bounty.`;

@@ -1,4 +1,5 @@
-import { ChipAllocator } from '../apps/chip-allocator.mjs';
+import { AllocateChipsMarshal } from '../appsv2/allocate-chips-marshal.mjs';
+import { AllocateChipsPlayer } from '../appsv2/allocate-chips-players.mjs';
 import { Chips } from '../helpers/chips.mjs';
 
 /* eslint-disable no-console */
@@ -13,7 +14,14 @@ export class ChipManager extends SidebarTab {
     if (ui.sidebar) ui.sidebar.tabs.chips = this;
 
     /* This will hold the application used when allocating chips */
-    Object.defineProperty(this, '_chipAllocator', {
+    Object.defineProperty(this, '_chipAllocatorPlayer', {
+      value: null,
+      writable: true,
+      enumerable: false,
+    });
+
+    /* This will hold the application used when allocating chips */
+    Object.defineProperty(this, '_chipAllocatorMarshal', {
       value: null,
       writable: true,
       enumerable: false,
@@ -89,16 +97,28 @@ export class ChipManager extends SidebarTab {
 
     const btn = event.currentTarget;
 
-    if (btn.dataset.control === 'chipAllocator') {
-      if (!this._chipAllocator) {
-        this._chipAllocator = new ChipAllocator(this, {});
+    // prettier-ignore
+    if (btn.dataset.control === 'chipAllocatorPlayer') {
+
+      if (!this._chipAllocatorPlayer) {
+        this._chipAllocatorPlayer = new AllocateChipsPlayer(this, {});
       }
-      this._chipAllocator.render(true);
+      this._chipAllocatorPlayer.render(true);
+
+    } else if (btn.dataset.control === 'chipAllocatorMarshal') {
+
+      if (!this._chipAllocatorMarshal) {
+        this._chipAllocatorMarshal = new AllocateChipsMarshal(this, {});
+      }
+      this._chipAllocatorMarshal.render(true);
+
     } else if (btn.dataset.control === 'drawChip') {
+
       await game['deadlands-classic'].socket.executeAsGM(
         'socketDrawChipMarshal'
       );
       this.render();
+
     } else {
       const marshal = game.settings.get('deadlands-classic', 'marshal-chips');
       const newMarshal = marshal.toObject();

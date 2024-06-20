@@ -195,7 +195,8 @@
     },
 
     "sidebar": {
-      "ChipAllocator": "Chip Allocator",
+      "ChipAllocatorPlayer": "Player Chip Allocator",
+      "ChipAllocatorMarshal": "Marshal Chip Allocator",
       "ChipPot": "Chips in Pot",
       "CreateCharacter": "Initial Character set up",
       "DrawMarshalChip": "Draw a chip for the Marshal",

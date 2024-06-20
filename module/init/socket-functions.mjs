@@ -142,9 +142,16 @@ async function socketAddChipsMarshal(chips) {
   // If we aren't actually adding any chips
   if (total <= 0) return;
 
-  const adding = { white, red, blue };
-  const chatStr = Chips.makeMarshalReport('Added', adding);
-  _chatMessage(ChatMessage.getSpeaker(), 'Marshal', chatStr);
+  const isReported = game.settings.get(
+    'deadlands-classic',
+    'marshal-report-chips'
+  );
+
+  if (isReported) {
+    const adding = { white, red, blue };
+    const chatStr = Chips.makeMarshalReport('Added', adding);
+    _chatMessage(ChatMessage.getSpeaker(), 'Marshal', chatStr);
+  }
 
   const marshal = game.settings.get('deadlands-classic', 'marshal-chips');
   const newMarshal = marshal.toObject();

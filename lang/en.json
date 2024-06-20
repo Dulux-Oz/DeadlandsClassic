@@ -176,6 +176,10 @@
         "lc": "Lost Colony",
         "ww": "Weird West"
       },
+      "marshal-report-chip-draw": {
+        "name": "Report Marshal chip draw",
+        "hint": "Are marshal's chip allocations sent to chat?"
+      },
       "wild-black": {
         "name": "Wild black",
         "hint": "Marshal's Black joker is wild"

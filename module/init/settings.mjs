@@ -34,6 +34,15 @@ export function createGameSettings() {
     },
   });
 
+  game.settings.register('deadlands-classic', 'marshal-report-chips', {
+    name: 'DLC.settings.marshal-report-chip-draw.name',
+    hint: 'DLC.settings.marshal-report-chip-draw.hint',
+    scope: 'world',
+    config: true,
+    type: Boolean,
+    default: true,
+  });
+
   game.settings.register('deadlands-classic', 'marshal-black-draw', {
     name: 'DLC.settings.chip-from-marshal-bJoker.name',
     hint: 'DLC.settings.chip-from-marshal-bJoker.hint',

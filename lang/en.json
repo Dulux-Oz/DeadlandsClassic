@@ -176,6 +176,10 @@
         "lc": "Lost Colony",
         "ww": "Weird West"
       },
+      "marshal-report-chip-draw": {
+        "name": "Report Marshal chip draw",
+        "hint": "Are marshal's chip allocations sent to chat?"
+      },
       "wild-black": {
         "name": "Wild black",
         "hint": "Marshal's Black joker is wild"
@@ -199,7 +203,8 @@
     },
 
     "sidebar": {
-      "ChipAllocator": "Chip Allocator",
+      "ChipAllocatorPlayer": "Player Chip Allocator",
+      "ChipAllocatorMarshal": "Marshal Chip Allocator",
       "ChipPot": "Chips in Pot",
       "CreateCharacter": "Initial Character set up",
       "DrawMarshalChip": "Draw a chip for the Marshal",

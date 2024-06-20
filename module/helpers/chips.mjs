@@ -1,4 +1,5 @@
 import { Deck } from './deck.mjs';
+import { NumberString } from './number-string.mjs';
 
 export class Chips {
   static type = {
@@ -104,5 +105,78 @@ export class Chips {
     green = Math.max(0, maxGreen - green);
 
     game.chips.available = { white, red, blue, green };
+  }
+
+  /* -------------------------------------------- */
+  /*  Making report strings                       */
+  /* -------------------------------------------- */
+
+  static makeSubReport(count, string) {
+    const suffix = count > 1 ? 's' : '';
+    const num = NumberString.makeString(count);
+    return count < 1 ? '' : num + string + suffix;
+  }
+
+  static makeActorReport(action, chips) {
+    const strings = [];
+
+    let str = Chips.makeSubReport(
+      chips.temporaryGreen,
+      ' temporary green chip'
+    );
+    if (str !== '') strings.push(str);
+
+    str = Chips.makeSubReport(chips.green, ' green chip');
+    if (str !== '') strings.push(str);
+
+    str = Chips.makeSubReport(chips.blue, ' blue chip');
+    if (str !== '') strings.push(str);
+
+    str = Chips.makeSubReport(chips.red, ' red chip');
+    if (str !== '') strings.push(str);
+
+    str = Chips.makeSubReport(chips.white, ' white chip');
+    if (str !== '') strings.push(str);
+
+    let report = `${action} `;
+    let added = false;
+
+    while (strings.length > 1) {
+      if (added) report += ', ';
+      report += strings.shift();
+      added = true;
+    }
+
+    report += added ? ' and ' : '';
+    report += strings.shift();
+
+    return report;
+  }
+
+  static makeMarshalReport(action, chips) {
+    const strings = [];
+
+    let str = Chips.makeSubReport(chips.blue, ' blue chip');
+    if (str !== '') strings.push(str);
+
+    str = Chips.makeSubReport(chips.red, ' red chip');
+    if (str !== '') strings.push(str);
+
+    str = Chips.makeSubReport(chips.white, ' white chip');
+    if (str !== '') strings.push(str);
+
+    let report = `${action} `;
+    let added = false;
+
+    while (strings.length > 1) {
+      if (added) report += ', ';
+      report += strings.shift();
+      added = true;
+    }
+
+    report += added ? ' and ' : '';
+    report += strings.shift();
+
+    return report;
   }
 }

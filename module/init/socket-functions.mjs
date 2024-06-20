@@ -129,6 +129,52 @@ async function socketAddChipsActor(actorId, chips) {
   _chatMessage(ChatMessage.getSpeaker(), actor.name, message);
 }
 
+async function socketAddChipsMarshal(chips) {
+  // extract the valid data from chips
+  let { white, red, blue } = chips;
+
+  white = typeof white === 'number' ? Math.floor(white) : 0;
+  red = typeof red === 'number' ? Math.floor(red) : 0;
+  blue = typeof blue === 'number' ? Math.floor(blue) : 0;
+
+  let total = white + red + blue;
+
+  // If we aren't actually adding any chips
+  if (total <= 0) return;
+
+  const isReported = game.settings.get(
+    'deadlands-classic',
+    'marshal-report-chips'
+  );
+
+  if (isReported) {
+    const adding = { white, red, blue };
+    const chatStr = Chips.makeMarshalReport('Added', adding);
+    _chatMessage(ChatMessage.getSpeaker(), 'Marshal', chatStr);
+  }
+
+  const marshal = game.settings.get('deadlands-classic', 'marshal-chips');
+  const newMarshal = marshal.toObject();
+
+  while (total > 0) {
+    if (white > 0) {
+      newMarshal.chips.white += 1;
+      white -= 1;
+      total -= 1;
+    } else if (red > 0) {
+      newMarshal.chips.red += 1;
+      red -= 1;
+      total -= 1;
+    } else if (blue > 0) {
+      newMarshal.chips.blue += 1;
+      blue -= 1;
+      total -= 1;
+    }
+  }
+
+  await game.settings.set('deadlands-classic', 'marshal-chips', newMarshal);
+}
+
 async function socketDrawChipActor(actorId, num = 1, joker = false) {
   const actor = game.actors.get(actorId);
 
@@ -226,6 +272,7 @@ export function registerSocketFunctions(socket) {
   socket.register('socketUndiscardCard', socketUndiscardCard);
   socket.register('socketVamoose', socketVamoose);
   socket.register('socketAddChipsActor', socketAddChipsActor);
+  socket.register('socketAddChipsMarshal', socketAddChipsMarshal);
   socket.register('socketConvertChipActor', socketConvertChipActor);
   socket.register('socketConsumeGreenChipActor', socketConsumeGreenChipActor);
   socket.register('socketDrawChipActor', socketDrawChipActor);

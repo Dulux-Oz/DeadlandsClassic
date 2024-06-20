@@ -5,7 +5,7 @@ import { TraitCards } from '../helpers/traitcards.mjs';
 export class SetTraitsApp extends DocumentSheet {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
-      height: 500,
+      height: 800,
       width: 550,
       template:
         'systems/deadlands-classic/templates/char-create/trait-app.html',

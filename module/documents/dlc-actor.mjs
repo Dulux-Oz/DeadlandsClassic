@@ -274,7 +274,7 @@ export class DeadlandsActor extends Actor {
     // eslint-disable-next-line no-undef
     super._preCreate(data, options, user);
 
-    if (this.system.cards === null || this.system.cards === undefined) {
+    if (!this.system.cards) {
       const cardString = TraitCards.makeNewCardString();
       this.updateSource({ 'system.cards': cardString });
     }

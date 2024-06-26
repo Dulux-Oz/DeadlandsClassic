@@ -8,7 +8,7 @@ export class SetTraitsApp extends DocumentSheet {
       height: 800,
       width: 550,
       template:
-        'systems/deadlands-classic/templates/char-create/trait-app.html',
+        'systems/deadlands-classic/templates/v1apps/char-create/trait-app.html',
       dragDrop: [
         { dragSelector: '.traitOptionItem', dropSelector: '.traitInput' },
       ],

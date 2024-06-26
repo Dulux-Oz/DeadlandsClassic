@@ -5,7 +5,8 @@ export class DLCActorSheet extends DLCActorSheetBase {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['dlc', 'sheet', 'actor'],
-      template: 'systems/deadlands-classic/templates/actor-sheet/pc-sheet.html',
+      template:
+        'systems/deadlands-classic/templates/v1apps/char-show/character.html',
       width: 700,
       height: 800,
       tabs: [

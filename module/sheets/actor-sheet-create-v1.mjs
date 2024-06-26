@@ -1,8 +1,8 @@
 /* eslint-disable no-restricted-syntax */
 import { dlcConstants } from '../constants.mjs';
-import { DLCActorSheetBase } from './actor-sheet-base.mjs';
+import { DLCActorSheetBasev1 } from './actor-sheet-base-v1.mjs';
 
-export class ActorSheetCreate extends DLCActorSheetBase {
+export class ActorSheetCreatev1 extends DLCActorSheetBasev1 {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['dlc', 'sheet', 'actor'],
@@ -126,6 +126,11 @@ export class ActorSheetCreate extends DLCActorSheetBase {
         ((pointsRemaining >= 1 && aptitudes[key].startConcentrations === 0) ||
           pointsRemaining >= 3);
 
+      aptitudes[key].canRemoveConcentration =
+        aptitudes[key].startConcentrations > 0;
+
+      aptitudes[key].canRemoveRanks = aptitudes[key].startRanks > 0;
+
       const processedKey = key.split(' ').join('');
       aptitudes[key].choiceName = `${processedKey}Choice`;
 
@@ -149,6 +154,9 @@ export class ActorSheetCreate extends DLCActorSheetBase {
 
       traits[key].dieSizeImprovementIsPossible = dieSize < dlcConstants.MaxDieSize;
       traits[key].dieRankImprovementIsPossible = traitRank < dlcConstants.MaxTraitRank;
+
+      traits[key].dieSizeRegressionIsPossible = trait.startDieSize > 0;
+      traits[key].dieRankRegressionIsPossible = trait.startRanks   > 0;
 
       traits[key].nextDie     = dieSize + 1;
       traits[key].nextDieCost = traits[key].nextDie * dlcConstants.DieSizePointMultiplier;
@@ -193,6 +201,28 @@ export class ActorSheetCreate extends DLCActorSheetBase {
     // eslint-disable-next-line default-case
     switch (btn.dataset.control) {
       case 'addConcentration':
+        {
+          const { id } = btn.dataset;
+
+          const processedId = id.split(' ').join('');
+          const choice = document.getElementsByName(`${processedId}Choice`)[0];
+
+          const conc = choice.value;
+
+          if (
+            actor.system[[id]].startRanks < 1 &&
+            actor.system[[id]].defaultRanks < 1
+          ) {
+            actor.system[[id]].startRanks += 1;
+          }
+
+          actor.system[[id]].startConcentrations += 1;
+          actor.system[[id]].concentrations.push(conc);
+          await this.document.update(actor, {});
+        }
+        break;
+
+      case 'removeConcentration':
         {
           const { id } = btn.dataset;
 

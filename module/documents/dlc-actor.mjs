@@ -4,8 +4,8 @@ import { dlcConstants } from '../constants.mjs';
 import { Chips } from '../helpers/chips.mjs';
 import * as utility from '../helpers/dlc-utilities.mjs';
 import { TraitCards } from '../helpers/traitcards.mjs';
-import { ActorSheetAdvance } from '../sheets/actor-sheet-advance.mjs';
-import { ActorSheetCreate } from '../sheets/actor-sheet-create.mjs';
+import { ActorSheetAdvancev1 } from '../sheets/actor-sheet-advance-v1.mjs';
+import { ActorSheetCreatev1 } from '../sheets/actor-sheet-create-v1.mjs';
 
 export class DeadlandsActor extends Actor {
   constructor(data, context) {
@@ -243,7 +243,7 @@ export class DeadlandsActor extends Actor {
   /* Lazily get a sheet that deals with initial character creation. */
   get createCharacter() {
     if (!this._charCreator) {
-      this._charCreator = new ActorSheetCreate(this, {
+      this._charCreator = new ActorSheetCreatev1(this, {
         editable: this.isOwner,
       });
     }
@@ -253,7 +253,7 @@ export class DeadlandsActor extends Actor {
   /* Lazily get a sheet that deals with character advancement/modification. */
   get modifyCharacter() {
     if (!this._charModifier) {
-      this._charModifier = new ActorSheetAdvance(this, {
+      this._charModifier = new ActorSheetAdvancev1(this, {
         editable: this.isOwner,
       });
     }

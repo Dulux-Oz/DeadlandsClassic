@@ -1,8 +1,8 @@
 /* eslint-disable no-restricted-syntax */
 import { dlcConstants } from '../constants.mjs';
-import { DLCActorSheetBase } from './actor-sheet-base.mjs';
+import { DLCActorSheetBasev1 } from './actor-sheet-base-v1.mjs';
 
-export class ActorSheetAdvance extends DLCActorSheetBase {
+export class ActorSheetAdvancev1 extends DLCActorSheetBasev1 {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['dlc', 'sheet', 'actor'],
@@ -109,7 +109,7 @@ export class ActorSheetAdvance extends DLCActorSheetBase {
       aptitudes[key].aptitudeBounty =
         bountyForRanks +
         value.bountyAdjustment +
-        ActorSheetAdvance.getConcentrationsAdjustment(value);
+        ActorSheetAdvancev1.getConcentrationsAdjustment(value);
 
       // update the total for the actor
       context.bountyUsed += aptitudes[key].aptitudeBounty;

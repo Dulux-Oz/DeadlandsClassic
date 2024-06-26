@@ -1,6 +1,6 @@
 export async function preloadTemplates() {
   const templateDir = 'systems/deadlands-classic/templates/';
-  const sPrePath = `${templateDir}actor-sheet/`;
+
   const concentrationsPath = `${templateDir}concentrations/`;
 
   const createActorPath = `${templateDir}char-create/`;
@@ -11,16 +11,6 @@ export async function preloadTemplates() {
   const v1showActorPath = `${templateDir}v1apps/char-show/`;
 
   const aTemplatePaths = [
-    `${sPrePath}aptitudes.html`,
-    `${sPrePath}biodata.html`,
-    `${sPrePath}chips.html`,
-    `${sPrePath}combat.html`,
-    `${sPrePath}edges.html`,
-    `${sPrePath}gear.html`,
-    `${sPrePath}pc-sheet.html`,
-    `${sPrePath}spells.html`,
-    `${sPrePath}traits.html`,
-
     `${templateDir}sidebar/combat-tracker.html`,
 
     `${concentrationsPath}concentrations.html`,
@@ -28,15 +18,15 @@ export async function preloadTemplates() {
     `${concentrationsPath}lost-colony.html`,
     `${concentrationsPath}weird-west.html`,
 
-    `${createActorPath}aptitude.html`,
-    `${createActorPath}edge.html`,
-    `${createActorPath}trait.html`,
-    `${createActorPath}character.html`,
+    // `${createActorPath}aptitude.html`,
+    // `${createActorPath}edge.html`,
+    // `${createActorPath}trait.html`,
+    // `${createActorPath}character.html`,
 
-    `${modifyActorPath}aptitude.html`,
-    `${modifyActorPath}edge.html`,
-    `${modifyActorPath}trait.html`,
-    `${modifyActorPath}character.html`,
+    // `${modifyActorPath}aptitude.html`,
+    // `${modifyActorPath}edge.html`,
+    // `${modifyActorPath}trait.html`,
+    // `${modifyActorPath}character.html`,
 
     `${v1createActorPath}aptitude.html`,
     `${v1createActorPath}edge.html`,

@@ -1,7 +1,7 @@
 /* eslint-disable no-restricted-syntax */
 import * as aptitudeUtils from '../helpers/aptitude-utilities.mjs';
 
-export class DLCActorSheetBase extends ActorSheet {
+export class DLCActorSheetBasev1 extends ActorSheet {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['dlc', 'sheet', 'actor'],

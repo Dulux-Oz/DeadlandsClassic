@@ -7,7 +7,7 @@ export class ActorSheetAdvance extends DLCActorSheetBase {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['dlc', 'sheet', 'actor'],
       template:
-        'systems/deadlands-classic/templates/char-modify/character.html',
+        'systems/deadlands-classic/templates/v1apps/char-modify/character.html',
       width: 720,
       height: 800,
       closeOnSubmit: false,

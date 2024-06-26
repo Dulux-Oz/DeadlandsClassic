@@ -2,9 +2,14 @@ export async function preloadTemplates() {
   const templateDir = 'systems/deadlands-classic/templates/';
   const sPrePath = `${templateDir}actor-sheet/`;
   const concentrationsPath = `${templateDir}concentrations/`;
+
   const createActorPath = `${templateDir}char-create/`;
   const modifyActorPath = `${templateDir}char-modify/`;
-  const itemPath = `${templateDir}item/`;
+
+  const v1createActorPath = `${templateDir}v1apps/char-create/`;
+  const v1modifyActorPath = `${templateDir}v1apps/char-modify/`;
+  const v1showActorPath = `${templateDir}v1apps/char-show/`;
+
   const aTemplatePaths = [
     `${sPrePath}aptitudes.html`,
     `${sPrePath}biodata.html`,
@@ -33,26 +38,25 @@ export async function preloadTemplates() {
     `${modifyActorPath}trait.html`,
     `${modifyActorPath}character.html`,
 
-    `${itemPath}edit-edge-sheet.html`,
-    `${itemPath}edit-gun-sheet.html`,
-    `${itemPath}edit-other-ranged-sheet.html`,
-    `${itemPath}edit-melee-sheet.html`,
-    `${itemPath}edit-misc-item-sheet.html`,
+    `${v1createActorPath}aptitude.html`,
+    `${v1createActorPath}edge.html`,
+    `${v1createActorPath}trait.html`,
+    `${v1createActorPath}character.html`,
 
-    `${itemPath}show-edge-sheet.html`,
-    `${itemPath}show-gun-sheet.html`,
-    `${itemPath}show-other-ranged-sheet.html`,
-    `${itemPath}show-melee-sheet.html`,
-    `${itemPath}show-misc-item-sheet.html`,
+    `${v1modifyActorPath}aptitude.html`,
+    `${v1modifyActorPath}edge.html`,
+    `${v1modifyActorPath}trait.html`,
+    `${v1modifyActorPath}character.html`,
 
-    `${itemPath}blurb.html`,
-    `${itemPath}configure.html`,
-    `${itemPath}one.html`,
-    `${itemPath}two.html`,
-    `${itemPath}three.html`,
-    `${itemPath}four.html`,
-    `${itemPath}five.html`,
-    `${itemPath}capstone.html`,
+    `${v1showActorPath}aptitudes.html`,
+    `${v1showActorPath}biodata.html`,
+    `${v1showActorPath}chips.html`,
+    `${v1showActorPath}combat.html`,
+    `${v1showActorPath}edges.html`,
+    `${v1showActorPath}gear.html`,
+    `${v1showActorPath}character.html`,
+    `${v1showActorPath}spells.html`,
+    `${v1showActorPath}traits.html`,
   ];
   return loadTemplates(aTemplatePaths);
 }

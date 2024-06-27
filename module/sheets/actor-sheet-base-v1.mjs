@@ -1,12 +1,12 @@
 /* eslint-disable no-restricted-syntax */
-import { dlcConfig } from '../config.mjs';
 import * as aptitudeUtils from '../helpers/aptitude-utilities.mjs';
 
-export class DLCActorSheetBase extends ActorSheet {
+export class DLCActorSheetBasev1 extends ActorSheet {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       classes: ['dlc', 'sheet', 'actor'],
-      template: 'systems/deadlands-classic/templates/actor-sheet/pc-sheet.html',
+      template:
+        'systems/deadlands-classic/templates/v1apps/char-show/character.html',
       width: 660,
       height: 800,
       tabs: [
@@ -99,7 +99,10 @@ export class DLCActorSheetBase extends ActorSheet {
 
       aptitudes[key].hasAvailable = false;
 
+      // prettier-ignore
       if (aptitudes[key].hasConfigConcentrations) {
+
+        // Don't need to construct concentrations taken, it's concentrations :-)
         if (aptitudes[key].hasConcentrations) {
           aptitudes[key].label = `${key} (${value.concentrations.join(', ')})`;
         } else {

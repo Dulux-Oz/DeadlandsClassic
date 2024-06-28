@@ -19,7 +19,7 @@ import { preloadTemplates } from './init/preloads.mjs';
 import { registerItemSheets } from './init/register-item-sheets.mjs';
 import { createGameSettings } from './init/settings.mjs';
 import { registerSocketFunctions } from './init/socket-functions.mjs';
-import { DLCActorSheetv1 } from './sheets/actor-sheet-v1.mjs';
+import { DLCActorSheet } from './sheets/actor-sheet.mjs';
 import { ChipManager } from './sidebar/chip-manager.mjs';
 import { DeadlandsActorDirectory } from './sidebar/dlc-actors-directory.mjs';
 import { DeadlandsCombatTracker } from './sidebar/dlc-combat-tracker.mjs';
@@ -95,18 +95,18 @@ Hooks.once('init', async () => {
   CONFIG.Item.dataModels.otherRanged = OtherRangedDataModel;
 
   Actors.unregisterSheet('core', ActorSheet);
-  Actors.registerSheet('deadlands-classic', DLCActorSheetv1, {
+  Actors.registerSheet('deadlands-classic', DLCActorSheet, {
     types: ['characterhoe'],
     makeDefault: true,
     label: 'DLC.sheet-type.characterhoe',
   });
-  Actors.registerSheet('deadlands-classic', DLCActorSheetv1, {
+  Actors.registerSheet('deadlands-classic', DLCActorSheet, {
     types: ['characterlc'],
     makeDefault: true,
     label: 'DLC.sheet-type.characterlc',
   });
 
-  Actors.registerSheet('deadlands-classic', DLCActorSheetv1, {
+  Actors.registerSheet('deadlands-classic', DLCActorSheet, {
     types: ['characterww'],
     makeDefault: true,
     label: 'DLC.sheet-type.characterww',

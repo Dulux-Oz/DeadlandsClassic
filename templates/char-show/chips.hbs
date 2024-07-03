@@ -1,0 +1,63 @@
+{{! Chips Tab }}
+<section
+  class='tab chips {{tab.cssClass}}'
+  data-group='primary'
+  data-tab='chips'
+>
+  <h1>Chips</h1>
+  
+  <div class='chip-entry'>
+    <div class='chip-label-character'>White</div>
+    <div class='chip-quantity-character'>{{this.chips.white}}</div>
+    {{#if chips.haswhite}}
+      <button class='chip-control chip-button-narrow-character' role='button' type='button' data-tooltip='DLC.character.useWhite' data-action='useWhite'>         {{localize 'DLC.character.useChip'}}</button>
+      <button class='chip-control chip-button-narrow-character' role='button' type='button' data-tooltip='DLC.character.convertWhite' data-action='convertWhite'> {{localize 'DLC.character.convertChip'}}</button>
+    {{/if}}
+  </div>
+  
+  <div class='chip-entry'>
+    <div class='chip-label-character'>Red</div>
+    <div class='chip-quantity-character'>{{this.chips.red}}</div>
+  
+    {{#if chips.hasred}}
+      <button class='chip-control chip-button-narrow-character' role='button' type='button' data-tooltip='DLC.character.useRed' data-action='useRed'>             {{localize 'DLC.character.useChip'}}</button>
+      <button class='chip-control chip-button-narrow-character' role='button' type='button' data-tooltip='DLC.character.convertRed' data-action='convertRed'>     {{localize 'DLC.character.convertChip'}}</button>
+      <button class='chip-control chip-button-narrow-character' role='button' type='button' data-tooltip='DLC.character.useRedReroll' data-action='useRedReroll'> {{localize 'DLC.character.useChipReroll'}}</button>
+    {{/if}}
+  </div>
+  
+  <div class='chip-entry'>
+    <div class='chip-label-character'>Blue</div>
+    <div class='chip-quantity-character'>{{this.chips.blue}}</div>
+  
+    {{#if chips.hasblue}}
+      <button class='chip-control chip-button-narrow-character' role='button' type='button' data-tooltip='DLC.character.useBlue' data-action='useBlue'>         {{localize 'DLC.character.useChip'}}</button>
+      <button class='chip-control chip-button-narrow-character' role='button' type='button' data-tooltip='DLC.character.convertBlue' data-action='convertBlue'> {{localize 'DLC.character.convertChip'}}</button>
+    {{/if}}
+  </div>
+  <div class='chip-entry'>
+    <div class='chip-label-character'>Green</div>
+    <div class='chip-quantity-character'>{{this.chips.green}}</div>
+    {{#if chips.hasgreen}}
+      <button class='chip-control chip-button-narrow-character' role='button' type='button' data-tooltip='DLC.character.useGreen' data-action='useGreen'>         {{localize 'DLC.character.useChip'}}</button>
+      <button class='chip-control chip-button-narrow-character' role='button' type='button' data-tooltip='DLC.character.convertGreen' data-action='convertGreen'> {{localize 'DLC.character.convertChip'}}</button>
+      <button class='chip-control chip-button-narrow-character' role='button' type='button' data-tooltip='DLC.character.consumeGreen' data-action='consumeGreen'> {{localize 'DLC.character.consumeChip'}}</button>
+    {{/if}}
+  </div>
+  <div class='chip-entry'>
+    <div class='chip-label-character'>Ephemeral Green</div>
+    <div class='chip-quantity-character'>{{this.chips.temporaryGreen}}</div>
+    {{#if chips.hastemporaryGreen}}
+      <button class='chip-control chip-button-narrow-character' role='button' type='button' data-tooltip='DLC.character.useTemporaryGreen' data-action='useTemporaryGreen'>         {{localize 'DLC.character.useChip'}}</button>
+      <button class='chip-control chip-button-narrow-character' role='button' type='button' data-tooltip='DLC.character.convertTemporaryGreen' data-action='convertTemporaryGreen'> {{localize 'DLC.character.convertChip'}}</button>
+    {{/if}}
+  </div>
+  
+  <div class='chip-entry'><br></div>
+  
+  <div class='chip-entry'>
+    <button class='chip-control chip-button-character' role='button' type='button' data-tooltip='DLC.character.drawOne'   data-action='drawOne'>   {{localize 'DLC.character.drawOne'}}</button>
+    <button class='chip-control chip-button-character' role='button' type='button' data-tooltip='DLC.character.drawThree' data-action='drawThree'> {{localize 'DLC.character.drawThree'}}</button>
+  </div>
+
+</section>

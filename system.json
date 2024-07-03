@@ -106,8 +106,6 @@
 
   "packs": [],
   "socket": true,
-  "grid.distance": 2,
-  "grid.units": "yrd",
   "grid": {
     "distance": 2,
     "units": "yrd"

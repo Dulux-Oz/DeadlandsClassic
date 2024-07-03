@@ -1,0 +1,16 @@
+{{! Traits Tab }}
+<section
+  class='tab traits {{tab.cssClass}}'
+  data-group='primary'
+  data-tab='traits'
+>
+  <h1>Traits</h1>
+  
+  {{#each this.traits}}
+    <div class="main-trait-entry">
+      <div class="main-trait-label">{{this.label}}</div>
+      <div class="main-trait-die">{{this.totalRanks}}d{{this.totalDieSize}}</div>
+    </div>
+  {{/each}}
+
+</section>

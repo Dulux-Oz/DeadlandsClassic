@@ -29,6 +29,8 @@ export class DLCActorSheet extends api.HandlebarsApplicationMixin(
       convertRed: this._convertRed,
       convertTemporaryGreen: this._convertTemporaryGreen,
       convertWhite: this._convertWhite,
+      drawOne: this._drawOne,
+      drawThree: this._drawThree,
       useBlue: this._useBlue,
       useGreen: this._useGreen,
       useRed: this._useRed,
@@ -53,33 +55,43 @@ export class DLCActorSheet extends api.HandlebarsApplicationMixin(
     },
     traits: {
       template: 'systems/deadlands-classic/templates/char-show/traits.hbs',
+      scrollable: [''],
     },
     aptitudes: {
       template: 'systems/deadlands-classic/templates/char-show/aptitudes.hbs',
+      scrollable: [''],
     },
     combat: {
       template: 'systems/deadlands-classic/templates/char-show/combat.hbs',
+      scrollable: [''],
     },
     chips: {
       template: 'systems/deadlands-classic/templates/char-show/chips.hbs',
+      scrollable: [''],
     },
     edges: {
       template: 'systems/deadlands-classic/templates/char-show/edges.hbs',
+      scrollable: [''],
     },
     gear: {
       template: 'systems/deadlands-classic/templates/char-show/gear.hbs',
+      scrollable: [''],
     },
     spells: {
       template: 'systems/deadlands-classic/templates/char-show/spells.hbs',
+      scrollable: [''],
     },
     biodata: {
       template: 'systems/deadlands-classic/templates/char-show/biodata.hbs',
+      scrollable: [''],
     },
     biography: {
       template: 'systems/deadlands-classic/templates/char-show/biography.hbs',
+      scrollable: [''],
     },
     notes: {
       template: 'systems/deadlands-classic/templates/char-show/notes.hbs',
+      scrollable: [''],
     },
   };
 

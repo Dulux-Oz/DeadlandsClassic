@@ -1,32 +1,69 @@
+/* eslint-disable class-methods-use-this */
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-restricted-syntax */
 import { dlcConstants } from '../constants.mjs';
-import { DLCActorSheetBasev1 } from './actor-sheet-base-v1.mjs';
+import { DLCActorSheetBase } from './actor-sheet-base.mjs';
 
-export class ActorSheetCreatev1 extends DLCActorSheetBasev1 {
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      classes: ['dlc', 'sheet', 'actor'],
-      template:
-        'systems/deadlands-classic/templates/v1apps/char-create/character.html',
-      width: 720,
+const { api } = foundry.applications;
+
+/**
+ * Extend the basic ActorSheet with some very simple modifications
+ * @extends {ActorSheetV2}
+ */
+export class ActorSheetCreate extends api.HandlebarsApplicationMixin(
+  DLCActorSheetBase
+) {
+  /** @override */
+  static DEFAULT_OPTIONS = {
+    classes: ['dlc', 'sheet', 'actor'],
+    position: {
+      width: 840,
       height: 800,
+    },
+    window: {
+      resizable: true,
+    },
+    actions: {
+      addConcentration: this._addConcentration,
+      improveAptitude: this._improveAptitude,
+      improveDieSize: this._improveDieSize,
+      improveTraitRank: this._improveTraitRank,
+      removeConcentration: this._removeConcentration,
+    },
+    // Custom property that's merged into `this.options`
+    form: {
       closeOnSubmit: false,
       submitOnClose: false,
       submitOnChange: false,
       resizable: true,
-      tabs: [
-        {
-          navSelector: '.sheet-tabs',
-          contentSelector: '.sheet-body',
-          initial: 'main',
-        },
-      ],
-    });
-  }
+    },
+  };
 
   /** @override */
-  async getData(options) {
-    const context = await super.getData(options);
+  static PARTS = {
+    header: {
+      template: 'systems/deadlands-classic/templates/char-create/header.hbs',
+    },
+    tabs: {
+      // Foundry-provided generic template
+      template: 'templates/generic/tab-navigation.hbs',
+    },
+    traits: {
+      template: 'systems/deadlands-classic/templates/char-create/traits.hbs',
+      scrollable: [''],
+    },
+    aptitudes: {
+      template: 'systems/deadlands-classic/templates/char-create/aptitudes.hbs',
+      scrollable: [''],
+    },
+    edges: {
+      template: 'systems/deadlands-classic/templates/char-create/edges.hbs',
+      scrollable: [''],
+    },
+  };
+
+  async _prepareContext(options) {
+    let context = await super._prepareContext(options);
 
     const { aptitudes, traits } = context;
     const { Cognition, Knowledge, Smarts } = traits;
@@ -175,120 +212,153 @@ export class ActorSheetCreatev1 extends DLCActorSheetBasev1 {
 
     context.pointsRemaining = pointsRemaining;
     context.showPointsRemaining = pointsRemaining > 0;
+
+    context = foundry.utils.mergeObject(context, {
+      tabs: this._getTabs(options.parts),
+    });
+
     return context;
   }
 
-  /** @inheritdoc */
-  activateListeners(html) {
-    super.activateListeners(html);
-
-    html.find('.aptitude-control').click((ev) => this.#onAptitudeControl(ev));
-    html.find('.trait-control').click((ev) => this.#onTraitControl(ev));
+  /** @override */
+  async _preparePartContext(partId, context) {
+    switch (partId) {
+      case 'aptitudes':
+      case 'edges':
+      case 'traits':
+        context.tab = context.tabs[partId];
+        break;
+      default:
+    }
+    return context;
   }
 
   /**
-   * Handle an aptitude improvement event
-   * @private
-   * @param {Event} event The originating mousedown event
+   * Generates the data for the generic tab navigation template
+   * @param {string[]} parts An array of named template parts to render
+   * @returns {Record<string, Partial<ApplicationTab>>}
+   * @protected
    */
-  async #onAptitudeControl(event) {
-    event.preventDefault();
-    event.stopPropagation();
+  _getTabs(parts) {
+    // If you have sub-tabs this is necessary to change
+    const tabGroup = 'primary';
 
-    const btn = event.currentTarget;
-    const actor = this.document.toObject(false);
+    // Default tab for first time it's rendered this session
+    if (!this.tabGroups[tabGroup]) this.tabGroups[tabGroup] = 'traits';
 
-    // eslint-disable-next-line default-case
-    switch (btn.dataset.control) {
-      case 'addConcentration':
-        {
-          const { id } = btn.dataset;
+    return parts.reduce((tabs, partId) => {
+      const tab = {
+        cssClass: '',
+        group: tabGroup,
+        // Matches tab property to
+        id: '',
+        // FontAwesome Icon, if you so choose
+        icon: '',
+        // Run through localization
+        label: 'DLC.tab.',
+      };
 
-          const processedId = id.split(' ').join('');
-          const choice = document.getElementsByName(`${processedId}Choice`)[0];
+      switch (partId) {
+        case 'header':
+        case 'tabs':
+          return tabs;
 
-          const conc = choice.value;
+        case 'aptitudes':
+          tab.id = 'aptitudes';
+          tab.label += 'create-aptitudes';
+          break;
+        case 'edges':
+          tab.id = 'edges';
+          tab.label += 'create-edges';
+          break;
+        case 'traits':
+          tab.id = 'traits';
+          tab.label += 'create-traits';
+          break;
+        default:
+      }
 
-          if (
-            actor.system[[id]].startRanks < 1 &&
-            actor.system[[id]].defaultRanks < 1
-          ) {
-            actor.system[[id]].startRanks += 1;
-          }
-
-          actor.system[[id]].startConcentrations += 1;
-          actor.system[[id]].concentrations.push(conc);
-          await this.document.update(actor, {});
-        }
-        break;
-
-      case 'removeConcentration':
-        {
-          const { id } = btn.dataset;
-
-          const processedId = id.split(' ').join('');
-          const choice = document.getElementsByName(`${processedId}Choice`)[0];
-
-          const conc = choice.value;
-
-          if (
-            actor.system[[id]].startRanks < 1 &&
-            actor.system[[id]].defaultRanks < 1
-          ) {
-            actor.system[[id]].startRanks += 1;
-          }
-
-          actor.system[[id]].startConcentrations += 1;
-          actor.system[[id]].concentrations.push(conc);
-          await this.document.update(actor, {});
-        }
-        break;
-
-      case 'improveAptitude':
-        {
-          const { id } = btn.dataset;
-          actor.system[[id]].startRanks += 1;
-          await this.document.update(actor, {});
-        }
-        break;
-
-      default:
-      // No default case is necessary
-    }
+      if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
+      // eslint-disable-next-line no-param-reassign
+      tabs[partId] = tab;
+      return tabs;
+    }, {});
   }
 
-  /**
-   * Handle an aptitude improvement event
-   * @private
-   * @param {Event} event The originating mousedown event
-   */
-  async #onTraitControl(event) {
+  static async _addConcentration(event, target) {
     event.preventDefault();
     event.stopPropagation();
 
-    const btn = event.currentTarget;
+    const btn = event.target;
     const actor = this.document.toObject(false);
+    const { id } = btn.dataset;
 
-    // eslint-disable-next-line default-case
-    switch (btn.dataset.control) {
-      case 'improveDieSize':
-        {
-          const { id } = btn.dataset;
-          actor.system[[id]].startDieSize += 1;
-          await this.document.update(actor, {});
-        }
-        break;
+    const processedId = id.split(' ').join('');
+    const choice = document.getElementsByName(`${processedId}Choice`)[0];
 
-      case 'improveTraitRank':
-        {
-          const { id } = btn.dataset;
-          actor.system[[id]].startRanks += 1;
-          await this.document.update(actor, {});
-        }
-        break;
+    const conc = choice.value;
 
-      default:
-      // No default case is necessary
+    if (
+      actor.system[[id]].startRanks < 1 &&
+      actor.system[[id]].defaultRanks < 1
+    ) {
+      actor.system[[id]].startRanks += 1;
     }
+
+    actor.system[[id]].startConcentrations += 1;
+    actor.system[[id]].concentrations.push(conc);
+    await this.document.update(actor, {});
+  }
+
+  static async _improveAptitude(event, target) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const btn = event.target;
+    const actor = this.document.toObject(false);
+    const { id } = btn.dataset;
+
+    actor.system[[id]].startRanks += 1;
+    await this.document.update(actor, {});
+  }
+
+  static async _improveDieSize(event, target) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const btn = event.target;
+    const actor = this.document.toObject(false);
+    const { id } = btn.dataset;
+
+    actor.system[[id]].startDieSize += 1;
+    await this.document.update(actor, {});
+  }
+
+  static async _improveTraitRank(event, target) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const btn = event.target;
+    const actor = this.document.toObject(false);
+    const { id } = btn.dataset;
+
+    actor.system[[id]].startRanks += 1;
+    await this.document.update(actor, {});
+  }
+
+  static async _removeConcentration(event, target) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const btn = event.target;
+    const actor = this.document.toObject(false);
+    const { id } = btn.dataset;
+
+    const processedId = id.split(' ').join('');
+    const choice = document.getElementsByName(`${processedId}Choice`)[0];
+
+    const conc = choice.value;
+
+    await this.document.update(actor, {});
   }
 }

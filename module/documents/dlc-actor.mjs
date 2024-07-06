@@ -1,11 +1,11 @@
 /* eslint-disable no-underscore-dangle */
-import { SetTraitsApp } from '../apps/set-traits-app.mjs';
+import { SetTraits } from '../appsv2/set-traits-app.mjs';
 import { dlcConstants } from '../constants.mjs';
 import { Chips } from '../helpers/chips.mjs';
 import * as utility from '../helpers/dlc-utilities.mjs';
 import { TraitCards } from '../helpers/traitcards.mjs';
-import { ActorSheetAdvancev1 } from '../sheets/actor-sheet-advance-v1.mjs';
-import { ActorSheetCreatev1 } from '../sheets/actor-sheet-create-v1.mjs';
+import { ActorSheetCreate } from '../sheets/actor-sheet-create.mjs';
+import { ActorSheetModify } from '../sheets/actor-sheet-modify.mjs';
 
 export class DeadlandsActor extends Actor {
   constructor(data, context) {
@@ -243,7 +243,8 @@ export class DeadlandsActor extends Actor {
   /* Lazily get a sheet that deals with initial character creation. */
   get createCharacter() {
     if (!this._charCreator) {
-      this._charCreator = new ActorSheetCreatev1(this, {
+      this._charCreator = new ActorSheetCreate({
+        document: this,
         editable: this.isOwner,
       });
     }
@@ -253,7 +254,8 @@ export class DeadlandsActor extends Actor {
   /* Lazily get a sheet that deals with character advancement/modification. */
   get modifyCharacter() {
     if (!this._charModifier) {
-      this._charModifier = new ActorSheetAdvancev1(this, {
+      this._charModifier = new ActorSheetModify({
+        document: this,
         editable: this.isOwner,
       });
     }
@@ -263,7 +265,8 @@ export class DeadlandsActor extends Actor {
   /* Lazily get a sheet that deals with setting the character's traits. */
   get setTraits() {
     if (!this._traitSetter) {
-      this._traitSetter = new SetTraitsApp(this, {
+      this._traitSetter = new SetTraits({
+        document: this,
         editable: this.isOwner,
       });
     }

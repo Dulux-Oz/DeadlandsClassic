@@ -8,9 +8,7 @@ const { api, sheets } = foundry.applications;
  * Extend the basic ActorSheet with some very simple modifications
  * @extends {ActorSheetV2}
  */
-export class DLCActorSheetBase extends api.HandlebarsApplicationMixin(
-  sheets.ActorSheetV2
-) {
+export class DLCActorSheetBase extends sheets.ActorSheetV2 {
   /** @override */
   async _prepareContext(options) {
     let context = await super._prepareContext(options);

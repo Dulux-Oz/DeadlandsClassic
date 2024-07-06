@@ -227,13 +227,13 @@
       "spells": "Spells",
       "traits": "Traits",
 
-      "create-aptitude": "Initial aptitudes",
-      "create-edge": "Initial edges",
-      "create-trait": "Initial traits",
+      "create-aptitudes": "Initial aptitudes",
+      "create-edges": "Initial edges",
+      "create-traits": "Initial traits",
 
-      "improve-aptitude": "Improve aptitudes",
-      "improve-edge": "Improve edges",
-      "improve-trait": "Improve traits",
+      "modify-aptitudes": "Improve aptitudes",
+      "modify-edges": "Improve edges",
+      "modify-traits": "Improve traits",
 
       "weird-west": "Weird West",
       "hell-on-earth": "Hell on Earth",

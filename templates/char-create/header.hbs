@@ -1,0 +1,21 @@
+{{! Sheet Header }}
+<header class="sheet-header">
+  <img
+    class="profile-img"
+    src="{{this.img}}"
+    data-edit="img"
+    title="{{this.name}}"
+    height="100"
+    width="100"
+  />
+  <div class="header-fields">
+    <h1 class="charname">
+      <input
+        name="name"
+        type="text"
+        value="{{this.name}}"
+        placeholder="Name"
+      />
+    </h1>
+  </div>
+</header>

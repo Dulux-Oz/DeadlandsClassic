@@ -22,13 +22,13 @@ export class SetTraits extends HandlebarsApplicationMixin(sheets.ActorSheetV2) {
       closeOnSubmit: true,
       submitOnClose: false,
       submitOnChange: false,
-      resizable: true,
       handler: SetTraits.formHandler,
     },
     scrollY: ['.directory-list'],
     window: {
       icon: '',
       title: '',
+      resizable: true,
     },
   };
 
@@ -36,6 +36,7 @@ export class SetTraits extends HandlebarsApplicationMixin(sheets.ActorSheetV2) {
     form: {
       template:
         'systems/deadlands-classic/templates/char-cards/trait-create.hbs',
+      scrollable: [''],
     },
   };
 

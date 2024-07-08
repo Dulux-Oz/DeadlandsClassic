@@ -1,4 +1,4 @@
-import { ManageConcentrations } from '../apps/manage-concentrations.mjs';
+import { ManageConcentrations } from '../appsv2/manage-concentrations.mjs';
 import { ChipDataModel } from '../data/chip-data.mjs';
 import { ConcentrationDataModel } from '../data/concentration-data.mjs';
 

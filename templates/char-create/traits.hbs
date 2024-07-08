@@ -1,0 +1,47 @@
+{{! Traits Tab }}
+<section
+  class='tab traits scrollable {{tab.cssClass}}'
+  data-group='primary'
+  data-tab='traits'>
+
+  <h1>Starting traits
+    {{#if showPointsRemaining}} — {{this.pointsRemaining}}{{/if}}
+  </h1>
+
+  {{#each this.traits}}
+    <div class="initial-trait-entry">
+      <div class="trait-label">{{this.label}}</div>
+      <div class="trait-die">{{this.totalRanks}}d{{this.totalDieSize}}</div>
+
+      {{#if this.dieRankImprovementIsPossible}}
+        <div class="trait-rank-cost" data-tooltip="DLC.character.improveTraitCost">{{this.nextRankCost}}</div>
+      {{/if}}
+
+      {{#if this.canImproveTraitRank}}
+        <button 
+          class="trait-control trait-button" 
+          type="button"
+          data-id="{{this.traitID}}"
+          data-tooltip="DLC.character.improveTrait"
+          data-action="improveTraitRank">
+            {{localize 'DLC.character.add'}}
+        </button>
+      {{/if}}
+
+      {{#if this.dieSizeImprovementIsPossible}}
+        <div class="trait-die-size-cost" data-tooltip="DLC.character.improveTraitDieSizeCost">{{this.nextDieCost}}</div>
+        {{/if}}
+
+      {{#if this.canImproveDieSize}}
+        <button 
+          class="trait-control trait-button2" 
+          type="button"
+          data-id="{{this.traitID}}"
+          data-tooltip="DLC.character.improveTraitDieSize"
+          data-action="improveDieSize">
+            {{localize 'DLC.character.improve'}}
+        </button>
+      {{/if}}
+    </div>
+  {{/each}}
+</section>

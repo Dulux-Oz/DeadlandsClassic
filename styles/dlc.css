@@ -581,7 +581,7 @@ li.combatant .roll:hover {
 
 .initial-trait-entry {
   display: grid;
-  grid-template-columns: 150px 70px 35px 150px 35px 90px;
+  grid-template-columns: 150px 70px 35px 100px 100px 35px 90px 90px;
   grid-template-rows: 40px;
   align-items: center;
 }
@@ -604,20 +604,94 @@ li.combatant .roll:hover {
   color: var(--color-text-dark-1);
 }
 
-.trait-button {
+.trait-button1 {
   grid-column: 4;
   color: var(--color-text-dark-1);
   height: var(--charsheet-item-height);
   width: 80px;
 }
 
-.trait-die-size-cost {
+.trait-button2 {
   grid-column: 5;
+  color: var(--color-text-dark-1);
+  height: var(--charsheet-item-height);
+  width: 80px;
+}
+
+.trait-die-size-cost {
+  grid-column: 6;
   color: var(--color-text-dark-1);
 }
 
-.trait-button2 {
+.trait-button3 {
+  grid-column: 7;
+  color: var(--color-text-dark-1);
+  height: var(--charsheet-item-height);
+  width: 80px;
+}
+
+.trait-button4 {
+  grid-column: 8;
+  color: var(--color-text-dark-1);
+  height: var(--charsheet-item-height);
+  width: 80px;
+}
+
+/* These control the aptitude tab of the character create page. */
+
+.initial-aptitude-entry {
+  display: grid;
+  grid-template-columns: 225px 80px 30px 25px 90px 90px 150px 90px;
+  grid-template-rows: 40px;
+  align-items: center;
+}
+
+.initial-aptitude-label {
+  grid-column: 1;
+  color: var(--color-text-dark-1);
+  font-weight: bold;
+  margin-left: 1em;
+}
+
+.initial-aptitude-trait {
+  grid-column: 2;
+  color: var(--color-text-dark-1);
+}
+
+.initial-aptitude-die {
+  grid-column: 3;
+  color: var(--color-text-dark-1);
+}
+
+.initial-aptitude-cost {
+  grid-column: 4;
+  color: var(--color-text-dark-1);
+  text-align: center;
+}
+
+.initial-aptitude-button1 {
+  grid-column: 5;
+  color: var(--color-text-dark-1);
+  height: var(--charsheet-item-height);
+  width: 80px;
+}
+
+.initial-aptitude-button2 {
   grid-column: 6;
+  color: var(--color-text-dark-1);
+  height: var(--charsheet-item-height);
+  width: 80px;
+}
+
+.initial-aptitude-concentration {
+  grid-column: 7;
+  color: var(--color-text-dark-1);
+  height: var(--charsheet-item-height);
+  width: 90%;
+}
+
+.initial-aptitude-button3 {
+  grid-column: 8;
   color: var(--color-text-dark-1);
   height: var(--charsheet-item-height);
   width: 80px;

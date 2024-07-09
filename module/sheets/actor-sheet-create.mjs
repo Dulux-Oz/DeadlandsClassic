@@ -25,9 +25,12 @@ export class ActorSheetCreate extends api.HandlebarsApplicationMixin(
     },
     actions: {
       addConcentration: this._addConcentration,
-      improveAptitude: this._improveAptitude,
-      improveDieSize: this._improveDieSize,
-      improveTraitRank: this._improveTraitRank,
+      decreaseDieSize: this._decreaseDieSize,
+      decreaseTraitRank: this._decreaseTraitRank,
+      decreaseAptitude: this._decreaseAptitude,
+      increaseAptitude: this._increaseAptitude,
+      increaseDieSize: this._increaseDieSize,
+      increaseTraitRank: this._increaseTraitRank,
       removeConcentration: this._removeConcentration,
     },
     // Custom property that's merged into `this.options`
@@ -158,6 +161,8 @@ export class ActorSheetCreate extends api.HandlebarsApplicationMixin(
     +----------------------------------------------------------------------*/
 
     for (const key of Object.keys(aptitudes)) {
+      aptitudes[key].label = key;
+
       aptitudes[key].canAddConcentration =
         aptitudes[key].hasAvailable &&
         ((pointsRemaining >= 1 && aptitudes[key].startConcentrations === 0) ||
@@ -171,10 +176,12 @@ export class ActorSheetCreate extends api.HandlebarsApplicationMixin(
       const processedKey = key.split(' ').join('');
       aptitudes[key].choiceName = `${processedKey}Choice`;
 
-      aptitudes[key].canImprove =
+      aptitudes[key].canIncreaseAptitudeRank =
         aptitudes[key].startConcentrations !== 0 &&
         aptitudes[key].next <= 5 &&
         aptitudes[key].next <= pointsRemaining;
+
+      aptitudes[key].canDecreaseAptitudeRank = aptitudes[key].startRanks > 0;
     }
 
     /*-----------------------------------------------------------------------
@@ -201,13 +208,19 @@ export class ActorSheetCreate extends api.HandlebarsApplicationMixin(
       traits[key].nextRank     = traitRank + 1;
       traits[key].nextRankCost = traits[key].nextRank * dlcConstants.DieRankPointMultiplier;
 
-      traits[key].canImproveDieSize =
+      traits[key].canIncreaseDieSize =
         traits[key].dieSizeImprovementIsPossible &&
         traits[key].nextDieCost <= pointsRemaining;
 
-      traits[key].canImproveTraitRank =
+      traits[key].canDecreaseDieSize =
+        traits[key].dieSizeRegressionIsPossible;
+
+      traits[key].canIncreaseTraitRank =
         traits[key].dieRankImprovementIsPossible &&
         traits[key].nextRankCost <= pointsRemaining;
+
+      traits[key].canDecreaseTraitRank =
+        traits[key].dieRankRegressionIsPossible;
     }
 
     context.pointsRemaining = pointsRemaining;
@@ -310,7 +323,43 @@ export class ActorSheetCreate extends api.HandlebarsApplicationMixin(
     await this.document.update(actor, {});
   }
 
-  static async _improveAptitude(event, target) {
+  static async _decreaseAptitude(event, target) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const btn = event.target;
+    const actor = this.document.toObject(false);
+    const { id } = btn.dataset;
+
+    actor.system[[id]].startRanks -= 1;
+    await this.document.update(actor, {});
+  }
+
+  static async _decreaseDieSize(event, target) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const btn = event.target;
+    const actor = this.document.toObject(false);
+    const { id } = btn.dataset;
+
+    actor.system[[id]].startDieSize -= 1;
+    await this.document.update(actor, {});
+  }
+
+  static async _decreaseTraitRank(event, target) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const btn = event.target;
+    const actor = this.document.toObject(false);
+    const { id } = btn.dataset;
+
+    actor.system[[id]].startRanks -= 1;
+    await this.document.update(actor, {});
+  }
+
+  static async _increaseAptitude(event, target) {
     event.preventDefault();
     event.stopPropagation();
 
@@ -322,7 +371,7 @@ export class ActorSheetCreate extends api.HandlebarsApplicationMixin(
     await this.document.update(actor, {});
   }
 
-  static async _improveDieSize(event, target) {
+  static async _increaseDieSize(event, target) {
     event.preventDefault();
     event.stopPropagation();
 
@@ -334,7 +383,7 @@ export class ActorSheetCreate extends api.HandlebarsApplicationMixin(
     await this.document.update(actor, {});
   }
 
-  static async _improveTraitRank(event, target) {
+  static async _increaseTraitRank(event, target) {
     event.preventDefault();
     event.stopPropagation();
 
@@ -350,14 +399,13 @@ export class ActorSheetCreate extends api.HandlebarsApplicationMixin(
     event.preventDefault();
     event.stopPropagation();
 
-    const btn = event.target;
     const actor = this.document.toObject(false);
-    const { id } = btn.dataset;
 
-    const processedId = id.split(' ').join('');
-    const choice = document.getElementsByName(`${processedId}Choice`)[0];
+    const btn = event.target;
+    const { id, item } = btn.dataset;
 
-    const conc = choice.value;
+    actor.system[[id]].startConcentrations -= 1;
+    actor.system[[id]].concentrations.splice(item, 1);
 
     await this.document.update(actor, {});
   }

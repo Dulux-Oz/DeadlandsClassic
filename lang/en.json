@@ -67,21 +67,27 @@
       "useTemporaryGreen": "Use temporary green chip",
       "useWhite": "Use white chip",
 
-      "add": "Add",
+      "decrease": "Decrease",
+      "increase": "Increase",
       "improve": "Improve",
       "remove": "Remove",
 
-      "addConcentration": "Add Concentration",
-      "removeConcentration": "Remove Concentration",
+      "addConcentration": "Add",
+      "removeConcentration": "Remove",
 
-      "improveAptitude": "Improve the aptitude",
-      "improveAptitudeCost": "Cost to improve the aptitude",
+      "decreaseAptitude": "Decrease the number of aptitude dice",
 
-      "improveTrait": "Improve the number of trait dice",
-      "improveTraitCost": "Cost to improve the number of trait dice",
+      "increaseAptitude": "Increase the number of aptitude dice",
+      "increaseAptitudeCost": "Cost to increase the number of aptitude dice",
 
-      "improveTraitDieSize": "Improve the size of the trait die",
-      "improveTraitDieSizeCost": "Cost to improve the size of the trait die",
+      "decreaseTrait": "Decrease the number of trait dice",
+      "decreaseTraitDieSize": "Decrease the size of the trait die",
+
+      "increaseTrait": "Increase the number of trait dice",
+      "increaseTraitDieSize": "Increase the size of the trait die",
+
+      "increaseTraitCost": "Cost to increase the number of trait dice",
+      "increaseTraitDieSizeCost": "Cost to increase the size of the trait die",
 
       "useChip": "Use",
       "useChipReroll": "Use for reroll"

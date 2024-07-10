@@ -6,44 +6,71 @@
 >
 
   <h1>Improve aptitudes
-    {{#if showBountyRemaining}} — {{this.bountyRemaining}}{{/if}}
+    {{#if showBountyRemaining}} — {{bountyRemaining}}{{/if}}
   </h1>
 
-  {{#each this.aptitudes}}
-    <div class="aptitude-entry">
-      <div class="aptitude-label">{{this.label}}</div>
-      <div class="aptitude-trait">{{this.trait}}</div>
-      <div class="aptitude-die">{{this.totalRanks}}d{{this.die}}</div>
-      <div class="aptitude-cost" data-tooltip="DLC.character.improveAptitudeCost">{{this.nextBounty}}</div>
+  {{#each aptitudes}}
+    <div class="initial-aptitude-entry">
+      <div class="initial-aptitude-label">{{label}}</div>
+      <div class="initial-aptitude-trait">{{trait}}</div>
+      <div class="initial-aptitude-die">{{totalRanks}}d{{die}}</div>
+      <div class="initial-aptitude-cost" data-tooltip="DLC.character.increaseAptitudeCost">{{nextBounty}}</div>
 
-    {{#if this.canImprove}}
-    <button 
-      class="aptitude-control aptitude-button" 
-      type="button"
-      data-id="{{this.aptitudeID}}"
-      data-tooltip="DLC.character.improveAptitude"
-      data-action="improveAptitude">
-        {{localize 'DLC.character.improve'}}
-    </button>
-    {{/if}}
-
-    {{#if this.canAddConcentration}}
-
-      <select name={{this.choiceName}} class="aptitude-concentration">
-        {{selectOptions this.available}}
-      </select>
-
+      {{#if canIncreaseAptitudeRank}}
       <button 
-        class="aptitude-control aptitude-button2" 
+        class="initial-aptitude-button1"
         type="button"
-        data-id="{{this.aptitudeID}}"
-        data-tooltip="DLC.character.addConcentration"
-        data-action="addConcentration">
-          {{localize 'DLC.character.add'}}
+        data-id="{{aptitudeID}}"
+        data-tooltip="DLC.character.increaseAptitude"
+        data-action="increaseAptitude">
+          {{localize 'DLC.character.increase'}}
       </button>
-    {{/if}}
+      {{/if}}
+
+      {{#if canDecreaseAptitudeRank}}
+      <button 
+        class="initial-aptitude-button2"
+        type="button"
+        data-id="{{aptitudeID}}"
+        data-tooltip="DLC.character.decreaseAptitude"
+        data-action="decreaseAptitude">
+          {{localize 'DLC.character.decrease'}}
+      </button>
+      {{/if}}
+
+      {{#if canAddConcentration}}
+        <select name={{choiceName}} class="initial-aptitude-concentration">
+          {{selectOptions available}}
+        </select>
+
+        <button 
+          class="initial-aptitude-button3"
+          type="button"
+          data-id="{{aptitudeID}}"
+          data-tooltip="DLC.character.addConcentration"
+          data-action="addConcentration">
+            {{localize 'DLC.character.addConcentration'}}
+        </button>
+      {{/if}}
     </div>
+
+      {{#if canRemoveConcentration}}
+        {{#each concentrations}}
+          <div class="initial-aptitude-entry">
+            <span class="initial-aptitude-trait"><strong>{{this}}</strong></span>
+            <button 
+            class="initial-aptitude-button2" 
+            type="button"
+            data-id="{{../aptitudeID}}"
+            data-item={{@index}}
+            data-tooltip="DLC.character.removeConcentration"
+            data-action="removeConcentration">
+              {{localize 'DLC.character.remove'}}
+            </button>
+            <br/>
+          </div>
+        {{/each}}
+      {{/if}}
+
   {{/each}}
-
-
 </section>

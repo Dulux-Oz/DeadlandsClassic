@@ -107,7 +107,33 @@
 
     "item": {
       "Setting": "Active in Game system",
-      "UpdateEdgeMessage": "Update the Edge"
+      "UpdateEdgeMessage": "Update the Edge",
+      "FIELDS": {
+        "calibre": {
+          "hint": "Calibre of the gun",
+          "label": "Weapon Calibre"
+        },
+        "price": {
+          "hint": "The price of the Gun (in cents)",
+          "label": "Weapon Price"
+        },
+        "shots": {
+          "hint": "How many rounds the gun can hold",
+          "label": "Rounds Held"
+        },
+        "rof": {
+          "hint": "How many shots per action",
+          "label": "Rate of Fire"
+        },
+        "damage": {
+          "hint": "The Damage this weapon does",
+          "label": "Weapon Damage"
+        },
+        "rangeIncrement": {
+          "hint": "The range increment (multiple of 5 yards)",
+          "label": "Range Increment"
+        }
+      }
     },
 
     "modification": {

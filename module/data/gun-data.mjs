@@ -1,11 +1,13 @@
 import * as dlcFields from './dlc-fields.mjs';
 
 export class GunDataModel extends foundry.abstract.TypeDataModel {
+  static LOCALIZATION_PREFIXES = ['DLC.item'];
+
   static defineSchema() {
     const { fields } = foundry.data;
     return {
       ...dlcFields.setting(),
-      description: new fields.HTMLField({ required: false }),
+      description: new fields.HTMLField({ required: true, initial: '' }),
       notes: new fields.HTMLField({ required: false }),
       calibre: new fields.StringField({
         required: true,

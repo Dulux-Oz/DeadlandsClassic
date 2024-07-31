@@ -1,17 +1,22 @@
+<section
+  class='tab three scrollable {{tab.cssClass}}'
+  data-group='primary'
+  data-tab='three'
+>
 <h1>
   {{localize "DLC.modificationTabConfigure.three"}}
 </h1>
 
-<div>
-  <label for="StartCost">{{localize "DLC.modification.startCost"}}</label> 
+<label>{{localize "DLC.modification.startCost"}}
   <input type="number"  id="StartCost" name="system.three.startCost" {{#if system.three.startCost includeZero=true}} value="{{system.three.startCost}}" {{/if}} />
-</div>
+</label> 
 
-<div>
-  <label for="Cost">{{localize "DLC.modification.cost"}}</label> 
+<label>{{localize "DLC.modification.cost"}}
   <input type="number"  id="Cost" name="system.three.cost" {{#if system.three.cost includeZero=true}} value="{{system.three.cost}}" {{/if}} />
-</div>
+</label> 
 
 <div>
-  {{editor enrichedThreeText target="system.three.text" editable=editable}}
+  {{formGroup three.field value=three.value enriched=three.enriched height=300 toggled=true localize=true}}
 </div>
+</section>
+

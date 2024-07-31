@@ -1,8 +1,8 @@
-import { ShowEdgeSheet } from '../sheets/show-sheet-edge.mjs';
-import { ShowGunSheet } from '../sheets/show-sheet-gun.mjs';
-import { ShowMeleeSheet } from '../sheets/show-sheet-melee.mjs';
-import { ShowMiscItemSheet } from '../sheets/show-sheet-misc-item.mjs';
-import { ShowOtherRangedSheet } from '../sheets/show-sheet-other-ranged.mjs';
+import { ShowEdgeSheet } from '../sheets/item/show-sheet-edge.mjs';
+import { ShowGunSheet } from '../sheets/item/show-sheet-gun.mjs';
+import { ShowMeleeSheet } from '../sheets/item/show-sheet-melee.mjs';
+import { ShowMiscItemSheet } from '../sheets/item/show-sheet-misc-item.mjs';
+import { ShowOtherRangedItemSheet } from '../sheets/item/show-sheet-other-ranged-item.mjs';
 
 export function registerItemSheets() {
   Items.unregisterSheet('core', ItemSheet);
@@ -31,7 +31,7 @@ export function registerItemSheets() {
     label: 'DLC.sheet-type.miscItem',
   });
 
-  Items.registerSheet('deadlands-classic', ShowOtherRangedSheet, {
+  Items.registerSheet('deadlands-classic', ShowOtherRangedItemSheet, {
     types: ['otherRanged'],
     makeDefault: true,
     label: 'DLC.sheet-type.otherRanged',

@@ -1,7 +1,9 @@
 // import modules
+import { ActorModEdgeModel } from './data/actor-mod-edge-data.mjs';
+import { ActorModHindranceModel } from './data/actor-mod-hindrance-data.mjs';
+import { ActorModSpellLikeModel } from './data/actor-mod-spelllike-data.mjs';
 import { CharacterHoeDataModel } from './data/character-hoe-data.mjs';
 import { CharacterLcDataModel } from './data/character-lc-data.mjs';
-import { CharacterModModel } from './data/character-mod.mjs';
 import { CharacterWwDataModel } from './data/character-ww-data.mjs';
 import { GunDataModel } from './data/gun-data.mjs';
 import { MeleeDataModel } from './data/melee-data.mjs';
@@ -87,9 +89,12 @@ Hooks.once('init', async () => {
   CONFIG.Actor.dataModels.characterww = CharacterWwDataModel;
 
   CONFIG.Actor.dataModels.npc = NPCDataModel;
-  CONFIG.Item.dataModels.edge = CharacterModModel;
+
+  CONFIG.Item.dataModels.edge = ActorModEdgeModel;
+  CONFIG.Item.dataModels.hindrance = ActorModHindranceModel;
+  CONFIG.Item.dataModels.spellLike = ActorModSpellLikeModel;
+
   CONFIG.Item.dataModels.gun = GunDataModel;
-  CONFIG.Item.dataModels.hindrance = CharacterModModel;
   CONFIG.Item.dataModels.melee = MeleeDataModel;
   CONFIG.Item.dataModels.miscItem = MiscItemDataModel;
   CONFIG.Item.dataModels.otherRanged = OtherRangedDataModel;

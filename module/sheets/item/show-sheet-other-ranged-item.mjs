@@ -1,6 +1,6 @@
 import { ItemSheetBase } from './item-sheet-base.mjs';
 
-export class EditOtherRangedSheet extends ItemSheetBase {
+export class ShowOtherRangedItemSheet extends ItemSheetBase {
   constructor(data, options = {}) {
     super(data, options);
   }
@@ -8,7 +8,7 @@ export class EditOtherRangedSheet extends ItemSheetBase {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template:
-        'systems/deadlands-classic/templates/item/edit-other-ranged-sheet.html',
+        'systems/deadlands-classic/templates/item/show-other-ranged-sheet.html',
     });
   }
 
@@ -16,7 +16,10 @@ export class EditOtherRangedSheet extends ItemSheetBase {
   async getData(options) {
     let context = await super.getData(options);
 
-    context = foundry.utils.mergeObject(context, {});
+    context = foundry.utils.mergeObject(context, {
+      cssClass: 'locked',
+      editable: false,
+    });
 
     return context;
   }

@@ -112,11 +112,11 @@
 
     "modification": {
       "Setting": "Active in Game system",
-      "one": "Turn on Level one",
-      "two": "Turn on Level two",
-      "three": "Turn on Level three",
-      "four": "Turn on Level four",
-      "five": "Turn on Level five",
+      "one": "Turn on level one",
+      "two": "Turn on level two",
+      "three": "Turn on level three",
+      "four": "Turn on level four",
+      "five": "Turn on level five",
       "capstone": "Turn on Capstone",
       "cost": "Bounty cost",
       "startCost": "Creation points cost",
@@ -248,7 +248,16 @@
       "concentration-editor": "Concentration Editor",
       "weird-west": "Weird West",
       "hell-on-earth": "Hell on Earth",
-      "lost-colony": "Lost Colony"
+      "lost-colony": "Lost Colony",
+
+      "configure": "Configure the active levels",
+      "blurb": "Setting and description",
+      "one": "Level one",
+      "two": "Level two",
+      "three": "Level three",
+      "four": "Level four",
+      "five": "Level five",
+      "capstone": "Capstone level"
     },
 
     "traitAbbreviation": {
@@ -283,6 +292,15 @@
       "characterlc": "Lost Colony Player Character",
       "characterww": "Weird West Player Character",
       "npc": "Non-Player Character"
+    },
+    "Item": {
+      "edge": "Edge",
+      "hindrance": "hindrance",
+      "spellLike": "Spell-Like",
+      "gun": "Gun",
+      "melee": "Melee item",
+      "miscItem": "Miscellaneous item",
+      "otherRanged": "Ranged item"
     }
   }
 }

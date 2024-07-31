@@ -20,7 +20,7 @@ export class GunDataModel extends foundry.abstract.TypeDataModel {
         blank: false,
         initial: '3d6',
       }),
-      ...dlcFields.integer('rangeIncrement', 10, 5, 20),
+      ...dlcFields.integerStepped('rangeIncrement', 10, 5, 30, 5),
     };
   }
 }

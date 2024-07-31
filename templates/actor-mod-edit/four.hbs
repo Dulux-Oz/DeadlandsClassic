@@ -1,0 +1,19 @@
+<section
+  class='tab four scrollable {{tab.cssClass}}'
+  data-group='primary'
+  data-tab='four'>
+
+<h1>{{localize "DLC.modificationTabConfigure.four"}}</h1>
+
+<label >{{localize "DLC.modification.startCost"}}
+  <input type="number" name="system.four.startCost" {{#if system.four.startCost includeZero=true}} value="{{system.four.startCost}}" {{/if}} />
+</label> 
+
+<label >{{localize "DLC.modification.cost"}}
+  <input type="number" name="system.four.cost" {{#if system.four.cost includeZero=true}} value="{{system.four.cost}}" {{/if}} />
+</label> 
+
+<div>
+  {{formGroup four.field value=four.value enriched=four.enriched height=300 toggled=true localize=true}}
+</div>
+</section>

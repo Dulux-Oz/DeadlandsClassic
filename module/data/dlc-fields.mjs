@@ -86,6 +86,26 @@ export const integerOptional = (label, ...options) => ({
   }),
 });
 
+export const integerStepped = (
+  label,
+  initial = 1,
+  initialMin = 0,
+  initialMax = 10,
+  step = 1,
+  required = true,
+  isInteger = true,
+  ...options
+) => ({
+  [label]: new fields.NumberField({
+    initial,
+    required,
+    integer: isInteger,
+    min: initialMin,
+    max: initialMax,
+    step,
+  }),
+});
+
 export const valueType = (type) => ({
   valueType: new fields.StringField(
     { initial: type, choices: dlcConfig.valueType },
@@ -216,9 +236,9 @@ export const setting = () => ({
 // An aptitude which has a variable trait
 export const modLevel = (label) => ({
   [label]: new fields.SchemaField({
-    ...boolean('active', false), // is the capstone active
-    ...integer('cost', 3),
-    ...integer('startCost', 1),
+    ...boolean('active', false), // is this level active
+    ...integerNoMax('cost', 3),
+    ...integerNoMax('startCost', 1),
     text: new fields.HTMLField({ required: false }),
   }),
 });

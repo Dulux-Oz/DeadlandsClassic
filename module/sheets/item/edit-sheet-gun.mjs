@@ -9,8 +9,8 @@ export class EditGunSheet extends api.HandlebarsApplicationMixin(
   static DEFAULT_OPTIONS = {
     classes: ['dlc', 'sheet', 'item'],
     position: {
-      width: 840,
-      height: 1000,
+      width: 560,
+      height: 760,
     },
     window: {
       resizable: true,
@@ -57,6 +57,26 @@ export class EditGunSheet extends api.HandlebarsApplicationMixin(
   async _preparePartContext(partId, context) {
     switch (partId) {
       case 'gun':
+        context.data = {
+          calibre: {
+            tooltip: 'The calibre of the gun',
+          },
+          damage: {
+            tooltip: game.i18n.localize('DLC.item.FIELDS.damage.tooltip'),
+          },
+          price: {
+            tooltip: game.i18n.localize('DLC.item.FIELDS.price.tooltip'),
+          },
+          rangeIncrement: {
+            tooltip: 'The range increment (multiple of 5 yards)',
+          },
+          rof: {
+            tooltip: 'How many shots per card/action',
+          },
+          shots: {
+            tooltip: 'How many rounds can the gun hold',
+          },
+        };
         context.description = {
           field: this.document.system.schema.getField('description'),
           enriched: await TextEditor.enrichHTML(this.item.system.description, {

@@ -233,7 +233,6 @@ export const setting = () => ({
 
 /* --------------------------------------------------- */
 
-// An aptitude which has a variable trait
 export const modLevel = (label) => ({
   [label]: new fields.SchemaField({
     ...boolean('active', false), // is this level active
@@ -241,4 +240,14 @@ export const modLevel = (label) => ({
     ...integerNoMax('startCost', 1),
     text: new fields.HTMLField({ required: false }),
   }),
+});
+
+/* --------------------------------------------------- */
+
+// The fields which are common to physical items i.e. not character modifications
+export const itemCommonFields = () => ({
+  ...setting(),
+  description: new fields.HTMLField({ required: true, initial: '' }),
+  notes: new fields.HTMLField({ required: false }),
+  ...integerNoMax('price', 0), // in cents
 });

@@ -110,28 +110,35 @@
       "UpdateEdgeMessage": "Update the Edge",
       "FIELDS": {
         "calibre": {
-          "hint": "Calibre of the gun",
+          "tooltip": "The calibre of the gun",
           "label": "Weapon Calibre"
         },
-        "price": {
-          "hint": "The price of the Gun (in cents)",
-          "label": "Weapon Price"
-        },
-        "shots": {
-          "hint": "How many rounds the gun can hold",
-          "label": "Rounds Held"
-        },
-        "rof": {
-          "hint": "How many shots per action",
-          "label": "Rate of Fire"
-        },
         "damage": {
-          "hint": "The Damage this weapon does",
+          "tooltip": "The Damage this weapon does",
           "label": "Weapon Damage"
         },
+        "db": {
+          "tooltip": "The damage bonus applied to this weapon's damage",
+          "label": "Damage Bonus"
+        },
+        "description": {
+          "label": "Item description"
+        },
+        "price": {
+          "tooltip": "The price of the Item (in cents)",
+          "label": "Weapon Price"
+        },
         "rangeIncrement": {
-          "hint": "The range increment (multiple of 5 yards)",
+          "tooltip": "The range increment (multiple of 5 yards)",
           "label": "Range Increment"
+        },
+        "rof": {
+          "tooltip": "How many shots per card/action",
+          "label": "Rate of Fire"
+        },
+        "shots": {
+          "tooltip": "How many rounds can the gun hold",
+          "label": "Rounds Held"
         }
       }
     },

@@ -109,6 +109,10 @@
       "Setting": "Active in Game system",
       "UpdateEdgeMessage": "Update the Edge",
       "FIELDS": {
+        "ammo": {
+          "tooltip": "The ammunition that the ranged weapon uses",
+          "label": "Ammunition"
+        },
         "calibre": {
           "tooltip": "The calibre of the gun",
           "label": "Weapon Calibre"

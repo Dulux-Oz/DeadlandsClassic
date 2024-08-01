@@ -59,7 +59,7 @@ export class EditGunSheet extends api.HandlebarsApplicationMixin(
       case 'gun':
         context.data = {
           calibre: {
-            tooltip: 'The calibre of the gun',
+            tooltip: 'DLC.item.FIELDS.calibre.tooltip',
           },
           damage: {
             tooltip: game.i18n.localize('DLC.item.FIELDS.damage.tooltip'),
@@ -68,13 +68,13 @@ export class EditGunSheet extends api.HandlebarsApplicationMixin(
             tooltip: game.i18n.localize('DLC.item.FIELDS.price.tooltip'),
           },
           rangeIncrement: {
-            tooltip: 'The range increment (multiple of 5 yards)',
+            tooltip: 'DLC.item.FIELDS.rangeIncrement.tooltip',
           },
           rof: {
-            tooltip: 'How many shots per card/action',
+            tooltip: 'DLC.item.FIELDS.rof.tooltip',
           },
           shots: {
-            tooltip: 'How many rounds can the gun hold',
+            tooltip: 'DLC.item.FIELDS.shots.tooltip',
           },
         };
         context.description = {

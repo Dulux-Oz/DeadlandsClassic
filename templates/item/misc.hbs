@@ -1,10 +1,18 @@
 <div>
   <div>
-    {{formGroup description.field value=description.value enriched=description.enriched height=200}}
+
+    {{#if editable}}
+      {{formGroup description.field value=description.value enriched=description.enriched editable=editable height=200}}
+    {{else}}
+      <p>{{localize "DLC.item.FIELDS.description.label"}}</p>
+      {{{description.enriched}}}
+      <hr>
+    {{/if}}
+
   </div>
 
   <div>
-    {{formGroup systemFields.price value=system.price dataset=data.price}}
+    {{formGroup systemFields.price value=system.price dataset=data.price disabled=(not @root.editable)}}
   </div>
 
 </div>

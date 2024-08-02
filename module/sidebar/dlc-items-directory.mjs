@@ -1,5 +1,30 @@
+/* eslint-disable no-return-await */
 /* eslint-disable no-underscore-dangle */
+
 export class DeadlandsItemDirectory extends ItemDirectory {
+  async #getDocument(documentId) {
+    return (
+      this.collection.get(documentId) ??
+      (await this.collection.getDocument(documentId))
+    );
+  }
+
+  /* -------------------------------------------- */
+
+  /** @override */
+  async _onClickEntryName(event) {
+    event.preventDefault();
+    const element = event.currentTarget;
+    const { documentId } = element.parentElement.dataset;
+    const item = await this.#getDocument(documentId);
+
+    if (item.isCharacterMod) {
+      item.sheet.render(true);
+    } else {
+      item.itemEditor.render({ force: true, editable: false });
+    }
+  }
+
   /** @override */
   _getEntryContextOptions() {
     const options = super._getEntryContextOptions();

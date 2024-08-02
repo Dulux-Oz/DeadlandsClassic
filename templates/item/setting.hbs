@@ -1,20 +1,25 @@
 <section>
   <label>{{localize "DLC.modification.Setting"}}</label>
-  
+
   <div>
     <label>Wasted West
-      <input type="checkbox" name="system.setting.WastedWest" {{ checked system.setting.WastedWest }}/>
+      <input 
+        type="checkbox" 
+        name="system.setting.WastedWest"
+        {{ checked system.setting.WastedWest }} 
+        {{#unless @root.editable}} disabled {{/unless}}/>
     </label>
   </div>
+
   <div>
     <label>Hell on Earth
-      <input type="checkbox" name="system.setting.HellOnEarth" {{ checked system.setting.HellOnEarth }} />
+      <input type="checkbox" name="system.setting.HellOnEarth" {{ checked system.setting.HellOnEarth }} {{#unless @root.editable}} disabled {{/unless}}/>
     </label>
   </div>
   
   <div>
     <label>Lost Colony
-      <input type="checkbox" name="system.setting.LostColony" {{ checked system.setting.LostColony }} />
+      <input type="checkbox" name="system.setting.LostColony" {{ checked system.setting.LostColony }} {{#unless @root.editable}} disabled {{/unless}}/>
     </label>
   </div>
   <hr>

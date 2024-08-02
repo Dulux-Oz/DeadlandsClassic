@@ -34,16 +34,18 @@ export class EditMeleeSheet extends api.HandlebarsApplicationMixin(
     },
   };
 
-  async _prepareContext(options) {
-    const { isEditable } = this;
+  isEditable(options = {}) {
+    return (options.editable ?? true) && super.isEditable;
+  }
+
+  async _prepareContext(options = {}) {
+    const editable = (options.editable ?? true) && this.isEditable(options);
 
     return {
-      cssClass: isEditable ? 'editable' : 'locked',
-      editable: isEditable,
+      editable,
 
       img: this.document.img,
       limited: this.document.limited,
-      name: this.document.name,
       owner: this.document.isOwner,
       system: this.document.system,
       systemFields: this.document.system.schema.fields,
@@ -56,16 +58,22 @@ export class EditMeleeSheet extends api.HandlebarsApplicationMixin(
   /** @override */
   async _preparePartContext(partId, context) {
     switch (partId) {
+      case 'header':
+        context.name = {
+          field: this.document.schema.getField('name'),
+          value: this.document.name,
+        };
+        break;
       case 'melee':
         context.data = {
           db: {
-            tooltip: game.i18n.localize('DLC.item.FIELDS.db.tooltip'),
+            tooltip: 'DLC.item.FIELDS.db.tooltip',
           },
           damage: {
-            tooltip: game.i18n.localize('DLC.item.FIELDS.damage.tooltip'),
+            tooltip: 'DLC.item.FIELDS.damage.tooltip',
           },
           price: {
-            tooltip: game.i18n.localize('DLC.item.FIELDS.price.tooltip'),
+            tooltip: 'DLC.item.FIELDS.price.tooltip',
           },
         };
         context.description = {
@@ -76,7 +84,7 @@ export class EditMeleeSheet extends api.HandlebarsApplicationMixin(
           value: this.document.system.description,
         };
         break;
-      default: // header, setting
+      default: // setting
     }
     return context;
   }

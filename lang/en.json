@@ -72,13 +72,16 @@
       "improve": "Improve",
       "remove": "Remove",
 
-      "addConcentration": "Add",
-      "removeConcentration": "Remove",
-
       "decreaseAptitude": "Decrease the number of aptitude dice",
 
       "increaseAptitude": "Increase the number of aptitude dice",
       "increaseAptitudeCost": "Cost to increase the number of aptitude dice",
+
+      "addConcentration": "Add",
+      "removeConcentration": "Remove",
+
+      "editItem": "Edit item",
+      "removeItem": "Delete item",
 
       "decreaseTrait": "Decrease the number of trait dice",
       "decreaseTraitDieSize": "Decrease the size of the trait die",
@@ -129,8 +132,12 @@
           "label": "Item description"
         },
         "price": {
-          "tooltip": "The price of the Item (in cents)",
-          "label": "Weapon Price"
+          "tooltip": "The price of the Item",
+          "label": "Price (in cents)"
+        },
+        "quantity": {
+          "tooltip": "How many of this Item do we have",
+          "label": "Quantity"
         },
         "rangeIncrement": {
           "tooltip": "The range increment (multiple of 5 yards)",
@@ -268,15 +275,23 @@
       "chips": "Chips",
       "combat": "Combat",
       "edges": "Edges",
-      "gear": "Inventory",
+      "inventory": "Inventory",
       "main": "Main",
       "notes": "Notes",
       "spells": "Spells",
       "traits": "Traits",
 
+      "guns": "Guns",
+      "melee": "Melee weapons",
+      "otherRanged": "Other ranged weapons",
+      "misc": "Miscellaneous items",
+
       "create-aptitudes": "Initial aptitudes",
-      "create-edges": "Initial edges",
       "create-traits": "Initial traits",
+      "create-charMod": "Initial Character Modifications",
+      "create-hindrances": "Initial hindrances",
+      "create-edges": "Initial edges",
+      "create-spelllikes": "Initial spell likes",
 
       "modify-aptitudes": "Improve aptitudes",
       "modify-edges": "Improve edges",

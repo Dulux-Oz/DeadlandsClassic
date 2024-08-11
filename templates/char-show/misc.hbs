@@ -1,0 +1,35 @@
+{{! Misc Tab }}
+<section class='tab misc {{tab.cssClass}}' data-group='secondary' data-tab='misc'>
+  {{! description notes }}
+  <div class="inventory-misc-entry">
+    <span class="inventory-misc-name"><strong>Name</strong></span>
+    <span class="inventory-misc-price"><strong>Price</strong></span>
+  </div>
+  <hr>
+
+  {{#each this.miscItems}}
+    <div class="inventory-misc-entry" data-tooltip="{{system.description}}">
+      <span class="inventory-misc-name">            {{name}}</span>
+      <span class="inventory-misc-price">           {{system.displayprice}}</span>
+
+      <button 
+        class="inventory-misc-button1"
+        type="button"
+        data-id="{{_id}}"
+        data-tooltip="DLC.character.removeItem"
+        data-action="removeItem">
+          {{localize 'DLC.character.removeItem'}}
+      </button>
+
+      <button 
+        class="inventory-misc-button2"
+        type="button"
+        data-id="{{_id}}"
+        data-tooltip="DLC.character.editItem"
+        data-action="editItem">
+          {{localize 'DLC.character.editItem'}}
+      </button>
+
+    </div>
+  {{/each}}
+</section>

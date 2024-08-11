@@ -4,6 +4,7 @@ import { EditGunSheet } from '../sheets/item/edit-sheet-gun.mjs';
 import { EditMeleeSheet } from '../sheets/item/edit-sheet-melee.mjs';
 import { EditMiscItemSheet } from '../sheets/item/edit-sheet-misc-item.mjs';
 import { EditOtherRangedItemSheet } from '../sheets/item/edit-sheet-other-ranged-item.mjs';
+import { EditSheetOwnedItem } from '../sheets/item/edit-sheet-owned-item.mjs';
 
 export class DeadlandsItem extends Item {
   get isCharacterMod() {
@@ -46,6 +47,13 @@ export class DeadlandsItem extends Item {
     }
 
     return new EditMiscItemSheet({
+      document: this,
+      editable: true,
+    });
+  }
+
+  get ownedItemEditor() {
+    return new EditSheetOwnedItem({
       document: this,
       editable: true,
     });

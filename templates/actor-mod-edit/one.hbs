@@ -1,0 +1,19 @@
+<section
+  class='tab one scrollable {{tab.cssClass}}'
+  data-group='primary'
+  data-tab='one'
+>
+<h1>{{localize "DLC.modificationTabConfigure.one"}}</h1>
+
+<label>{{localize "DLC.modification.startCost"}}
+  <input type="number"  id="StartCost" name="system.one.startCost" {{#if system.one.startCost includeZero=true}} value="{{system.one.startCost}}" {{/if}} />
+</label> 
+
+<label>{{localize "DLC.modification.cost"}}
+  <input type="number"  id="Cost" name="system.one.cost" {{#if system.one.cost includeZero=true}} value="{{system.one.cost}}" {{/if}} />
+</label> 
+
+<div>
+  {{formGroup one.field value=one.value enriched=one.enriched height=300 toggled=true localize=true}}
+</div>
+</section>

@@ -1,0 +1,34 @@
+<div>
+  <div>
+
+    {{#if editable}}
+      {{formGroup description.field value=description.value enriched=description.enriched editable=editable height=200}}
+    {{else}}
+      <p>{{localize "DLC.item.FIELDS.description.label"}}</p>
+      {{{description.enriched}}}
+      <hr>
+    {{/if}}
+
+  </div>
+
+  <div>
+    {{formGroup systemFields.ammo value=system.ammo dataset=data.ammo disabled=(not @root.editable)}}
+  </div>
+
+  <div>
+    {{formGroup systemFields.damage value=system.damage dataset=data.damage disabled=(not @root.editable)}}
+  </div>
+
+  <div>
+    {{formGroup systemFields.rangeIncrement value=system.rangeIncrement dataset=data.rangeIncrement disabled=(not @root.editable)}}
+  </div>
+
+  <div>
+    {{formGroup systemFields.rof value=system.rof dataset=data.rof disabled=(not @root.editable)}}
+  </div>
+
+  <div>
+    {{formGroup systemFields.price value=system.price dataset=data.price disabled=(not @root.editable)}}
+  </div>
+
+</div>

@@ -1,0 +1,46 @@
+<section
+  class='tab configure scrollable {{tab.cssClass}}'
+  data-group='primary'
+  data-tab='configure'
+>
+<h1>Configure the Edge</h1>
+
+<div>
+  <label> {{localize "DLC.arcaneFlavour.grantsArcane"}}  <input type="checkbox" name="system.grantsArcane" {{ checked system.grantsArcane }}/></label>
+</div>
+
+{{#if showArcaneType}}
+<div>
+  <label>Arcane Type
+    <select name="arcaneTypeSelected">
+      {{selectOptions optionObj selected=this.archtypeSelected localize=true}}
+    </select>
+  </label>
+</div>
+{{/if}}
+
+<div>
+  <label> {{localize "DLC.modification.one"}}  <input type="checkbox" name="system.one.active" {{ checked system.one.active }}/></label>
+</div>
+
+<div>
+  <label> {{localize "DLC.modification.two"}}  <input type="checkbox" name="system.two.active" {{ checked system.two.active }}/></label>
+</div>
+
+<div>
+  <label> {{localize "DLC.modification.three"}}  <input type="checkbox" name="system.three.active" {{ checked system.three.active }}/></label>
+</div>
+
+<div>
+  <label> {{localize "DLC.modification.four"}}  <input type="checkbox" name="system.four.active" {{ checked system.four.active }}/></label>
+</div>
+
+<div>
+  <label> {{localize "DLC.modification.five"}}  <input type="checkbox" name="system.five.active" {{ checked system.five.active }}/></label>
+</div>
+
+<div>
+  <label> {{localize "DLC.modification.capstone"}}  <input type="checkbox" name="system.capstone.active" {{ checked system.capstone.active }}/></label>
+</div>
+
+</section>

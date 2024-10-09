@@ -59,11 +59,138 @@ export class ActorSheetCreate extends api.HandlebarsApplicationMixin(
       template: 'systems/deadlands-classic/templates/char-create/aptitudes.hbs',
       scrollable: [''],
     },
+    charMod: {
+      template: 'systems/deadlands-classic/templates/char-create/charMod.hbs',
+      scrollable: [''],
+    },
     edges: {
       template: 'systems/deadlands-classic/templates/char-create/edges.hbs',
       scrollable: [''],
     },
+    hindrances: {
+      template:
+        'systems/deadlands-classic/templates/char-create/hindrances.hbs',
+      scrollable: [''],
+    },
+    spelllikes: {
+      template:
+        'systems/deadlands-classic/templates/char-create/spelllikes.hbs',
+      scrollable: [''],
+    },
   };
+
+  /**
+   * Generates the data for the generic tab navigation template
+   * @returns {Record<string, Partial<ApplicationTab>>}
+   * @protected
+   */
+  _getTabs() {
+    // Default tab for first time it's rendered this session
+    if (!this.tabGroups.primary) this.tabGroups.primary = 'traits';
+
+    const activateaptitudes = this.tabGroups.primary === 'aptitudes';
+    const activatecharMod = this.tabGroups.primary === 'charMod';
+    const activatetraits = this.tabGroups.primary === 'traits';
+
+    const tabs = {
+      traits: {
+        cssClass: activatetraits ? 'active' : '',
+        group: 'primary',
+        id: 'traits',
+        label: 'DLC.tab.create-traits',
+      },
+      aptitudes: {
+        cssClass: activateaptitudes ? 'active' : '',
+        group: 'primary',
+        id: 'aptitudes',
+        label: 'DLC.tab.create-aptitudes',
+      },
+      charMod: {
+        cssClass: activatecharMod ? 'active' : '',
+        group: 'primary',
+        id: 'charMod',
+        label: 'DLC.tab.create-charMod',
+      },
+    };
+
+    return tabs;
+  }
+
+  /**
+   * Generates the data for the secondary tab navigation template
+   * @returns {Record<string, Partial<ApplicationTab>>}
+   * @protected
+   */
+  _getSecondaryTabs() {
+    // Default tab for first time it's rendered this session
+    if (!this.tabGroups.secondary) this.tabGroups.secondary = 'edges';
+
+    const activateedges =
+      this.tabGroups.primary === 'charMod' &&
+      this.tabGroups.secondary === 'edges';
+    const activatehindrances =
+      this.tabGroups.primary === 'charMod' &&
+      this.tabGroups.secondary === 'hindrances';
+    const activatespelllike =
+      this.tabGroups.primary === 'charMod' &&
+      this.tabGroups.secondary === 'spelllikes';
+
+    const secondaryTabs = {
+      edges: {
+        cssClass: activateedges ? 'active' : '',
+        group: 'secondary',
+        id: 'edges',
+        label: 'DLC.tab.create-edges',
+      },
+      hindrances: {
+        cssClass: activatehindrances === 'hindrances' ? 'active' : '',
+        group: 'secondary',
+        id: 'hindrances',
+        label: 'DLC.tab.create-hindrances',
+      },
+      spelllikes: {
+        cssClass: activatespelllike ? 'active' : '',
+        group: 'secondary',
+        id: 'spelllikes',
+        label: 'DLC.tab.create-spelllikes',
+      },
+    };
+
+    return secondaryTabs;
+  }
+
+  // prettier-ignore
+  changeTab(tab, group, { event, navElement, force = false, updatePosition = true } = {}) {
+    if (group === 'primary' && tab === 'charMod') {
+      const content = this.hasFrame
+        ? this.element.querySelector('.window-content')
+        : this.element;
+
+        for (const section of content.querySelectorAll(`.tab[data-group="secondary"]`)) {
+          section.classList.toggle('active', section.dataset.tab === this.tabGroups.secondary);
+        }
+    }
+
+    super.changeTab(tab, group, { event, navElement, force, updatePosition });
+  }
+
+  /** @override */
+  async _preparePartContext(partId, context) {
+    switch (partId) {
+      case 'aptitudes':
+      case 'traits':
+      case 'charMod':
+        context.tab = context.tabs[partId];
+        break;
+      case 'edges':
+      case 'hindrances':
+      case 'spelllikes':
+        context.tab = context.secondaryTabs[partId];
+        break;
+      default:
+    }
+    return context;
+  }
 
   async _prepareContext(options) {
     let context = await super._prepareContext(options);
@@ -228,75 +355,15 @@ export class ActorSheetCreate extends api.HandlebarsApplicationMixin(
 
     context = foundry.utils.mergeObject(context, {
       tabs: this._getTabs(options.parts),
+      secondaryTabs: this._getSecondaryTabs(),
     });
 
     return context;
   }
 
-  /** @override */
-  async _preparePartContext(partId, context) {
-    switch (partId) {
-      case 'aptitudes':
-      case 'edges':
-      case 'traits':
-        context.tab = context.tabs[partId];
-        break;
-      default:
-    }
-    return context;
-  }
-
-  /**
-   * Generates the data for the generic tab navigation template
-   * @param {string[]} parts An array of named template parts to render
-   * @returns {Record<string, Partial<ApplicationTab>>}
-   * @protected
-   */
-  _getTabs(parts) {
-    // If you have sub-tabs this is necessary to change
-    const tabGroup = 'primary';
-
-    // Default tab for first time it's rendered this session
-    if (!this.tabGroups[tabGroup]) this.tabGroups[tabGroup] = 'traits';
-
-    return parts.reduce((tabs, partId) => {
-      const tab = {
-        cssClass: '',
-        group: tabGroup,
-        // Matches tab property to
-        id: '',
-        // FontAwesome Icon, if you so choose
-        icon: '',
-        // Run through localization
-        label: 'DLC.tab.',
-      };
-
-      switch (partId) {
-        case 'header':
-        case 'tabs':
-          return tabs;
-
-        case 'aptitudes':
-          tab.id = 'aptitudes';
-          tab.label += 'create-aptitudes';
-          break;
-        case 'edges':
-          tab.id = 'edges';
-          tab.label += 'create-edges';
-          break;
-        case 'traits':
-          tab.id = 'traits';
-          tab.label += 'create-traits';
-          break;
-        default:
-      }
-
-      if (this.tabGroups[tabGroup] === tab.id) tab.cssClass = 'active';
-      // eslint-disable-next-line no-param-reassign
-      tabs[partId] = tab;
-      return tabs;
-    }, {});
-  }
+  /* ----------------------------------------------------------------------*/
+  /* Actions                                                               */
+  /* ----------------------------------------------------------------------*/
 
   static async _addConcentration(event, target) {
     event.preventDefault();

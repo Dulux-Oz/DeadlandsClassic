@@ -39,7 +39,7 @@ let socket;
 // Remove Comment and activate next line for Production
 // CONFIG.debug.hooks = false;
 // Temporary Setting for debugging
-CONFIG.debug.hooks = true;
+// CONFIG.debug.hooks = true;
 
 /**
  * Init hook.

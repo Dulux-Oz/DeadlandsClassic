@@ -1,0 +1,23 @@
+<div>
+  <div>
+    {{#if hasQuantity}}
+    {{formGroup systemFields.quantity value=system.quantity dataset=data.quantity}}
+    {{/if}}
+  </div>
+  <div>
+
+    {{#if editable}}
+      {{formGroup notes.field value=notes.value enriched=notes.enriched editable=editable height=200}}
+    {{else}}
+      <p>{{localize "DLC.item.FIELDS.notes.label"}}</p>
+      {{{notes.enriched}}}
+      <hr>
+    {{/if}}
+
+  </div>
+
+  <div>
+    {{formGroup systemFields.price value=system.price dataset=data.price}}
+  </div>
+
+</div>

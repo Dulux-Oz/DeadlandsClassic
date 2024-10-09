@@ -119,12 +119,15 @@ export class DLCActorSheetBase extends sheets.ActorSheetV2 {
     const { name, img } = this.actor;
     const owner = this.actor.isOwner;
 
+    const items = this._prepareItemsContext();
+
     context = foundry.utils.mergeObject(context, {
       actorId: this.actor.id,
       aptitudes,
       chips,
       cssClass: isEditable ? 'editable' : 'locked',
       isEditable,
+      ...items,
       img,
       name,
       owner,
@@ -141,4 +144,97 @@ export class DLCActorSheetBase extends sheets.ActorSheetV2 {
 
     return context;
   }
+
+  _prepareItemsContext() {
+    const edges = [];
+    const hindrances = [];
+    const spellLikes = [];
+    const guns = [];
+    const otherRangedItems = [];
+    const meleeItems = [];
+    const miscItems = [];
+
+    for (const i of this.document.items) {
+      if (i.system.price) {
+        i.system.displayprice = Math.floor(i.system.price / 100);
+      }
+
+      if (i.type === 'edge') {
+        edges.push(i);
+      } else if (i.type === 'hindrance') {
+        hindrances.push(i);
+      } else if (i.type === 'spellLike') {
+        spellLikes.push(i);
+      } else if (i.type === 'gun') {
+        guns.push(i);
+      } else if (i.type === 'otherRanged') {
+        otherRangedItems.push(i);
+      } else if (i.type === 'melee') {
+        meleeItems.push(i);
+      } else if (i.type === 'miscItem') {
+        miscItems.push(i);
+      }
+    }
+
+    edges.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    hindrances.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    spellLikes.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    guns.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    otherRangedItems.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    meleeItems.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+    miscItems.sort((a, b) => (a.sort || 0) - (b.sort || 0));
+
+    return {
+      edges,
+      hindrances,
+      spellLikes,
+      guns,
+      otherRangedItems,
+      meleeItems,
+      miscItems,
+    };
+  }
 }
+
+// Might add active effect and dropping folders of items later
+
+// /* -------------------------------------------- */
+
+// /**
+//  * Handle the dropping of ActiveEffect data onto an Actor Sheet
+//  * @param {DragEvent} event                  The concluding DragEvent which contains drop data
+//  * @param {object} data                      The data transfer extracted from the event
+//  * @returns {Promise<ActiveEffect|boolean>}  The created ActiveEffect object or false if it couldn't be created.
+//  * @protected
+//  */
+// async _onDropActiveEffect(event, data) {
+//   const effect = await ActiveEffect.implementation.fromDropData(data);
+//   if (!this.actor.isOwner || !effect) return false;
+//   if (effect.target === this.actor) return false;
+//   return ActiveEffect.create(effect.toObject(), { parent: this.actor });
+// }
+
+//   /* -------------------------------------------- */
+
+// /**
+//  * Handle dropping of a Folder on an Actor Sheet.
+//  * The core sheet currently supports dropping a Folder of Items to create all items as owned items.
+//  * @param {DragEvent} event     The concluding DragEvent which contains drop data
+//  * @param {object} data         The data transfer extracted from the event
+//  * @returns {Promise<Item[]>}
+//  * @protected
+//  */
+// async _onDropFolder(event, data) {
+//   if (!this.actor.isOwner) return [];
+//   const folder = await Folder.implementation.fromDropData(data);
+//   if (folder.type !== 'Item') return [];
+//   const droppedItemData = await Promise.all(
+//     folder.contents.map(async (item) => {
+//       if (!(document instanceof Item)) {
+//         item = await fromUuid(item.uuid);
+//       }
+//       return item.toObject();
+//     })
+//   );
+//   return this._onDropItemCreate(droppedItemData, event);
+// }

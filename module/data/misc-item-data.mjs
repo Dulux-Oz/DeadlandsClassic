@@ -6,6 +6,7 @@ export class MiscItemDataModel extends foundry.abstract.TypeDataModel {
   static defineSchema() {
     return {
       ...dlcFields.itemCommonFields(),
+      ...dlcFields.integerNoMax('quantity', 1),
     };
   }
 }
